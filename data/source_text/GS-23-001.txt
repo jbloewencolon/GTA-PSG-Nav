@@ -1,0 +1,323 @@
+7/21/26, 6:12 PM                      Artificial Intelligence Responsible Use Guidelines (GS-23-001) | Enterprise Policies, Standards, and Guidelines
+
+
+
+
+                   Artificial Intelligence Responsible Use
+                   Guidelines (GS-23-001)
+                   GS-23-001 Artificial Intelligence Responsible Use Guidelines
+
+                   Effective Date: 12/12/23
+
+
+
+                   Purpose
+                   GTA intends to provide a roadmap that guides state
+                   agencies in maximizing the benefits of these technologies
+                   while minimizing risks and ensuring that AI remains a force
+                   for good in the service of Georgians. These guidelines
+                   outline a comprehensive framework for the responsible use
+                   of AI and generative AI systems within state agencies. By
+                   adopting these principles, state agencies can maintain
+                   public trust, drive innovation, and contribute to a more
+                   equitable, efficient, and forward-thinking public sector.
+
+
+
+                   Scope and Authority
+                   O.C.G.A 50-25-4(a)(8), State Government, Georgia
+                   Technology, General Powers
+
+                   O.C.G.A 50-25-4(a)(20), State Government, Georgia
+                   Technology, General Powers
+
+
+
+
+https://gta-psg.georgia.gov/psg/artificial-intelligence-responsible-use-guidelines-gs-23-001                                                            1/9
+7/21/26, 6:12 PM                      Artificial Intelligence Responsible Use Guidelines (GS-23-001) | Enterprise Policies, Standards, and Guidelines
+
+
+
+
+                   PM-04-001, Information Technology Policies, Standards and
+                   Guidelines
+
+                   PS-08-005, Enterprise Information Security Charter
+
+
+
+                   Guideline
+                   Principles
+                   In order to safeguard the welfare and enhance the services
+                   provided to the citizens of Georgia, the GTA has established
+                   five guiding principles governing the design,
+                   implementation, and utilization of automated systems.
+                   Informed by industry research and experts, these principles
+                   are intended to direct state agencies aiming to integrate
+                   protective measures into their policies and operational
+                   procedures. These principles serve as a framework
+                   whenever automated systems have significant implications
+                   on opportunities, the rights of Georgia residents, or their
+                   access to essential services.
+
+                   I. Implement Responsible Systems
+                 1. User-Centered Design and Development: State agencies
+                       should prioritize user research as an integral component
+                       in the procurement or development of automated
+                       systems. It is important to maintain the human element
+                       during the design of any service. Seek input and insights
+                       from user groups, diverse stakeholders, and domain
+
+
+
+
+https://gta-psg.georgia.gov/psg/artificial-intelligence-responsible-use-guidelines-gs-23-001                                                            2/9
+7/21/26, 6:12 PM                      Artificial Intelligence Responsible Use Guidelines (GS-23-001) | Enterprise Policies, Standards, and Guidelines
+
+
+
+
+                       experts to identify concerns, risks, and potential impacts
+                       associated with the system.
+                 2. Comprehensive Testing and Monitoring: Automated
+                       systems must undergo pre-deployment user testing to
+                       identify potential risks and assess their intended
+                       functionality. Implement risk identification and
+                       mitigation strategies to ensure system safety and
+                       effectiveness, including addressing unintended
+                       consequences.
+                 3. Ongoing Monitoring: Ongoing monitoring is essential to
+                       confirm that the system operates as intended, and
+                       deviations should be addressed promptly. Adhere to
+                       domain-specific standards to ensure compliance and
+                       compatibility with industry best practices.
+                 4. Consideration for Non-Deployment: State agencies
+                       should be prepared to halt the deployment of an
+                       automated system or remove it from use if it fails to meet
+                       safety or effectiveness standards.
+                 5. Data Protection: Ensure that the design, development,
+                       and deployment of automated systems protect against
+                       inappropriate or irrelevant data use. Mitigate the risks
+                       associated with the reuse of data, preventing
+                       compounded harm.
+                 6. Independent Evaluation and Transparency: The GTA will
+                       reserve the right to conduct an independent evaluation
+                       and reporting to confirm the safety and effectiveness of
+                       automated systems, including efforts taken to mitigate
+                       potential harm. The GTA will make evaluation results
+
+
+
+https://gta-psg.georgia.gov/psg/artificial-intelligence-responsible-use-guidelines-gs-23-001                                                            3/9
+7/21/26, 6:12 PM                      Artificial Intelligence Responsible Use Guidelines (GS-23-001) | Enterprise Policies, Standards, and Guidelines
+
+
+
+
+                       publicly available whenever appropriate, promoting
+                       transparency and accountability.
+
+                   II. Ensure Ethical and Fair Use of Automated Decisions
+                 1. Prioritize fairness, transparency, accountability, and
+                       privacy: State agencies should adopt a set of ethical AI
+                       principles that prioritize fairness, transparency,
+                       accountability, and privacy in the design and deployment
+                       of AI systems for state services. Develop a set of ethical
+                       guidelines for AI system design and deployment. They
+                       serve as a compass to ensure ethical practices
+                       throughout the AI lifecycle.
+                 2. Algorithmic Bias Awareness: Raise awareness among
+                       agency staff about the concept of algorithmic bias and its
+                       potential impacts on decision-making processes within
+                       state services. Provide training and educational programs
+                       for agency staff to ensure they understand what
+                       algorithmic bias is and how it can impact decision-
+                       making. Awareness is the first step in addressing bias
+                       effectively.
+                 3. Data Quality and Diversity: Carefully curate and vet the
+                       data used to train AI algorithms. Make sure the data is
+                       diverse and representative of all relevant demographic
+                       groups. This helps prevent biased outcomes caused by
+                       skewed data. Ensure that the data used to train AI
+                       algorithms is representative and diverse, preventing
+                       underrepresentation or bias against any demographic
+                       group.
+
+
+
+https://gta-psg.georgia.gov/psg/artificial-intelligence-responsible-use-guidelines-gs-23-001                                                            4/9
+7/21/26, 6:12 PM                      Artificial Intelligence Responsible Use Guidelines (GS-23-001) | Enterprise Policies, Standards, and Guidelines
+
+
+
+
+                 4. Ongoing Monitoring: Continuously monitor AI systems to
+                       detect and rectify biases as they emerge. Regular
+                       assessments are essential to maintaining fairness and
+                       effectiveness over time. Implement continuous
+                       monitoring mechanisms to assess AI systems for
+                       potential biases and discriminatory outcomes during
+                       their operation.
+                 5. Bias Mitigation and Impact Assessment: Develop and
+                       implement strategies to address and mitigate algorithmic
+                       bias whenever detected, such as refining algorithms,
+                       adjusting data inputs, or retraining models. Regularly
+                       assess how AI systems affect different user groups.
+                       Understand any disparities or unintended consequences
+                       that may arise and take action to rectify them.
+                 6. Transparency and Accountability: Make sure that the
+                       decision-making processes within AI systems are
+                       transparent and explainable. Users should be able to
+                       understand why a particular decision was made, instilling
+                       trust in the system. Assign specific individuals or teams
+                       responsible for monitoring AI systems for bias and taking
+                       corrective actions. Clearly defined accountability ensures
+                       that bias-related issues are addressed promptly.
+
+                   III. Maintain Data Quality and Privacy
+                 1. Data Governance Framework: Establish clear guidelines
+                       for data governance to maintain integrity and privacy.
+                 2. Security and Transparency: Prioritize robust security
+                       measures and transparent data handling practices.
+
+
+
+https://gta-psg.georgia.gov/psg/artificial-intelligence-responsible-use-guidelines-gs-23-001                                                            5/9
+7/21/26, 6:12 PM                      Artificial Intelligence Responsible Use Guidelines (GS-23-001) | Enterprise Policies, Standards, and Guidelines
+
+
+
+
+                 3. Data Quality and Retention: Ensure data accuracy,
+                       minimize storage, and dispose of obsolete data.
+                 4. Compliance and Accountability: Maintain compliance
+                       with data protection laws, conduct regular audits, and
+                       involve the public in the decision-making process.
+
+                   IV. Keep AI Usage Transparent
+                 1. Transparency in System Use: Ensure that individuals are
+                       informed about the use of automated systems and
+                       understand how these systems contribute to outcomes
+                       that affect them.
+                 2. Accessible Documentation: Encourage designers,
+                       developers, and deployers of automated systems to
+                       provide plain language documentation that is easily
+                       accessible to the public. This documentation should
+                       include clear descriptions of system functionality, the role
+                       of automation, system ownership, and explanations of
+                       outcomes.
+                 3. Up-to-Date Notices: Require that notice regarding the
+                       use of automated systems is kept current, and individuals
+                       impacted by the system should be notified of significant
+                       use case or key functionality changes.
+                 4. Explanation of Outcomes: Ensure that individuals have
+                       access to information explaining how and why outcomes
+                       that affect them were determined by automated systems,
+                       even when these systems are not the sole contributors to
+                       the outcome.
+                 5. Technically Valid Explanations: Mandate that automated
+                       systems provide technically valid, meaningful, and useful
+
+https://gta-psg.georgia.gov/psg/artificial-intelligence-responsible-use-guidelines-gs-23-001                                                            6/9
+7/21/26, 6:12 PM                      Artificial Intelligence Responsible Use Guidelines (GS-23-001) | Enterprise Policies, Standards, and Guidelines
+
+
+
+
+                       explanations to affected individuals, as well as operators
+                       and stakeholders who need to understand the system.
+                       The level of detail in these explanations should be
+                       contextually calibrated to the level of risk involved.
+                 6. Public Reporting: Promote the publication of summary
+                       information about automated systems in plain language.
+                       Assessments of the clarity and quality of notice and
+                       explanations should also be made public whenever
+                       possible to enhance transparency and public trust.
+
+                   V. Keep Human Involvement at the Center
+                 1. Human Responsibility and Ownership in AI Systems: State
+                       agencies shall establish and adhere to policies that
+                       emphasize human responsibility and ownership of the
+                       outcomes produced by AI systems used in state services.
+                       This policy outlines the key principles to guide state
+                       agencies in achieving these objectives.
+                 2. Transparency and Accountability: State agencies shall
+                       prioritize transparency and accountability in the
+                       deployment of AI systems. Agencies must maintain clear
+                       records of AI system use, their objectives, and the roles of
+                       individuals overseeing and interacting with these
+                       systems.
+                 3. Human Oversight and Decision-Making: AI systems
+                       should not operate in isolation. State agencies must
+                       ensure that humans retain control over the operation of
+                       AI systems and that human decision-makers remain
+                       responsible for the final decisions made with the support
+                       of AI technology.
+
+
+https://gta-psg.georgia.gov/psg/artificial-intelligence-responsible-use-guidelines-gs-23-001                                                            7/9
+7/21/26, 6:12 PM                      Artificial Intelligence Responsible Use Guidelines (GS-23-001) | Enterprise Policies, Standards, and Guidelines
+
+
+
+
+                 4. Ethical Design and Use: Agencies shall mandate that AI
+                       systems be designed and used in accordance with ethical
+                       principles that prioritize fairness, transparency,
+                       accountability, and privacy. Ethical considerations must
+                       be an integral part of AI system development and usage.
+                 5. Clear Roles and Responsibilities: Clearly define roles and
+                       responsibilities for individuals involved in AI system
+                       implementation. This includes specifying the duties of AI
+                       system operators, data stewards, and decision-makers.
+                 6. Human-AI Collaboration: Encourage collaboration
+                       between humans and AI systems to enhance decision-
+                       making processes. AI should be viewed as a tool that
+                       complements human expertise rather than a
+                       replacement for human judgment.
+                 7. User Education: Promote user education to ensure that
+                       individuals interacting with AI systems understand the
+                       capabilities and limitations of these technologies. Users
+                       should be aware of how AI contributes to outcomes and
+                       that humans remain responsible for those outcomes.
+                 8. Training and Competency: Agencies must invest in
+                       training and development programs to equip their staff
+                       with the skills and knowledge necessary to effectively use
+                       AI systems and make informed decisions.
+                 9. Ownership of Data and Models: State agencies shall
+                       retain ownership and control over the data used to train
+                       AI models and the models themselves. This ownership
+                       ensures that AI systems serve the agency's mission and
+                       values.
+
+
+
+https://gta-psg.georgia.gov/psg/artificial-intelligence-responsible-use-guidelines-gs-23-001                                                            8/9
+7/21/26, 6:12 PM                      Artificial Intelligence Responsible Use Guidelines (GS-23-001) | Enterprise Policies, Standards, and Guidelines
+
+
+
+
+              10. Continuous Monitoring and Improvement: Establish
+                       mechanisms for continuous monitoring and assessment
+                       of AI systems. Regularly evaluate system performance,
+                       ethical adherence, and the impact on outcomes, and take
+                       corrective actions as needed.
+
+
+
+                   Related Enterprise Policies, Standards, and
+                   Guidelines
+                       Artificial Intelligence (AI) Responsible Policy PS-23-001
+                       (https://gta-psg.georgia.gov/psg/enterprise-artificial-
+                       intelligence-responsible-use-ps-23-001)
+                       Artificial Intelligence Responsible Use Standard SS-23-
+                       002 (https://gta-psg.georgia.gov/psg/artificial-
+                       intelligence-responsible-use-ss-23-002)
+
+
+
+
+https://gta-psg.georgia.gov/psg/artificial-intelligence-responsible-use-guidelines-gs-23-001                                                            9/9
+

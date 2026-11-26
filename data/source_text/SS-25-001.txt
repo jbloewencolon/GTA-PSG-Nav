@@ -1,0 +1,306 @@
+                                 Georgia Technology Authority
+
+                 Title:   Generative AI Responsible Use
+        PSG Number: PS-25-001
+      Effective Date: 7/1/2025                  Review Date:
+                          Establishes a framework for responsible
+            Synopsis:     experimentation and learning while maintaining
+                          appropriate risk management
+
+
+PURPOSE
+This policy establishes a comprehensive framework for the responsible use,
+development, procurement, and governance of Generative Artificial Intelligence
+(GenAI) technologies within the State of Georgia's executive branch agencies. It
+aligns with state values, legal obligations, and national and international best
+practices to ensure GenAI adoption is ethical, transparent, secure, and beneficial
+to the public.
+
+SCOPE and AUTHORITY
+O.C.G.A 50-25-4(a)(8) – State Government, Georgia Technology, General Powers
+O.C.G.A 50-25-4(a)(20) - State Government, Georgia Technology, General Powers
+PM-04-001 – Information Technology Policies, Standards and Guidelines
+PS-08-005 – Enterprise Information Security Policy
+
+TERMS AND DEFINITIONS
+
+Artificial Intelligence - machine-based system that can, for a given set of human-
+defined objectives, make predictions, recommendations or decisions influencing
+real or virtual environments.
+
+Agency – means every state department, agency, board, bureau, commission, and
+authority but shall not include any agency within the judicial or legislative branch
+of state government, the Georgia Department of Defense, departments headed by
+elected constitutional officers of the state, or the University System of Georgia and
+shall also not include any authority statutorily required to effectuate the provisions
+of Part 4 of Article 9 of Title 11.
+
+Qualified Personnel: any subject-matter focused state employee who would
+otherwise have been responsible for the content in the absence of the AI tool.
+
+Generative AI (GenAI) - tools or systems used to create models that can generate
+new and original content, such as images, music, or text, based on patterns and
+examples from existing data.
+
+AI System - any software, tool, or platform that uses AI methodologies to perform
+tasks or generate outputs.
+
+AI Model - component of an information system that implements AI technology
+and uses computational, statistical, or machine-learning techniques to produce
+outputs from a given set of inputs.
+
+Foundation Model - large-scale AI model pre-trained on broad datasets and
+adapted for downstream tasks.
+
+High-Risk Use Case: any GenAI implementation with potential impact on legal
+rights, access to benefits, public safety, or public trust.
+
+STANDARD
+The following requirements apply to all GenAI systems and services used within the
+State of Georgia’s executive branch agencies. State government employees shall
+follow this standard when using commercial GenAI solutions such as OpenAI's
+ChatGPT, Google's Gemini, Anthropic's Claude, or Microsoft's Copilot.
+
+Individual agencies retain discretion to purchase premium versions through
+standard procurement processes.
+
+Agencies shall implement additional restrictions based on their specific needs, but
+should first consult with the Georgia Technology Authority (GTA).
+
+1. Human Review and Validation
+
+All GenAI-generated content—whether text, code, summaries, or other media—
+shall be reviewed and validated by qualified personnel before being used in any
+official capacity. Agencies shall implement human-in-the-loop (HITL) review
+workflows, especially for moderate- and high-risk use cases. The purpose of these
+reviews is to detect inaccuracies, biases, or inappropriate content and to ensure
+alignment with state policy and objectives.
+
+1.2   Disclosure and Attribution
+Any content generated or assisted by GenAI shall be clearly labeled to ensure
+transparency and maintain public trust. Agencies must use standardized attribution
+formats that include:
+
+   • Name of the GenAI tool used
+   • Summary of the prompt or task
+   • Identity of the staff who reviewed or edited the content
+
+Example: "This policy brief was generated using [GenAI Tool] and reviewed by
+[Employee Name]."
+
+1.3 Data Privacy and Confidentiality
+
+Before using any GenAI system, agencies shall assess whether the tool stores,
+processes, or accesses sensitive data. The following safeguards shall be observed:
+
+   • Personally identifiable information (PII), protected health information (PHI),
+     or other regulated data shall not be used as inputs to GenAI tools unless
+     formally approved by the GTA’s Office of Artificial Intelligence.
+
+   • Application of data minimization practices to avoid the inclusion of
+     unnecessary sensitive information.
+
+   • Adherence to encryption and access control requirements consistent with all
+     applicable enterprise security policies and standards.
+
+1.4 Approved Use of State Credentials
+
+All agency personnel shall use state-issued credentials (email and authentication
+accounts) when signing up for or using GenAI tools for state business. The use of
+personal email addresses for such access is prohibited unless specifically authorized
+by the agency’s technology leadership.
+
+1.5 Procurement and Third-Party Vendor Compliance
+
+Any procurement of GenAI products or services must:
+  • Be approved in advance by the Georgia Technology Authority (GTA) by
+      completing the review form at https://ai.georgia.gov/ai-application-and-
+      tool-request-form
+   • Comply with GTA’s IT security, privacy, and accessibility standards
+   • Include provisions for auditability, explainability, model documentation,
+     data retention, and intellectual property rights in contracts
+
+Agencies must consult with the GTA Office of Artificial Intelligence before entering
+into any contractual agreement involving GenAI features or integrations.
+
+1.6 GenAI System Inventory and Reporting
+
+All agencies shall maintain and report via the agency’s annual STARR report, a
+current inventory of GenAI systems and applications used or planned within their
+operations. This includes tools in development, active pilots, or production
+environments. GTA will consolidate these reports into a statewide GenAI catalog to
+promote transparency and inform risk assessments.
+
+1.7 Records Management and Public Access Compliance
+
+GenAI-generated content used in official communications or policy-making may be
+subject to Georgia’s records retention schedules and open records laws. Agencies
+shall:
+
+Ensure proper classification and storage of GenAI outputs.
+   • Retain audit trails of prompts, responses, and reviews
+   • Prepare for potential public disclosure of GenAI-related records
+
+
+Failure to follow these requirements may result in revocation of tool access and
+additional oversight actions by GTA.
+
+2. GenAI Pilot and Sandbox Environment
+
+The Georgia Technology Authority (GTA)’s Horizons Innovation Lab will establish
+and maintain a secure and collaborative Generative AI (GenAI) Sandbox
+environment. This environment is designed to support agencies in responsibly
+exploring, testing, and validating GenAI use cases before broader implementation.
+The Sandbox will ensure early-stage projects align with Georgia’s standards for
+security, ethics, and performance.
+
+2.1 Purpose of the Sandbox
+The GenAI Sandbox provides a controlled environment for:
+   •   Testing and experimentation with GenAI tools and platforms
+   •   Evaluating risk, utility, bias, and operational effectiveness
+   •   Enabling cross-agency collaboration and knowledge sharing
+   •   Piloting innovative solutions that can enhance public service delivery
+
+2.2 Participation Requirements
+To participate in the Horizons Innovation Lab, agencies shall:
+   • Submit a brief project proposal outlining goals, target outcomes, and
+      potential risks via the online form at https://ai.georgia.gov/innovation-
+      lab/how-do-i-submit-project-innovation-lab )
+   • Identify responsible personnel for oversight and evaluation
+   • Agree to abide by sandbox-specific rules for data usage, model testing, and
+      reporting
+
+2.3 Security and Oversight
+All tools tested in the Sandbox shall:
+    • Be vetted for security risks by GTA Office of Information Security or the
+       agency’s Information Security Officer
+    • Operate using non-sensitive, non-PII datasets unless otherwise approved
+    • Include red-teaming or prompt testing protocols to identify vulnerabilities or
+       unsafe behaviors
+
+GTA will oversee the Sandbox and may audit processes, tools, and results to ensure
+compliance with statewide GenAI standards.
+
+2.4 Documentation and Knowledge Sharing
+Agencies participating in the Sandbox shall:
+   • Maintain a record of prompts, outputs, evaluation methods, and lessons
+      learned
+   • Share a post-pilot summary report with GTA outlining findings, challenges,
+      and recommendations
+   • Contribute to a knowledge base that will support future implementations
+      across the state
+
+2.5 Advancement and Scaling
+Following successful sandbox evaluation, agencies shall seek approval to transition
+GenAI projects into pilot or production phases. At which GTA will:
+   • Review Sandbox reports and risk assessments
+   • Provide guidance for procurement, integration, and scaling
+   •   Include successful pilots in the statewide GenAI Catalog
+
+3.0 Common Gen AI Use Cases
+The following table provides a non-exhaustive list of common Generative AI
+(GenAI) use cases observed across public sector environments. Each example is
+accompanied by guidance on acceptable and prohibited behaviors, using a traffic
+light color-coding system (Green = Approved, Yellow = Caution, Red = Prohibited).
+
+These examples are intended to help agencies interpret and apply this Standard in
+day-to-day operations. Agencies should conduct their own risk assessments and
+consult with the Georgia Technology Authority (GTA) Office of Artificial Intelligence
+for novel, high-risk, or ambiguous use cases not represented here.
+
+
+
+Use Case               Acceptable          Conditional            Prohibited
+
+
+Drafting internal      Use GenAI to        Use GenAI-             Do not share
+summaries              summarize           generated              unreviewed
+                       meeting notes       summaries only         summaries as
+                       or internal         after review by        official records or
+                       memos with          staff.                 public
+                       attribution.                               communications.
+Public-facing          Use GenAI to        Deploy public          Do not allow
+communications         draft first-pass    chatbots with          GenAI to
+                       content,            GenAI only after       autonomously
+                       reviewed and        bias/safety            publish content
+                       edited by staff.    review.                to websites,
+                                                                  emails, or social
+                                                                  media.
+Coding & software   Use GenAI for      Use in                Do not deploy
+development         code               sandbox/test          unreviewed
+                    suggestions, bug   environments and      GenAI-generated
+                    spotting,          validate security     code to
+                    documentation.     of outputs.           production
+                                                             systems.
+Data analysis &     Use GenAI to       Cross-validate with   Don’t use GenAI
+reports             visualize trends   source data and       to analyze or
+                    or automate        check for             process
+                    draft insights     misinterpretation.    personally
+                    from open data.                          identifiable or
+                                                             regulated data.
+Policy drafting     Use GenAI to       Review all content    Do not use GenAI
+support             brainstorm         for tone, bias, and   to make legal,
+                    policy language    policy implications   disciplinary, or
+                    or summarize       before sharing.       eligibility
+                    research.                                decisions.
+Education &         Use GenAI to       Vet any public-       Do not use GenAI
+training tools      create quiz        facing content for    to assess
+                    questions,         bias and              employee
+                    flashcards, or     misinformation.       performance or
+                    explainers for                           give personalized
+                    internal use.                            advice.
+Constituent service Use GenAI to       Provide escalation    Don’t allow GenAI
+chatbots            support FAQ        path to human         chatbots to
+                    responses          assistance and        answer legal,
+                    clearly marked     monitor               medical, or
+                    as AI-generated.   performance.          emergency
+                                                             questions.
+Image/audio/video Use for creative     Clearly disclose      Do not use GenAI
+generation        brainstorming,       synthetic content     to create
+                  mockups,             when used in          deepfakes,
+                  training             public contexts.      impersonations,
+                  materials (with                            or sensitive
+                  proper                                     likenesses.
+                  attribution).
+Translation and        Use GenAI to       Confirm with          Do not rely on
+accessibility          provide draft      human review,         GenAI alone for
+                       translations or    especially for        accessibility
+                       captioning to      formal or legal       compliance or
+                       improve access.    documents.            legal document
+                                                                translations.
+Legal and              Use GenAI to       Use with legal staff Do not use GenAI
+regulatory analysis    organize and       oversight only.      to provide legal
+                       summarize non-                          advice or
+                       sensitive legal                         determine
+                       text for                                compliance
+                       research.                               status.
+
+Conditional Approval for specific use cases of GenAI tools can be requested via
+ai.georgia.gov or email ai@gta.georgia.gov.
+
+4.0 Monitoring and Audit
+Agencies shall conduct annual audits of GenAI systems to review:
+   • Accuracy and performance
+   • Bias and impact analysis
+   • System vulnerabilities
+
+Agencies shall report significant incidents involving GenAI to the GTA Office of AI
+within 48 hours.
+
+RELATED ENTERPRISE POLICIES, STANDARDS AND GUIDELINES
+Enterprise Artificial Responsible Use (PS-23-001)
+Generative AI Responsible Use Guidelines (GS-25-001)
+Artificial Intelligence Responsible Use Guidelines (GS-23-001)
+Artificial Intelligence Responsible Use (SS-23-002)
+Data Security - Electronic Records (SS-08-003)
+Reliance on Electronic Records PS-08-007
+
+REFERENCES
+GTA Artificial Intelligence Program Webpage - https://ai.georgia.gov
+Guiding Principles -
+https://ai.georgia.gov/guidance/guidelines-state-organizations/5-
+guiding-principles
+
+Artificial Intelligence Glossary -
+https://ai.georgia.gov/common-ai-terminology
+
