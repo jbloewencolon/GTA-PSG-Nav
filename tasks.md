@@ -1,35 +1,19 @@
 # Tasks
 
-From [AUDIT.md](AUDIT.md) (2026-11-26). Phases are in priority order. Items marked 🔏 change what employees are told and need GTA policy-owner sign-off.
+From [AUDIT.md](AUDIT.md) (2026-11-26). Phases 1–5 are done; see [completed_tasks.md](completed_tasks.md). Items marked 🔏 need GTA policy-owner sign-off. They are collected in [docs/questions_for_gta.md](docs/questions_for_gta.md).
 
-## Phase 1: Scoring and stop sign — done 2026-11-26 (see completed_tasks.md)
-- [ ] 🔏 Get GTA policy-owner sign-off on the post values, level cut-offs and sign wording (currently marked as the tool's own values)
-- [ ] Consider showing the post count in the rail while a stop or Check first sign is showing (it is currently only in the reasons list and the meter's screen-reader text)
+## Waiting on you
+- [ ] Upload the source PDFs for SS-25-001, GS-25-001, GS-25-002, PS-23-001, GS-23-001 and the 5 Guiding Principles page (for example to `data/source_pdfs/`). Then: extract them with `pdftotext -layout` into `data/source_text/<doc_id>.txt`, run `scripts/verify_sources.py`, and fix or report any excerpt that does not match.
+- [ ] Push the branch to GitHub and confirm the CI workflow passes on a GitHub runner (it was simulated locally, not run on GitHub).
 
-## Phase 2: Provenance and currency
-- [ ] Add `data/source_text/` for all 7 documents
-- [ ] Add a pipeline check that every `text_excerpt` appears verbatim in its source text
-- [ ] Add `source_url` for SS-25-001, GS-25-001, GS-25-002
-- [ ] Show "Documents as of <capture date>" separately from the build date
-- [ ] 🔏 Put the 2023 vs 2025 supersession question to GTA as a single question
+## Waiting on GTA (🔏, see docs/questions_for_gta.md)
+- [ ] Which 2023 documents the 2025 documents replace, and whether PS-23-001 has a newer version
+- [ ] Confirm the three 2025 document links (found by web search)
+- [ ] Guardrail post values, level cut-offs and sign wording
+- [ ] Scope of the "decisions about people" prohibition (SS-25-001-3.0-TABLE-15 vs GS-25-001-SAFE-9)
+- [ ] Whether the 10 "Conditional" table cells are mandatory (currently read as Must)
+- [ ] Whether the 2 "Do not" commands in GS-25-001 are Must not (currently yes)
 
-## Phase 3: Modal taxonomy
-- [ ] Add a `should_not` modality (6 provisions)
-- [ ] Add `classification_basis` for each non-literal modal call
-- [ ] 🔏 Review the 10 "Conditional" (Yellow = Caution) table cells currently classified as `must`
-- [ ] Make imperative handling symmetric ("do not" vs positive imperatives in guidelines)
-
-## Phase 4: Engineering
-- [ ] GitHub Actions: rebuild → `git diff --exit-code` → serve → run tests
-- [ ] Add `encoding='utf-8'` to every `open()` in `decision_rights.py` and `gen_site.py`
-- [ ] Pin `playwright` in `requirements-dev.txt`
-- [ ] Remove dead or overridden CSS (`index.html:136-137` vs `:280`); collapse the CSS patch layers
-- [ ] Decide whether to self-host fonts or use system fonts (privacy, state-network blocking)
-
-## Phase 5: UX and accessibility polish
-- [ ] Mobile: compact answers summary above the results
-- [ ] Remove the duplicated tiles or sentence on the results header
-- [ ] Use one audience name for review mode ("GTA admins" vs "policy staff")
-- [ ] Balanced quotation marks in text (not CSS `::before`)
-- [ ] Stop banner: announce on first appearance (`role="alert"` or move focus)
-- [ ] Align the product name (GenAI Policy Check / AI Policy Navigator / GTA-PSG-Nav)
+## Optional
+- [ ] Show the post count in the rail while a stop or Check first sign is showing (it is currently only in the reasons list and the meter's screen-reader text)
+- [ ] Merge the remaining CSS "patch layer" blocks into the base rules. The 16 fully overridden declarations are already removed; what remains is a readability refactor with no visible effect

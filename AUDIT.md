@@ -24,6 +24,8 @@ The serious problems are not in the build. They are in **two layers added on top
 
 ---
 
+> **Status 2026-11-26:** the recommendations in §9 are implemented except those waiting on source PDFs or GTA answers; see `tasks.md`.
+
 ## 1. What was verified
 
 | Check | Result |
