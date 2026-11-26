@@ -1,0 +1,891 @@
+{
+ "title": "Decision rights in the GTA AI documents",
+ "scope": "Built only from the seven documents in the project. Roles are quoted as written and are not mapped to named people.",
+ "status_values": {
+  "named": "A provision names who decides.",
+  "documents_disagree": "Provisions name different deciders.",
+  "not_named": "A decision or approval is required or offered, and no provision names who makes it."
+ },
+ "counts": {
+  "decisions": 19,
+  "documents_disagree": 2,
+  "named": 12,
+  "not_named": 5,
+  "employee_level": 9,
+  "agency_level": 10,
+  "not_reached_by_any_question": 4
+ },
+ "decisions": [
+  {
+   "id": "DR-01",
+   "decision": "Entering PII, PHI, regulated, confidential or sensitive data into an AI tool",
+   "decision_type": "approval",
+   "level": "employee",
+   "roles": [
+    {
+     "part": "decides",
+     "role_as_written": "GTA’s Office of Artificial Intelligence",
+     "provision_id": "SS-25-001-1.3-2",
+     "modal_as_written": "shall not",
+     "citation": "Generative AI Responsible Use (SS-25-001), 1.3 Data Privacy and Confidentiality, p.3",
+     "shown_today": {
+      "via": "C_DATA",
+      "kind": "topic",
+      "when": [
+       {
+        "F_DATA": [
+         "yes",
+         "not_sure"
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "part": "decides",
+     "role_as_written": "appropriate agency authority",
+     "provision_id": "SS-23-002-6-2",
+     "modal_as_written": "must",
+     "citation": "Artificial Intelligence Responsible Use (SS-23-002), 6. Data Protection, Safety and Privacy, p.9",
+     "shown_today": {
+      "via": "P_DATA_AUTHORITY",
+      "kind": "agency pointer",
+      "when": [
+       {
+        "F_DATA": [
+         "yes",
+         "not_sure"
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "part": "decides",
+     "role_as_written": "Georgia Technology Authority",
+     "provision_id": "GS-25-001-RUBRIC-6",
+     "modal_as_written": "Always verify (imperative)",
+     "citation": "Generative AI Guidelines for Responsible Use (GS-25-001), Mitigating the Risks of Generative AI: Rubric, p.10",
+     "shown_today": {
+      "via": "C_DATA",
+      "kind": "topic",
+      "when": [
+       {
+        "F_DATA": [
+         "yes",
+         "not_sure"
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "part": "consulted",
+     "role_as_written": "department's data privacy officer or designated compliance authority",
+     "provision_id": "GS-25-001-SAFE-15",
+     "modal_as_written": "should",
+     "citation": "Generative AI Guidelines for Responsible Use (GS-25-001), Guidelines > Use AI Tools Safely and Properly, p.2",
+     "shown_today": {
+      "via": "C_DATA_UNSURE",
+      "kind": "topic",
+      "when": [
+       {
+        "F_DATA": [
+         "not_sure"
+        ]
+       }
+      ]
+     }
+    }
+   ],
+   "who_decides_status": "documents_disagree",
+   "status_note": "Three provisions name three different approvers. No document gives a request process.",
+   "channel": null,
+   "timing_as_written": null,
+   "conflicts": [
+    "C04"
+   ],
+   "open_questions": [
+    "OQ09"
+   ],
+   "unresolved_references": [
+    "UR12",
+    "UR27"
+   ]
+  },
+  {
+   "id": "DR-02",
+   "decision": "Using a personal email address to access GenAI tools for state business",
+   "decision_type": "authorization",
+   "level": "employee",
+   "roles": [
+    {
+     "part": "decides",
+     "role_as_written": "agency’s technology leadership",
+     "provision_id": "SS-25-001-1.4-2",
+     "modal_as_written": "is prohibited unless",
+     "citation": "Generative AI Responsible Use (SS-25-001), 1.4 Approved Use of State Credentials, p.3",
+     "shown_today": {
+      "via": "U_CREDENTIALS",
+      "kind": "topic",
+      "when": "always"
+     }
+    }
+   ],
+   "who_decides_status": "named",
+   "status_note": "The role is named but not identified; the documents do not say who holds it in an agency.",
+   "channel": null,
+   "timing_as_written": null,
+   "conflicts": [
+    "C05"
+   ],
+   "open_questions": [],
+   "unresolved_references": [
+    "UR27"
+   ]
+  },
+  {
+   "id": "DR-03",
+   "decision": "Procuring a GenAI product or service",
+   "decision_type": "approval",
+   "level": "employee",
+   "roles": [
+    {
+     "part": "decides",
+     "role_as_written": "Georgia Technology Authority (GTA)",
+     "provision_id": "SS-25-001-1.5-1",
+     "modal_as_written": "must (in lead-in)",
+     "citation": "Generative AI Responsible Use (SS-25-001), 1.5 Procurement and Third-Party Vendor Compliance, p.3",
+     "shown_today": {
+      "via": "C_PROCURE_APPROVAL",
+      "kind": "topic",
+      "when": [
+       {
+        "F_ROLE": [
+         "procure",
+         "both",
+         "not_sure"
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "part": "consulted",
+     "role_as_written": "GTA Office of Artificial Intelligence",
+     "provision_id": "SS-25-001-1.5-4",
+     "modal_as_written": "must",
+     "citation": "Generative AI Responsible Use (SS-25-001), 1.5 Procurement and Third-Party Vendor Compliance, p.4",
+     "shown_today": {
+      "via": "P_PROCUREMENT",
+      "kind": "agency pointer",
+      "when": [
+       {
+        "F_ROLE": [
+         "procure",
+         "both",
+         "not_sure"
+        ]
+       }
+      ]
+     }
+    }
+   ],
+   "who_decides_status": "named",
+   "status_note": "GTA is named; the office within GTA that approves is not. The 2023 documents describe other review routes (DR-04).",
+   "channel": {
+    "as_written": "https://ai.georgia.gov/ai-application-and-tool-request-form",
+    "provision_id": "SS-25-001-1.5-1"
+   },
+   "timing_as_written": {
+    "as_written": "approved in advance",
+    "provision_id": "SS-25-001-1.5-1"
+   },
+   "conflicts": [
+    "C08"
+   ],
+   "open_questions": [
+    "OQ07"
+   ],
+   "unresolved_references": [
+    "UR10"
+   ]
+  },
+  {
+   "id": "DR-04",
+   "decision": "Review of any AI software, application, tool or service before procurement",
+   "decision_type": "review",
+   "level": "agency",
+   "roles": [
+    {
+     "part": "asks",
+     "role_as_written": "Agencies shall submit",
+     "provision_id": "PS-23-001-POLICY-1",
+     "modal_as_written": "shall",
+     "citation": "Enterprise Artificial Intelligence Responsible Use (PS-23-001), Policy, p.3",
+     "shown_today": {
+      "via": "P_PROCUREMENT",
+      "kind": "agency pointer",
+      "when": [
+       {
+        "F_ROLE": [
+         "procure",
+         "both",
+         "not_sure"
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "part": "reviews",
+     "role_as_written": "GTA for review",
+     "provision_id": "PS-23-001-POLICY-1",
+     "modal_as_written": "shall",
+     "citation": "Enterprise Artificial Intelligence Responsible Use (PS-23-001), Policy, p.3",
+     "shown_today": {
+      "via": "P_PROCUREMENT",
+      "kind": "agency pointer",
+      "when": [
+       {
+        "F_ROLE": [
+         "procure",
+         "both",
+         "not_sure"
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "part": "reviews",
+     "role_as_written": "GTA will assess the tool for safety, privacy, and compliance",
+     "provision_id": "SS-23-002-3-2",
+     "modal_as_written": "will",
+     "citation": "Artificial Intelligence Responsible Use (SS-23-002), 3. Procuring AI Solutions, p.5",
+     "shown_today": null
+    },
+    {
+     "part": "decides",
+     "role_as_written": "The State CIO will provide a response to the senior executive of the requesting agency",
+     "provision_id": "SS-23-002-3-3",
+     "modal_as_written": "will",
+     "citation": "Artificial Intelligence Responsible Use (SS-23-002), 3. Procuring AI Solutions, p.5",
+     "shown_today": null
+    }
+   ],
+   "who_decides_status": "named",
+   "status_note": "The documents describe a review and a response from the State CIO. They do not call the response an approval.",
+   "channel": {
+    "as_written": "Business Solutions Review (BSR) Request form to GTA via email",
+    "provision_id": "SS-23-002-3-1"
+   },
+   "timing_as_written": {
+    "as_written": "prior to procurement",
+    "provision_id": "PS-23-001-POLICY-1"
+   },
+   "conflicts": [
+    "C02",
+    "C03",
+    "C08"
+   ],
+   "open_questions": [
+    "OQ01",
+    "OQ17",
+    "OQ29"
+   ],
+   "unresolved_references": [
+    "UR11"
+   ]
+  },
+  {
+   "id": "DR-05",
+   "decision": "Purchasing a premium version of a GenAI tool",
+   "decision_type": "discretion",
+   "level": "agency",
+   "roles": [
+    {
+     "part": "decides",
+     "role_as_written": "Individual agencies",
+     "provision_id": "SS-25-001-STD-3",
+     "modal_as_written": "retain discretion to",
+     "citation": "Generative AI Responsible Use (SS-25-001), Standard (opening paragraphs, before section 1), p.2",
+     "shown_today": {
+      "via": "P_PROCUREMENT",
+      "kind": "agency pointer",
+      "when": [
+       {
+        "F_ROLE": [
+         "procure",
+         "both",
+         "not_sure"
+        ]
+       }
+      ]
+     }
+    }
+   ],
+   "who_decides_status": "named",
+   "status_note": "Agencies 'retain discretion'. How this fits with GTA's advance approval of any GenAI procurement (DR-03) is not stated.",
+   "channel": null,
+   "timing_as_written": null,
+   "conflicts": [],
+   "open_questions": [
+    "OQ07"
+   ],
+   "unresolved_references": []
+  },
+  {
+   "id": "DR-06",
+   "decision": "Setting additional agency restrictions on GenAI use",
+   "decision_type": "determination",
+   "level": "agency",
+   "roles": [
+    {
+     "part": "decides",
+     "role_as_written": "Agencies",
+     "provision_id": "SS-25-001-STD-4",
+     "modal_as_written": "shall",
+     "citation": "Generative AI Responsible Use (SS-25-001), Standard (opening paragraphs, before section 1), p.2",
+     "shown_today": {
+      "via": "P_AGENCY_RESTRICTIONS",
+      "kind": "agency pointer",
+      "when": "always"
+     }
+    },
+    {
+     "part": "consulted",
+     "role_as_written": "Georgia Technology Authority (GTA)",
+     "provision_id": "SS-25-001-STD-5",
+     "modal_as_written": "should",
+     "citation": "Generative AI Responsible Use (SS-25-001), Standard (opening paragraphs, before section 1), p.2",
+     "shown_today": {
+      "via": "P_AGENCY_RESTRICTIONS",
+      "kind": "agency pointer",
+      "when": "always"
+     }
+    }
+   ],
+   "who_decides_status": "named",
+   "status_note": "Agencies set the restrictions and 'should first consult' GTA.",
+   "channel": null,
+   "timing_as_written": null,
+   "conflicts": [],
+   "open_questions": [
+    "OQ08"
+   ],
+   "unresolved_references": [
+    "UR31"
+   ]
+  },
+  {
+   "id": "DR-07",
+   "decision": "Conditional Approval for a specific use case of a GenAI tool",
+   "decision_type": "approval",
+   "level": "employee",
+   "roles": [
+    {
+     "part": "asks",
+     "role_as_written": "can be requested",
+     "provision_id": "SS-25-001-3.0-APPROVAL-1",
+     "modal_as_written": "can be requested",
+     "citation": "Generative AI Responsible Use (SS-25-001), 3.0 Common Gen AI Use Cases (sentence below the table), p.8",
+     "shown_today": {
+      "via": "U_APPROVED_TOOLS",
+      "kind": "topic",
+      "when": "always"
+     }
+    }
+   ],
+   "who_decides_status": "not_named",
+   "status_note": "The provision gives where to send the request. It does not say who grants it, or which uses need it.",
+   "channel": {
+    "as_written": "ai.georgia.gov or email ai@gta.georgia.gov",
+    "provision_id": "SS-25-001-3.0-APPROVAL-1"
+   },
+   "timing_as_written": null,
+   "conflicts": [],
+   "open_questions": [
+    "OQ10"
+   ],
+   "unresolved_references": [
+    "UR13"
+   ]
+  },
+  {
+   "id": "DR-08",
+   "decision": "Reviewing AI-generated content before it is used",
+   "decision_type": "review",
+   "level": "employee",
+   "roles": [
+    {
+     "part": "decides",
+     "role_as_written": "qualified personnel",
+     "provision_id": "SS-25-001-1-1",
+     "modal_as_written": "shall",
+     "citation": "Generative AI Responsible Use (SS-25-001), 1. Human Review and Validation, p.2",
+     "shown_today": {
+      "via": "U_REVIEW",
+      "kind": "topic",
+      "when": "always"
+     }
+    },
+    {
+     "part": "decides",
+     "role_as_written": "business owner or designated personnel",
+     "provision_id": "SS-23-002-5-4",
+     "modal_as_written": "shall (in lead-in)",
+     "citation": "Artificial Intelligence Responsible Use (SS-23-002), 5. Ensuring Accuracy and Appropriateness of AI-generated Outputs, p.9",
+     "shown_today": {
+      "via": "P_AGENCY_GUIDELINES",
+      "kind": "agency pointer",
+      "when": "always"
+     }
+    }
+   ],
+   "who_decides_status": "documents_disagree",
+   "status_note": "SS-25-001 defines Qualified Personnel as the subject-matter employee who would otherwise be responsible for the content; SS-23-002 names the business owner or designated personnel, and a different trigger.",
+   "channel": null,
+   "timing_as_written": {
+    "as_written": "before being used in any official capacity",
+    "provision_id": "SS-25-001-1-1"
+   },
+   "conflicts": [
+    "C13"
+   ],
+   "open_questions": [
+    "OQ09",
+    "OQ25"
+   ],
+   "unresolved_references": []
+  },
+  {
+   "id": "DR-09",
+   "decision": "Which AI tools, vendors and versions employees may use",
+   "decision_type": "vetting",
+   "level": "employee",
+   "roles": [
+    {
+     "part": "decides",
+     "role_as_written": "GTA has vetted",
+     "provision_id": "GS-25-001-SAFE-1",
+     "modal_as_written": "should",
+     "citation": "Generative AI Guidelines for Responsible Use (GS-25-001), Guidelines > Use AI Tools Safely and Properly, p.1",
+     "shown_today": {
+      "via": "U_APPROVED_TOOLS",
+      "kind": "topic",
+      "when": "always"
+     }
+    },
+    {
+     "part": "consulted",
+     "role_as_written": "consult with GTA",
+     "provision_id": "GS-25-001-SAFE-4",
+     "modal_as_written": "are encouraged to",
+     "citation": "Generative AI Guidelines for Responsible Use (GS-25-001), Guidelines > Use AI Tools Safely and Properly, p.2",
+     "shown_today": {
+      "via": "U_APPROVED_TOOLS",
+      "kind": "topic",
+      "when": "always"
+     }
+    }
+   ],
+   "who_decides_status": "named",
+   "status_note": "GTA vets tools and vendors. Approval is per version and 'can always' be revoked; who revokes is not stated. No list of vetted tools is in the document set.",
+   "channel": null,
+   "timing_as_written": null,
+   "conflicts": [],
+   "open_questions": [
+    "OQ07"
+   ],
+   "unresolved_references": [
+    "UR14"
+   ]
+  },
+  {
+   "id": "DR-10",
+   "decision": "Admitting a project to the Horizons Innovation Lab sandbox",
+   "decision_type": "approval",
+   "level": "agency",
+   "roles": [
+    {
+     "part": "asks",
+     "role_as_written": "agencies shall",
+     "provision_id": "SS-25-001-2.2-1",
+     "modal_as_written": "shall (in lead-in)",
+     "citation": "Generative AI Responsible Use (SS-25-001), 2.2 Participation Requirements, p.5",
+     "shown_today": {
+      "via": "P_SANDBOX",
+      "kind": "agency pointer",
+      "when": [
+       {
+        "F_ROLE": [
+         "build",
+         "both",
+         "not_sure"
+        ]
+       }
+      ]
+     }
+    }
+   ],
+   "who_decides_status": "not_named",
+   "status_note": "Agencies submit a proposal. The documents do not say who accepts or declines it.",
+   "channel": {
+    "as_written": "https://ai.georgia.gov/innovation-lab/how-do-i-submit-project-innovation-lab",
+    "provision_id": "SS-25-001-2.2-1"
+   },
+   "timing_as_written": null,
+   "conflicts": [],
+   "open_questions": [],
+   "unresolved_references": [
+    "UR17"
+   ]
+  },
+  {
+   "id": "DR-11",
+   "decision": "Security vetting of a tool tested in the sandbox",
+   "decision_type": "vetting",
+   "level": "agency",
+   "roles": [
+    {
+     "part": "decides",
+     "role_as_written": "GTA Office of Information Security or the agency’s Information Security Officer",
+     "provision_id": "SS-25-001-2.3-1",
+     "modal_as_written": "shall (in lead-in)",
+     "citation": "Generative AI Responsible Use (SS-25-001), 2.3 Security and Oversight, p.5",
+     "shown_today": null
+    }
+   ],
+   "who_decides_status": "named",
+   "status_note": "Either of two roles may vet; the documents do not say which one applies when.",
+   "channel": null,
+   "timing_as_written": null,
+   "conflicts": [],
+   "open_questions": [],
+   "unresolved_references": [
+    "UR17",
+    "UR27"
+   ]
+  },
+  {
+   "id": "DR-12",
+   "decision": "Using sensitive or PII datasets in the sandbox",
+   "decision_type": "approval",
+   "level": "agency",
+   "roles": [
+    {
+     "part": "asks",
+     "role_as_written": "unless otherwise approved",
+     "provision_id": "SS-25-001-2.3-2",
+     "modal_as_written": "shall (in lead-in)",
+     "citation": "Generative AI Responsible Use (SS-25-001), 2.3 Security and Oversight, p.5",
+     "shown_today": null
+    }
+   ],
+   "who_decides_status": "not_named",
+   "status_note": "The provision allows an exception 'unless otherwise approved' and names no approver.",
+   "channel": null,
+   "timing_as_written": null,
+   "conflicts": [
+    "C04"
+   ],
+   "open_questions": [],
+   "unresolved_references": [
+    "UR17"
+   ]
+  },
+  {
+   "id": "DR-13",
+   "decision": "Moving a sandbox project into pilot or production",
+   "decision_type": "approval",
+   "level": "agency",
+   "roles": [
+    {
+     "part": "asks",
+     "role_as_written": "agencies shall seek approval",
+     "provision_id": "SS-25-001-2.5-1",
+     "modal_as_written": "shall",
+     "citation": "Generative AI Responsible Use (SS-25-001), 2.5 Advancement and Scaling, p.5",
+     "shown_today": {
+      "via": "P_SANDBOX",
+      "kind": "agency pointer",
+      "when": [
+       {
+        "F_ROLE": [
+         "build",
+         "both",
+         "not_sure"
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "part": "reviews",
+     "role_as_written": "Review Sandbox reports and risk assessments",
+     "provision_id": "SS-25-001-2.5-2",
+     "modal_as_written": "will (in lead-in)",
+     "citation": "Generative AI Responsible Use (SS-25-001), 2.5 Advancement and Scaling, p.5",
+     "shown_today": null
+    }
+   ],
+   "who_decides_status": "not_named",
+   "status_note": "Agencies 'shall seek approval'; the approver is not named. The next lines say GTA will review Sandbox reports and risk assessments.",
+   "channel": null,
+   "timing_as_written": {
+    "as_written": "Following successful sandbox evaluation",
+    "provision_id": "SS-25-001-2.5-1"
+   },
+   "conflicts": [],
+   "open_questions": [],
+   "unresolved_references": [
+    "UR17"
+   ]
+  },
+  {
+   "id": "DR-14",
+   "decision": "Going ahead with a novel, high-risk or ambiguous use case",
+   "decision_type": "consultation",
+   "level": "agency",
+   "roles": [
+    {
+     "part": "reviews",
+     "role_as_written": "Agencies should conduct their own risk assessments",
+     "provision_id": "SS-25-001-3.0-4",
+     "modal_as_written": "should",
+     "citation": "Generative AI Responsible Use (SS-25-001), 3.0 Common Gen AI Use Cases (text above and below the table), p.6",
+     "shown_today": {
+      "via": "P_HIGH_RISK",
+      "kind": "agency pointer",
+      "when": [
+       {
+        "F_DECISION": [
+         "yes",
+         "not_sure"
+        ]
+       },
+       {
+        "F_TASK": [
+         "other",
+         "not_sure",
+         "policy_drafting",
+         "education_training"
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "part": "consulted",
+     "role_as_written": "Georgia Technology Authority (GTA) Office of Artificial Intelligence",
+     "provision_id": "SS-25-001-3.0-4",
+     "modal_as_written": "should",
+     "citation": "Generative AI Responsible Use (SS-25-001), 3.0 Common Gen AI Use Cases (text above and below the table), p.6",
+     "shown_today": {
+      "via": "P_HIGH_RISK",
+      "kind": "agency pointer",
+      "when": [
+       {
+        "F_DECISION": [
+         "yes",
+         "not_sure"
+        ]
+       },
+       {
+        "F_TASK": [
+         "other",
+         "not_sure",
+         "policy_drafting",
+         "education_training"
+        ]
+       }
+      ]
+     }
+    }
+   ],
+   "who_decides_status": "not_named",
+   "status_note": "Agencies assess the risk and consult the Office of AI. The documents do not say who decides whether the use goes ahead.",
+   "channel": null,
+   "timing_as_written": null,
+   "conflicts": [],
+   "open_questions": [
+    "OQ09",
+    "OQ10"
+   ],
+   "unresolved_references": []
+  },
+  {
+   "id": "DR-15",
+   "decision": "Recording or transcribing a virtual meeting",
+   "decision_type": "determination",
+   "level": "employee",
+   "roles": [
+    {
+     "part": "decides",
+     "role_as_written": "Meeting hosts",
+     "provision_id": "GS-25-001-MEET-11",
+     "modal_as_written": "are responsible for",
+     "citation": "Generative AI Guidelines for Responsible Use (GS-25-001), Guidelines > Be Vigilant in Virtual Meetings, p.3",
+     "shown_today": {
+      "via": "C_MEETING_HOST",
+      "kind": "topic",
+      "when": [
+       {
+        "F_TASK": [
+         "meetings",
+         "not_sure"
+        ],
+        "F_HOST": [
+         "host",
+         "not_sure"
+        ]
+       }
+      ]
+     }
+    }
+   ],
+   "who_decides_status": "named",
+   "status_note": "Meeting hosts are 'responsible for determining the need for recordings and automated transcriptions'.",
+   "channel": null,
+   "timing_as_written": null,
+   "conflicts": [],
+   "open_questions": [
+    "OQ12"
+   ],
+   "unresolved_references": []
+  },
+  {
+   "id": "DR-16",
+   "decision": "Legal or regulatory analysis with GenAI",
+   "decision_type": "oversight",
+   "level": "employee",
+   "roles": [
+    {
+     "part": "decides",
+     "role_as_written": "legal staff",
+     "provision_id": "SS-25-001-3.0-TABLE-29",
+     "modal_as_written": "imperative under column heading 'Conditional' (legend: Yellow = Caution)",
+     "citation": "Generative AI Responsible Use (SS-25-001), 3.0 Common Gen AI Use Cases (table), p.8",
+     "shown_today": {
+      "via": "C_TASK_LEGAL",
+      "kind": "topic",
+      "when": [
+       {
+        "F_TASK": [
+         "legal",
+         "not_sure"
+        ]
+       }
+      ]
+     }
+    }
+   ],
+   "who_decides_status": "named",
+   "status_note": "The table's Conditional cell requires 'legal staff oversight'; it does not say which legal staff.",
+   "channel": null,
+   "timing_as_written": null,
+   "conflicts": [],
+   "open_questions": [
+    "OQ10"
+   ],
+   "unresolved_references": []
+  },
+  {
+   "id": "DR-17",
+   "decision": "Ordering an AI tool to stop being used",
+   "decision_type": "order",
+   "level": "agency",
+   "roles": [
+    {
+     "part": "decides",
+     "role_as_written": "The State CIO or GTA OIS",
+     "provision_id": "SS-23-002-10-1",
+     "modal_as_written": "may",
+     "citation": "Artificial Intelligence Responsible Use (SS-23-002), 10. Termination and Business Continuity, p.13",
+     "shown_today": null
+    }
+   ],
+   "who_decides_status": "named",
+   "status_note": "Either may order termination of use.",
+   "channel": null,
+   "timing_as_written": null,
+   "conflicts": [],
+   "open_questions": [],
+   "unresolved_references": [
+    "UR27"
+   ]
+  },
+  {
+   "id": "DR-18",
+   "decision": "Further investigation of reported misuse, and deviation from corrective action",
+   "decision_type": "determination",
+   "level": "agency",
+   "roles": [
+    {
+     "part": "decides",
+     "role_as_written": "GTA OIS determines",
+     "provision_id": "SS-23-002-8-4",
+     "modal_as_written": "shall",
+     "citation": "Artificial Intelligence Responsible Use (SS-23-002), 8. Reporting Misuse, p.11",
+     "shown_today": null
+    },
+    {
+     "part": "decides",
+     "role_as_written": "subject to GTA OIS’s approval",
+     "provision_id": "SS-23-002-8-6",
+     "modal_as_written": "must",
+     "citation": "Artificial Intelligence Responsible Use (SS-23-002), 8. Reporting Misuse, p.11",
+     "shown_today": null
+    }
+   ],
+   "who_decides_status": "named",
+   "status_note": "GTA OIS decides whether further investigation is warranted and approves any deviation.",
+   "channel": null,
+   "timing_as_written": null,
+   "conflicts": [
+    "C10"
+   ],
+   "open_questions": [
+    "OQ19"
+   ],
+   "unresolved_references": [
+    "UR27"
+   ]
+  },
+  {
+   "id": "DR-19",
+   "decision": "Revoking tool access for not following SS-25-001 requirements",
+   "decision_type": "order",
+   "level": "employee",
+   "roles": [
+    {
+     "part": "decides",
+     "role_as_written": "revocation of tool access and additional oversight actions by GTA",
+     "provision_id": "SS-25-001-1.7-5",
+     "modal_as_written": "may result in (consequence)",
+     "citation": "Generative AI Responsible Use (SS-25-001), 1.7 Records Management and Public Access Compliance, p.4",
+     "shown_today": {
+      "via": "U_CONSEQUENCES",
+      "kind": "topic",
+      "when": "always"
+     }
+    }
+   ],
+   "who_decides_status": "named",
+   "status_note": "GTA is named for oversight actions; which requirements the sentence covers is an open question.",
+   "channel": null,
+   "timing_as_written": null,
+   "conflicts": [],
+   "open_questions": [
+    "OQ18"
+   ],
+   "unresolved_references": []
+  }
+ ],
+ "excluded": [
+  "Reporting duties (incidents, misuse, development risks, inventories) are routes for information, not decisions; see next_steps_scan.md.",
+  "The guiding-principle items and GS-25-002 name no decider for any step.",
+  "Roles, bodies and documents outside the seven documents (for example SM-14-008, the State CTO, EPMO, DOAS, OPB, an Executive Decision-Making Board) are not included."
+ ]
+}

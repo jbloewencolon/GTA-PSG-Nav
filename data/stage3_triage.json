@@ -1,0 +1,3735 @@
+{
+ "title": "GTA AI policy triage",
+ "source_map": "stage2_map.json",
+ "questions": [
+  {
+   "id": "Q_TYPE",
+   "fact_id": "F_TYPE",
+   "text": "What kind of AI is it?",
+   "help_text": "SS-25-001 defines generative AI as “tools or systems used to create models that can generate new and original content, such as images, music, or text, based on patterns and examples from existing data.” SS-23-002 also defines machine learning and deep learning. None of the documents mentions AI agents; they are grouped with “Other AI”, but if an agent creates new content, choose Generative AI. If you are asking about something with no AI in it, such as an ordinary cloud application, choose “It does not use AI”.",
+   "ask_if": "always",
+   "ask_if_reason": null,
+   "options": [
+    {
+     "label": "Generative AI that writes, summarizes, or creates images, audio or video (for example ChatGPT, Gemini, Claude or Copilot)",
+     "sets_fact": {
+      "F_TYPE": "generative"
+     },
+     "next": "Q_TASK"
+    },
+    {
+     "label": "Other AI that predicts, classifies, scores or recommends without creating new content (for example machine learning or deep learning), or an AI agent that carries out tasks or takes actions on its own",
+     "sets_fact": {
+      "F_TYPE": "other"
+     },
+     "next": "Q_TASK"
+    },
+    {
+     "label": "It does not use AI",
+     "sets_fact": {
+      "F_TYPE": "none"
+     },
+     "next": "Q_TASK"
+    },
+    {
+     "label": "Not sure",
+     "sets_fact": {
+      "F_TYPE": "not_sure"
+     },
+     "next": "Q_TASK",
+     "not_sure": true,
+     "confirm_pointer": "Treated as generative AI, which shows every provision that could apply. The documents name no contact for this question; ask your agency."
+    }
+   ]
+  },
+  {
+   "id": "Q_TASK",
+   "fact_id": "F_TASK",
+   "text": "What best describes what you are using the generative AI tool for this time?",
+   "help_text": "“Generative AI” means tools “that can generate new and original content, such as images, music, or text” (SS-25-001), for example ChatGPT, Gemini, Claude or Copilot.",
+   "ask_if": {
+    "F_TYPE": [
+     "generative",
+     "not_sure"
+    ]
+   },
+   "ask_if_reason": "On the 'other AI' branch every element this answer activates holds only generative-AI provisions (ai_type_rule), so it cannot change the result.",
+   "options": [
+    {
+     "label": "Summarizing or drafting internal documents (meeting notes, memos, internal summaries)",
+     "sets_fact": {
+      "F_TASK": "internal_summaries"
+     },
+     "next": "Q_PRODUCT"
+    },
+    {
+     "label": "Looking up or gathering information on a topic",
+     "sets_fact": {
+      "F_TASK": "research"
+     },
+     "next": "Q_PRODUCT"
+    },
+    {
+     "label": "Writing for the public (website, email to the public, social media, press)",
+     "sets_fact": {
+      "F_TASK": "public_comms"
+     },
+     "next": "Q_PRODUCT"
+    },
+    {
+     "label": "Writing, reviewing or documenting code",
+     "sets_fact": {
+      "F_TASK": "coding"
+     },
+     "next": "Q_PRODUCT"
+    },
+    {
+     "label": "Analyzing data or producing reports from data",
+     "sets_fact": {
+      "F_TASK": "data_analysis"
+     },
+     "next": "Q_PRODUCT"
+    },
+    {
+     "label": "Drafting policy language or summarizing research for policy",
+     "sets_fact": {
+      "F_TASK": "policy_drafting"
+     },
+     "next": "Q_PRODUCT"
+    },
+    {
+     "label": "Creating education or training materials",
+     "sets_fact": {
+      "F_TASK": "education_training"
+     },
+     "next": "Q_PRODUCT"
+    },
+    {
+     "label": "A chatbot or other tool that members of the public interact with",
+     "sets_fact": {
+      "F_TASK": "chatbot_public"
+     },
+     "next": "Q_PRODUCT"
+    },
+    {
+     "label": "A chatbot or other tool used only by state staff",
+     "sets_fact": {
+      "F_TASK": "chatbot_internal"
+     },
+     "next": "Q_PRODUCT"
+    },
+    {
+     "label": "Generating images, audio or video",
+     "sets_fact": {
+      "F_TASK": "media"
+     },
+     "next": "Q_PRODUCT"
+    },
+    {
+     "label": "Translation, captioning or accessibility",
+     "sets_fact": {
+      "F_TASK": "translation"
+     },
+     "next": "Q_PRODUCT"
+    },
+    {
+     "label": "Legal or regulatory analysis",
+     "sets_fact": {
+      "F_TASK": "legal"
+     },
+     "next": "Q_PRODUCT"
+    },
+    {
+     "label": "Brainstorming ideas, or checking grammar and formatting",
+     "sets_fact": {
+      "F_TASK": "content"
+     },
+     "next": "Q_PRODUCT"
+    },
+    {
+     "label": "Recording, transcribing or taking notes in a virtual meeting",
+     "sets_fact": {
+      "F_TASK": "meetings"
+     },
+     "next": "Q_PRODUCT"
+    },
+    {
+     "label": "Something else",
+     "sets_fact": {
+      "F_TASK": "other"
+     },
+     "next": "Q_PRODUCT"
+    },
+    {
+     "label": "Not sure",
+     "sets_fact": {
+      "F_TASK": "not_sure"
+     },
+     "next": "Q_PRODUCT",
+     "not_sure": true,
+     "confirm_pointer": "Treated as if any of the listed tasks could apply. To confirm, ask your agency: SS-25-001 (3.0, p.6) says “Agencies should conduct their own risk assessments and consult with the Georgia Technology Authority (GTA) Office of Artificial Intelligence for novel, high-risk, or ambiguous use cases not represented here.”"
+    }
+   ]
+  },
+  {
+   "id": "Q_PRODUCT",
+   "fact_id": "F_PRODUCT",
+   "text": "Will anything the AI wrote or came up with appear in what you finally produce?",
+   "help_text": "GS-25-001 counts AI content as part of your product “when a substantial portion of the content is featured in the final product, even if the user extensively edits it.” If it only helped you develop your own content and ideas, answer No. The documents give “an email” as the example of an informal document and do not define “more official documents”.",
+   "ask_if": {
+    "F_TYPE": [
+     "generative",
+     "not_sure"
+    ]
+   },
+   "ask_if_reason": "On the 'other AI' branch every element this answer activates holds only generative-AI provisions (ai_type_rule), so it cannot change the result.",
+   "options": [
+    {
+     "label": "No, it only helped me develop my own content and ideas",
+     "sets_fact": {
+      "F_PRODUCT": "none"
+     },
+     "next": "Q_ROLE"
+    },
+    {
+     "label": "Yes, in an informal document like an email",
+     "sets_fact": {
+      "F_PRODUCT": "informal"
+     },
+     "next": "Q_ROLE"
+    },
+    {
+     "label": "Yes, in something more official than that",
+     "sets_fact": {
+      "F_PRODUCT": "official"
+     },
+     "next": "Q_ROLE"
+    },
+    {
+     "label": "Not sure",
+     "sets_fact": {
+      "F_PRODUCT": "not_sure"
+     },
+     "next": "Q_ROLE",
+     "not_sure": true,
+     "confirm_pointer": "Treated as if AI content appears in a more official document. To confirm, see GS-25-001, How to Properly Cite AI-Generated Content, p.9; the documents name no contact for citation questions, so ask your agency."
+    }
+   ]
+  },
+  {
+   "id": "Q_ROLE",
+   "fact_id": "F_ROLE",
+   "text": "Besides using the tool yourself, are you also helping to buy an AI tool or to build one?",
+   "help_text": "Buying includes licensing, contracting, an RFP, or a paid or premium version. Building includes configuring, piloting or deploying an AI tool, or developing one with an outside partner.",
+   "ask_if": {
+    "F_TYPE": [
+     "generative",
+     "other",
+     "not_sure"
+    ]
+   },
+   "ask_if_reason": "Not asked when the tool does not use AI: nothing is shown then.",
+   "options": [
+    {
+     "label": "No, I only use the tool",
+     "sets_fact": {
+      "F_ROLE": "use_only"
+     },
+     "next": "Q_DATA"
+    },
+    {
+     "label": "Yes, buying, licensing or contracting (including an RFP or a paid version)",
+     "sets_fact": {
+      "F_ROLE": "procure"
+     },
+     "next": "Q_DATA"
+    },
+    {
+     "label": "Yes, building, configuring, piloting or deploying, or developing with an outside partner",
+     "sets_fact": {
+      "F_ROLE": "build"
+     },
+     "next": "Q_DATA"
+    },
+    {
+     "label": "Both buying and building",
+     "sets_fact": {
+      "F_ROLE": "both"
+     },
+     "next": "Q_DATA"
+    },
+    {
+     "label": "Not sure",
+     "sets_fact": {
+      "F_ROLE": "not_sure"
+     },
+     "next": "Q_DATA",
+     "not_sure": true,
+     "confirm_pointer": "Treated as if you are both buying and building. To confirm, ask your agency: PS-23-001 (Policy, p.3) says “Agencies shall submit all software, applications, tools, and services utilizing AI for business operations to GTA for review prior to procurement.”"
+    }
+   ]
+  },
+  {
+   "id": "Q_DATA",
+   "fact_id": "F_DATA",
+   "text": "Will you type, paste or upload into the tool any information about identifiable people, health information, personal records, or confidential or private state information?",
+   "help_text": "The documents speak of “Personally identifiable information (PII), protected health information (PHI), or other regulated data”, “confidential or private state information, or personal records”, and give “biometrics and financial data” as examples. They do not define these terms.",
+   "ask_if": {
+    "F_TYPE": [
+     "generative",
+     "other",
+     "not_sure"
+    ]
+   },
+   "ask_if_reason": "Not asked when the tool does not use AI: nothing is shown then.",
+   "options": [
+    {
+     "label": "Yes",
+     "sets_fact": {
+      "F_DATA": "yes"
+     },
+     "next": "Q_HOST"
+    },
+    {
+     "label": "No, only publicly available or non-sensitive information",
+     "sets_fact": {
+      "F_DATA": "no"
+     },
+     "next": "Q_HOST"
+    },
+    {
+     "label": "Not sure",
+     "sets_fact": {
+      "F_DATA": "not_sure"
+     },
+     "next": "Q_HOST",
+     "not_sure": true,
+     "confirm_pointer": "Treated as if you will enter such information. To confirm: GS-25-001 (p.2) says employees “should first consult with their department's data privacy officer or designated compliance authority to clarify.”"
+    }
+   ]
+  },
+  {
+   "id": "Q_HOST",
+   "fact_id": "F_HOST",
+   "text": "Are you the host of the virtual meeting?",
+   "help_text": "The host is the person running the meeting, who admits participants.",
+   "ask_if": {
+    "F_TASK": [
+     "meetings",
+     "not_sure"
+    ],
+    "F_TYPE": [
+     "generative",
+     "not_sure"
+    ]
+   },
+   "ask_if_reason": "Only the meeting-host element depends on this answer, and it requires the meetings task (or Not sure).",
+   "options": [
+    {
+     "label": "Yes, I am the host",
+     "sets_fact": {
+      "F_HOST": "host"
+     },
+     "next": "Q_DECISION"
+    },
+    {
+     "label": "No, I am a participant",
+     "sets_fact": {
+      "F_HOST": "participant"
+     },
+     "next": "Q_DECISION"
+    },
+    {
+     "label": "Not sure",
+     "sets_fact": {
+      "F_HOST": "not_sure"
+     },
+     "next": "Q_DECISION",
+     "not_sure": true,
+     "confirm_pointer": "Treated as if you are the host. The documents name no contact for this; ask your agency."
+    }
+   ]
+  },
+  {
+   "id": "Q_DECISION",
+   "fact_id": "F_DECISION",
+   "text": "Will what the AI produces be used to make, or help make, a decision about a specific person?",
+   "help_text": "Examples the documents name: hiring, legal, disciplinary or eligibility decisions, and assessing employee performance. SS-25-001 calls a use high-risk when it has “potential impact on legal rights, access to benefits, public safety, or public trust.”",
+   "ask_if": {
+    "F_TASK": [
+     "internal_summaries",
+     "research",
+     "public_comms",
+     "coding",
+     "data_analysis",
+     "chatbot_public",
+     "chatbot_internal",
+     "media",
+     "translation",
+     "legal",
+     "content",
+     "meetings",
+     "other"
+    ],
+    "F_TYPE": [
+     "generative",
+     "not_sure"
+    ]
+   },
+   "ask_if_reason": "Skipped when the task is policy drafting, education and training, or Not sure: those answers already activate the decisions-about-people element and its pointer, which are all this question can affect.",
+   "options": [
+    {
+     "label": "Yes",
+     "sets_fact": {
+      "F_DECISION": "yes"
+     },
+     "next": "END"
+    },
+    {
+     "label": "No",
+     "sets_fact": {
+      "F_DECISION": "no"
+     },
+     "next": "END"
+    },
+    {
+     "label": "Not sure",
+     "sets_fact": {
+      "F_DECISION": "not_sure"
+     },
+     "next": "END",
+     "not_sure": true,
+     "confirm_pointer": "Treated as if the output feeds a decision about a person. To confirm, ask your agency: SS-25-001 (3.0, p.6) says agencies should “consult with the Georgia Technology Authority (GTA) Office of Artificial Intelligence for novel, high-risk, or ambiguous use cases”."
+    }
+   ]
+  }
+ ],
+ "outcomes": {
+  "scope_gate": {
+   "when": [
+    {
+     "F_TYPE": [
+      "none"
+     ]
+    }
+   ],
+   "outcome": {
+    "text": "Every document in this set is about artificial intelligence, so none of their provisions apply to technology that does not use AI. This tool has no results for it.",
+    "citations": [
+     "Definition of 'Artificial Intelligence': Generative AI Responsible Use (SS-25-001), Terms and Definitions, p.1: “machine-based system that can, for a given set of human-defined objectives, make predictions, recommendations or decisions influencing real or virtual environments.”"
+    ],
+    "unresolved_references": [
+     "UR02",
+     "UR03"
+    ],
+    "unresolved_note": "The documents cite other GTA policies that are not in this set, including PM-04-001 and PS-08-005 (unresolved references UR02, UR03). This tool does not describe them."
+   }
+  },
+  "type_rule": {
+   "rule": "When F_TYPE is 'other', a provision is shown only if it is in other_ai_reaches; an element or pointer with no such provision is not shown, and a statement shows only those provisions. For every other F_TYPE value all provisions are in scope. When F_TYPE is 'none', nothing is shown except not_ai_outcome.",
+   "when_other": [
+    {
+     "F_TYPE": [
+      "other"
+     ]
+    }
+   ]
+  },
+  "type_notes": [
+   {
+    "id": "NOTE_OTHER_AI",
+    "when": [
+     {
+      "F_TYPE": [
+       "other"
+      ]
+     }
+    ],
+    "note": {
+     "text": "The two 2025 documents say they cover generative AI: SS-25-001 says “State government employees shall follow this standard when using commercial GenAI solutions” and GS-25-001 says “These guidelines apply to all forms of generative AI”. This result shows only provisions from the five documents that cover AI in general, plus one GS-25-001 provision that names “other automated decision-making systems”. Whether other provisions in the 2025 documents reach non-generative AI is open question OQ27. None of the seven documents mentions AI agents (OQ28). The documents define generative AI as “tools or systems used to create models that can generate new and original content, such as images, music, or text, based on patterns and examples from existing data”; if your agent creates content like that, choose Generative AI instead.",
+     "citations": [
+      "SS-25-001-STD-2: Generative AI Responsible Use (SS-25-001), Standard (opening paragraphs, before section 1), p.2",
+      "GS-25-001-PURPOSE-2: Generative AI Guidelines for Responsible Use (GS-25-001), Purpose, p.1",
+      "GS-25-001-SAFE-8: Generative AI Guidelines for Responsible Use (GS-25-001), Guidelines > Use AI Tools Safely and Properly, p.2",
+      "Definition of 'Generative AI (GenAI)': Generative AI Responsible Use (SS-25-001), Terms and Definitions, p.1: “tools or systems used to create models that can generate new and original content, such as images, music, or text, based on patterns and examples from existing data.”"
+     ]
+    }
+   }
+  ],
+  "assembly_rule": "If 'scope_gate' matches, the outcome is only its 'outcome' text. Otherwise an outcome is the 'always' block, plus every block in 'blocks' and every pointer in 'conditional_pointers' whose 'when' condition matches the facts set on the path, plus the closing line. A 'when' condition is a list of alternatives; an alternative matches when every fact it names has one of the listed values. A fact that was not asked on the path matches nothing. When 'type_rule.when_other' matches, each element uses 'other_ai_statements' instead of 'statements' and each pointer uses 'other_ai_as_written' instead of 'as_written'; an element with no other_ai_statements, or a pointer whose other_ai_as_written is null, is not shown. Every 'type_notes' entry whose 'when' matches is shown before the results.",
+  "always": {
+   "umbrella_elements": [
+    {
+     "id": "U_SCOPE",
+     "title": "What these documents cover and who is to follow them",
+     "tier": "umbrella",
+     "statements": [
+      {
+       "modality": "must",
+       "modal_as_written": [
+        "shall"
+       ],
+       "summary": "SS-25-001 says: “State government employees shall follow this standard when using commercial GenAI solutions such as OpenAI's ChatGPT, Google's Gemini, Anthropic's Claude, or Microsoft's Copilot.”",
+       "citations": [
+        "Generative AI Responsible Use (SS-25-001), Standard (opening paragraphs, before section 1), p.2"
+       ],
+       "provision_ids": [
+        "SS-25-001-STD-2"
+       ]
+      },
+      {
+       "modality": "informational",
+       "modal_as_written": [
+        "it is important to",
+        "none"
+       ],
+       "summary": "SS-25-001's requirements “apply to all GenAI systems and services used within the State of Georgia’s executive branch agencies”, GS-25-001's guidelines “apply to all forms of generative AI”, and SS-25-001's use-case table is a non-exhaustive set of examples.",
+       "citations": [
+        "Generative AI Responsible Use (SS-25-001), Purpose, p.1",
+        "Generative AI Responsible Use (SS-25-001), Standard (opening paragraphs, before section 1), p.2",
+        "Generative AI Responsible Use (SS-25-001), 3.0 Common Gen AI Use Cases (text above and below the table), p.6",
+        "Generative AI Guidelines for Responsible Use (GS-25-001), Purpose, p.1",
+        "Enterprise Artificial Intelligence Responsible Use (PS-23-001), Purpose, p.1",
+        "Artificial Intelligence Responsible Use (SS-23-002), Purpose, p.1"
+       ],
+       "provision_ids": [
+        "SS-25-001-PURPOSE-1",
+        "SS-25-001-STD-1",
+        "SS-25-001-3.0-1",
+        "SS-25-001-3.0-2",
+        "SS-25-001-3.0-3",
+        "GS-25-001-PURPOSE-1",
+        "GS-25-001-PURPOSE-2",
+        "PS-23-001-PURPOSE-1",
+        "PS-23-001-PURPOSE-2",
+        "SS-23-002-PURPOSE-1"
+       ]
+      }
+     ],
+     "other_ai_statements": [
+      {
+       "modality": "informational",
+       "summary": "PS-23-001 says: “This policy is designed to promote the acceptable use of AI tools, while also minimizing the potential for intentional or unintentional misuse, unethical outcomes, potential biases, use of sensitive data, and information security breaches.”; PS-23-001 says: “addresses the use of artificial intelligence tools in government operations, especially as it pertains to using sensitive data and state information within these tools”; SS-23-002 says: “It also delineates the protocols for the deployment of AI, Generative AI, Deep Learning, and Machine Learning tools within government services and operations, with special emphasis on their utilization in conjunction with sensitive data and state information.”",
+       "citations": [
+        "Enterprise Artificial Intelligence Responsible Use (PS-23-001), Purpose, p.1",
+        "Artificial Intelligence Responsible Use (SS-23-002), Purpose, p.1"
+       ],
+       "provision_ids": [
+        "PS-23-001-PURPOSE-1",
+        "PS-23-001-PURPOSE-2",
+        "SS-23-002-PURPOSE-1"
+       ]
+      }
+     ],
+     "conflicts": [
+      {
+       "id": "C01",
+       "plain": "The 2025 generative AI document labels itself both a policy (PS-25-001) and a standard (SS-25-001); the documents do not settle which it is."
+      }
+     ],
+     "open_questions": [
+      {
+       "id": "OQ01",
+       "plain": "Are the 2023 documents (PS-23-001, SS-23-002, GS-23-001) still in force alongside the 2025 documents for generative AI use, and which governs where they differ?"
+      },
+      {
+       "id": "OQ02",
+       "plain": "Is 'Generative AI Responsible Use' a policy or a standard, and is its identifier PS-25-001 or SS-25-001?"
+      },
+      {
+       "id": "OQ03",
+       "plain": "Do provisions addressed to 'Agencies' or written in the passive voice bind the individual employee?"
+      },
+      {
+       "id": "OQ04",
+       "plain": "Who counts as a 'state employee', 'State government employee' or 'agency personnel', and does the 'Agency' definition limit which employees are covered?"
+      },
+      {
+       "id": "OQ06",
+       "plain": "Convention used for provisions that have no modal verb; reviewer to confirm or re-map."
+      },
+      {
+       "id": "OQ27",
+       "plain": "Do provisions in SS-25-001 and GS-25-001 that say 'AI' rather than 'GenAI' reach non-generative AI?"
+      },
+      {
+       "id": "OQ28",
+       "plain": "Is an AI agent 'Generative AI' under the documents' definition?"
+      },
+      {
+       "id": "OQ29",
+       "plain": "Does PS-23-001 reach non-generative AI tools, given that its own definition of 'Artificial Intelligence' uses the generative-content wording?"
+      }
+     ]
+    },
+    {
+     "id": "U_PRINCIPLES",
+     "title": "The 5 Guiding Principles",
+     "tier": "umbrella",
+     "statements": [
+      {
+       "modality": "should",
+       "modal_as_written": [
+        "should"
+       ],
+       "summary": "GS-25-001 says: “When engaging with generative AI, all state employees should abide by the 5 Guiding Principles” (Implement Responsible Systems; Ensure Ethical and Fair Use of Automated Decisions; Maintain Data Quality and Privacy; Keep AI Usage Transparent; Keep Human Involvement at the Center).",
+       "citations": [
+        "Generative AI Guidelines for Responsible Use (GS-25-001), Purpose, p.1"
+       ],
+       "provision_ids": [
+        "GS-25-001-PURPOSE-3"
+       ]
+      }
+     ],
+     "other_ai_statements": [],
+     "conflicts": [
+      {
+       "id": "C11",
+       "plain": "The 2023 guideline words some human-involvement principles with 'shall' or 'must'; the later wording of the same principles uses 'should'."
+      }
+     ],
+     "open_questions": [
+      {
+       "id": "OQ05",
+       "plain": "What force do 'must', 'shall' and 'is required' carry inside documents labeled guidelines?"
+      },
+      {
+       "id": "OQ14",
+       "plain": "Do the 5 Guiding Principles apply to an individual employee's routine use of a GenAI tool?"
+      },
+      {
+       "id": "OQ15",
+       "plain": "Which version of the guiding principles is current?"
+      },
+      {
+       "id": "OQ21",
+       "plain": "Are the guiding-principle items out of scope for an individual employee, or do they bind employees because GS-25-001 says employees 'should abide by' them?"
+      }
+     ]
+    },
+    {
+     "id": "U_APPROVED_TOOLS",
+     "title": "Use AI tools GTA has vetted",
+     "tier": "umbrella",
+     "statements": [
+      {
+       "modality": "should",
+       "modal_as_written": [
+        "are encouraged to",
+        "should"
+       ],
+       "summary": "“State employees should only use AI which GTA has vetted, with pre-approved vendors”, and “Employees are encouraged to consult with GTA regularly for updates and to verify they are using compliant versions of AI tools.”",
+       "citations": [
+        "Generative AI Guidelines for Responsible Use (GS-25-001), Guidelines > Use AI Tools Safely and Properly, p.1",
+        "Generative AI Guidelines for Responsible Use (GS-25-001), Guidelines > Use AI Tools Safely and Properly, p.2"
+       ],
+       "provision_ids": [
+        "GS-25-001-SAFE-1",
+        "GS-25-001-SAFE-4"
+       ]
+      },
+      {
+       "modality": "may",
+       "modal_as_written": [
+        "can be requested"
+       ],
+       "summary": "“Conditional Approval for specific use cases of GenAI tools can be requested via ai.georgia.gov or email ai@gta.georgia.gov.”",
+       "citations": [
+        "Generative AI Responsible Use (SS-25-001), 3.0 Common Gen AI Use Cases (sentence below the table), p.8"
+       ],
+       "provision_ids": [
+        "SS-25-001-3.0-APPROVAL-1"
+       ]
+      },
+      {
+       "modality": "informational",
+       "modal_as_written": [
+        "none"
+       ],
+       "summary": "Approval of one version of an AI model “does not necessarily imply that other versions of that same model are also approved”, and “an approved AI model can always have its approval revoked”.",
+       "citations": [
+        "Generative AI Guidelines for Responsible Use (GS-25-001), Guidelines > Use AI Tools Safely and Properly, p.1",
+        "Generative AI Guidelines for Responsible Use (GS-25-001), Guidelines > Use AI Tools Safely and Properly, p.2"
+       ],
+       "provision_ids": [
+        "GS-25-001-SAFE-2",
+        "GS-25-001-SAFE-3"
+       ]
+      }
+     ],
+     "other_ai_statements": [],
+     "conflicts": [],
+     "open_questions": [
+      {
+       "id": "OQ07",
+       "plain": "May an employee use a free or individually obtained GenAI tool, and are ChatGPT, Gemini, Claude and Copilot approved?"
+      },
+      {
+       "id": "OQ10",
+       "plain": "What is the status of the 'Conditional' column in the SS-25-001 use-case table, and when is 'Conditional Approval' needed?"
+      },
+      {
+       "id": "OQ27",
+       "plain": "Do provisions in SS-25-001 and GS-25-001 that say 'AI' rather than 'GenAI' reach non-generative AI?"
+      }
+     ]
+    },
+    {
+     "id": "U_CREDENTIALS",
+     "title": "Sign in with your state-issued account",
+     "tier": "umbrella",
+     "statements": [
+      {
+       "modality": "must",
+       "modal_as_written": [
+        "shall"
+       ],
+       "summary": "“All agency personnel shall use state-issued credentials (email and authentication accounts) when signing up for or using GenAI tools for state business.”",
+       "citations": [
+        "Generative AI Responsible Use (SS-25-001), 1.4 Approved Use of State Credentials, p.3"
+       ],
+       "provision_ids": [
+        "SS-25-001-1.4-1"
+       ]
+      },
+      {
+       "modality": "must_not",
+       "modal_as_written": [
+        "is prohibited unless"
+       ],
+       "summary": "“The use of personal email addresses for such access is prohibited unless specifically authorized by the agency’s technology leadership.”",
+       "citations": [
+        "Generative AI Responsible Use (SS-25-001), 1.4 Approved Use of State Credentials, p.3"
+       ],
+       "provision_ids": [
+        "SS-25-001-1.4-2"
+       ]
+      },
+      {
+       "modality": "should",
+       "modal_as_written": [
+        "avoid (imperative)",
+        "imperative (no modal verb)"
+       ],
+       "summary": "GS-25-001 gives these instructions without a modal verb: “avoid using personal accounts, such as personal email addresses, within any software”, “Keep personal and work materials separate”, and “create an account using your work email specifically for GenAI materials”.",
+       "citations": [
+        "Generative AI Guidelines for Responsible Use (GS-25-001), Guidelines > Use AI Tools Safely and Properly, p.2",
+        "Generative AI Guidelines for Responsible Use (GS-25-001), Guidelines > Strategies for Data Privacy and AI, p.4"
+       ],
+       "provision_ids": [
+        "GS-25-001-SAFE-17",
+        "GS-25-001-STRAT-1",
+        "GS-25-001-STRAT-2"
+       ]
+      }
+     ],
+     "other_ai_statements": [],
+     "conflicts": [
+      {
+       "id": "C05",
+       "plain": "SS-25-001 prohibits personal email addresses unless the agency's technology leadership authorizes it; GS-25-001 says to avoid personal accounts and states no exception."
+      }
+     ],
+     "open_questions": [
+      {
+       "id": "OQ04",
+       "plain": "Who counts as a 'state employee', 'State government employee' or 'agency personnel', and does the 'Agency' definition limit which employees are covered?"
+      },
+      {
+       "id": "OQ09",
+       "plain": "What do the undefined trigger terms mean: 'official capacity', 'moderate-risk use case', 'sensitive data', 'regulated data', 'confidential information', 'state business', 'significant incidents'?"
+      },
+      {
+       "id": "OQ25",
+       "plain": "Should 'for state business' and 'used in any official capacity' be separate questions?"
+      },
+      {
+       "id": "OQ27",
+       "plain": "Do provisions in SS-25-001 and GS-25-001 that say 'AI' rather than 'GenAI' reach non-generative AI?"
+      }
+     ]
+    },
+    {
+     "id": "U_REVIEW",
+     "title": "Review and verify what the AI produces",
+     "tier": "umbrella",
+     "statements": [
+      {
+       "modality": "must",
+       "modal_as_written": [
+        "must (earlier in same sentence)",
+        "shall"
+       ],
+       "summary": "“All GenAI-generated content—whether text, code, summaries, or other media—shall be reviewed and validated by qualified personnel before being used in any official capacity” (SS-25-001), and all AI-generated content must be “double-checked to ensure it is free of inaccurate information, AI hallucinations, or bias” (GS-25-001).",
+       "citations": [
+        "Generative AI Responsible Use (SS-25-001), 1. Human Review and Validation, p.2",
+        "Generative AI Guidelines for Responsible Use (GS-25-001), Guidelines > Do Not Put Private Data at Risk, p.4"
+       ],
+       "provision_ids": [
+        "SS-25-001-1-1",
+        "GS-25-001-PRIV-4"
+       ]
+      },
+      {
+       "modality": "should",
+       "modal_as_written": [
+        "imperative (no modal verb)",
+        "should"
+       ],
+       "summary": "“employees should apply careful review methods”; GS-25-001 also instructs, without a modal verb, “For any fact provided by an AI, find a reliable source that corroborates it”, “Carefully review AI-generated content for accuracy”, and “Cross-check information with reliable sources”.",
+       "citations": [
+        "Generative AI Guidelines for Responsible Use (GS-25-001), Guidelines > Use AI Tools Safely and Properly, p.2",
+        "Generative AI Guidelines for Responsible Use (GS-25-001), Mitigating the Risks of Generative AI: Rubric, p.10"
+       ],
+       "provision_ids": [
+        "GS-25-001-SAFE-6",
+        "GS-25-001-SAFE-12",
+        "GS-25-001-RUBRIC-4",
+        "GS-25-001-RUBRIC-5"
+       ]
+      },
+      {
+       "modality": "informational",
+       "modal_as_written": [
+        "none"
+       ],
+       "summary": "The reviews are “to detect inaccuracies, biases, or inappropriate content”, and review “includes cross-checking AI outputs with trusted sources, verifying the accuracy of information, and assessing for possible biases or inaccuracies”.",
+       "citations": [
+        "Generative AI Responsible Use (SS-25-001), 1. Human Review and Validation, p.2",
+        "Generative AI Guidelines for Responsible Use (GS-25-001), Guidelines > Use AI Tools Safely and Properly, p.2"
+       ],
+       "provision_ids": [
+        "SS-25-001-1-3",
+        "GS-25-001-SAFE-7"
+       ]
+      }
+     ],
+     "other_ai_statements": [],
+     "conflicts": [
+      {
+       "id": "C13",
+       "plain": "SS-25-001 says review is by 'qualified personnel' before use 'in any official capacity'; SS-23-002 says agencies ensure review and approval 'by the business owner or designated personnel' before content is 'published or used for decision-making'."
+      }
+     ],
+     "open_questions": [
+      {
+       "id": "OQ09",
+       "plain": "What do the undefined trigger terms mean: 'official capacity', 'moderate-risk use case', 'sensitive data', 'regulated data', 'confidential information', 'state business', 'significant incidents'?"
+      },
+      {
+       "id": "OQ25",
+       "plain": "Should 'for state business' and 'used in any official capacity' be separate questions?"
+      },
+      {
+       "id": "OQ27",
+       "plain": "Do provisions in SS-25-001 and GS-25-001 that say 'AI' rather than 'GenAI' reach non-generative AI?"
+      }
+     ]
+    },
+    {
+     "id": "U_HUMAN",
+     "title": "Keep a human in charge and use judgment",
+     "tier": "umbrella",
+     "statements": [
+      {
+       "modality": "should",
+       "modal_as_written": [
+        "imperative (no modal verb)",
+        "should",
+        "should never",
+        "should not"
+       ],
+       "summary": "AI tools “should not be the only agents involved in any decision-making” and “AI should never have autonomous decision-making capabilities”; “Employees should use common sense and exercise caution in deciding whether AI is right for a given task”; “Users should be aware of how AI contributes to outcomes and that humans remain responsible for those outcomes”; the rubric also instructs, without a modal verb, that a human review “both the inputs to and outputs from the AI”.",
+       "citations": [
+        "Generative AI Guidelines for Responsible Use (GS-25-001), Guidelines > Use AI Tools Safely and Properly, p.2",
+        "Generative AI Guidelines for Responsible Use (GS-25-001), Guidelines > Use AI Tools Safely and Properly, p.3",
+        "Generative AI Guidelines for Responsible Use (GS-25-001), Mitigating the Risks of Generative AI: Rubric, p.10",
+        "Generative AI Guidelines for Responsible Use (GS-25-001), Guiding Principles > Keep Human Involvement at the Center, p.8",
+        "5 Guiding Principles (no identifier), Keep Human Involvement at the Center, p.9",
+        "Artificial Intelligence Responsible Use Guidelines (GS-23-001), V. Keep Human Involvement at the Center > 7. User Education, p.8"
+       ],
+       "provision_ids": [
+        "GS-25-001-SAFE-8",
+        "GS-25-001-SAFE-24",
+        "GS-25-001-RUBRIC-1",
+        "GS-25-001-RUBRIC-2",
+        "GS-25-001-RUBRIC-3",
+        "GS-25-001-GP-V-12",
+        "5GP-V-12",
+        "GS-23-001-V.7-2"
+       ]
+      }
+     ],
+     "other_ai_statements": [
+      {
+       "modality": "should",
+       "summary": "GS-25-001 says: “AI tools, including generative AI and other automated decision-making systems, should not be the only agents involved in any decision-making.”; 5 Guiding Principles says: “Users should be aware of how AI contributes to outcomes and that humans remain responsible for those outcomes.”; GS-23-001 says: “Users should be aware of how AI contributes to outcomes and that humans remain responsible for those outcomes.”",
+       "citations": [
+        "Generative AI Guidelines for Responsible Use (GS-25-001), Guidelines > Use AI Tools Safely and Properly, p.2",
+        "5 Guiding Principles (no identifier), Keep Human Involvement at the Center, p.9",
+        "Artificial Intelligence Responsible Use Guidelines (GS-23-001), V. Keep Human Involvement at the Center > 7. User Education, p.8"
+       ],
+       "provision_ids": [
+        "GS-25-001-SAFE-8",
+        "5GP-V-12",
+        "GS-23-001-V.7-2"
+       ]
+      }
+     ],
+     "conflicts": [],
+     "open_questions": [
+      {
+       "id": "OQ27",
+       "plain": "Do provisions in SS-25-001 and GS-25-001 that say 'AI' rather than 'GenAI' reach non-generative AI?"
+      },
+      {
+       "id": "OQ28",
+       "plain": "Is an AI agent 'Generative AI' under the documents' definition?"
+      }
+     ]
+    },
+    {
+     "id": "U_LABEL",
+     "title": "Label and cite AI-generated content",
+     "tier": "umbrella",
+     "statements": [
+      {
+       "modality": "must",
+       "modal_as_written": [
+        "must",
+        "shall"
+       ],
+       "summary": "“Any content generated or assisted by GenAI shall be clearly labeled” (SS-25-001), and “All AI-generated content – including text, images, videos, and audio – must be clearly labeled as AI-generated” (GS-25-001).",
+       "citations": [
+        "Generative AI Responsible Use (SS-25-001), 1.2 Disclosure and Attribution, p.3",
+        "Generative AI Guidelines for Responsible Use (GS-25-001), Guidelines > Do Not Put Private Data at Risk, p.4"
+       ],
+       "provision_ids": [
+        "SS-25-001-1.2-1",
+        "GS-25-001-PRIV-3"
+       ]
+      },
+      {
+       "modality": "should",
+       "modal_as_written": [
+        "should"
+       ],
+       "summary": "“Anything produced with the assistance of AI should be cited correctly”, and “AI should be cited when its content is used as a product rather than a tool”.",
+       "citations": [
+        "Generative AI Guidelines for Responsible Use (GS-25-001), Guidelines > Use AI Tools Safely and Properly, p.2",
+        "Generative AI Guidelines for Responsible Use (GS-25-001), How to Properly Cite AI-Generated Content, p.9"
+       ],
+       "provision_ids": [
+        "GS-25-001-SAFE-11",
+        "GS-25-001-CITE-2"
+       ]
+      },
+      {
+       "modality": "informational",
+       "modal_as_written": [
+        "can",
+        "none"
+       ],
+       "summary": "“AI-generated content is considered a product when a substantial portion of the content is featured in the final product, even if the user extensively edits it.”",
+       "citations": [
+        "Generative AI Guidelines for Responsible Use (GS-25-001), How to Properly Cite AI-Generated Content, p.9"
+       ],
+       "provision_ids": [
+        "GS-25-001-CITE-1",
+        "GS-25-001-CITE-3"
+       ]
+      }
+     ],
+     "other_ai_statements": [],
+     "conflicts": [
+      {
+       "id": "C06",
+       "plain": "SS-25-001 says any content 'generated or assisted by GenAI shall be clearly labeled'; GS-25-001 says citation 'isn't necessary' when AI only helped you generate your own content and ideas, yet elsewhere asks you to cite brainstormed and edited content."
+      }
+     ],
+     "open_questions": [
+      {
+       "id": "OQ05",
+       "plain": "What force do 'must', 'shall' and 'is required' carry inside documents labeled guidelines?"
+      },
+      {
+       "id": "OQ11",
+       "plain": "Does the SS-25-001 attribution requirement (tool name, prompt summary, reviewer identity) apply to every labeled item, including internal and informal content?"
+      },
+      {
+       "id": "OQ27",
+       "plain": "Do provisions in SS-25-001 and GS-25-001 that say 'AI' rather than 'GenAI' reach non-generative AI?"
+      }
+     ]
+    },
+    {
+     "id": "U_TRANSPARENCY",
+     "title": "Be open about your AI use",
+     "tier": "umbrella",
+     "statements": [
+      {
+       "modality": "should",
+       "modal_as_written": [
+        "imperative (no modal verb)",
+        "should"
+       ],
+       "summary": "“All state employees should be open and honest about their AI use” and “should rely on the honor system, openly disclosing AI usage without fear of severe repercussions”; GS-25-001 also instructs, without a modal verb, “Cite and acknowledge all AI-generated, brainstormed, or edited content” and “Clearly inform users when they are interacting with AI-generated content.”",
+       "citations": [
+        "Generative AI Guidelines for Responsible Use (GS-25-001), Guidelines > Use AI Tools Safely and Properly, p.3",
+        "Generative AI Guidelines for Responsible Use (GS-25-001), Guidelines > Do Not Put Private Data at Risk, p.4",
+        "Generative AI Guidelines for Responsible Use (GS-25-001), Mitigating the Risks of Generative AI: Rubric, p.10"
+       ],
+       "provision_ids": [
+        "GS-25-001-SAFE-19",
+        "GS-25-001-SAFE-20",
+        "GS-25-001-SAFE-21",
+        "GS-25-001-SAFE-22",
+        "GS-25-001-SAFE-23",
+        "GS-25-001-PRIV-2",
+        "GS-25-001-RUBRIC-10",
+        "GS-25-001-RUBRIC-11"
+       ]
+      },
+      {
+       "modality": "informational",
+       "modal_as_written": [
+        "none"
+       ],
+       "summary": "“The goal of these guidelines is to reduce the risk of employees using Shadow AI.”",
+       "citations": [
+        "Generative AI Guidelines for Responsible Use (GS-25-001), Guidelines > Do Not Put Private Data at Risk, p.4"
+       ],
+       "provision_ids": [
+        "GS-25-001-PRIV-1"
+       ]
+      }
+     ],
+     "other_ai_statements": [],
+     "conflicts": [
+      {
+       "id": "C06",
+       "plain": "SS-25-001 says any content 'generated or assisted by GenAI shall be clearly labeled'; GS-25-001 says citation 'isn't necessary' when AI only helped you generate your own content and ideas, yet elsewhere asks you to cite brainstormed and edited content."
+      }
+     ],
+     "open_questions": [
+      {
+       "id": "OQ27",
+       "plain": "Do provisions in SS-25-001 and GS-25-001 that say 'AI' rather than 'GenAI' reach non-generative AI?"
+      }
+     ]
+    },
+    {
+     "id": "U_RECORDS",
+     "title": "Keep a record of prompts and responses",
+     "tier": "umbrella",
+     "statements": [
+      {
+       "modality": "should",
+       "modal_as_written": [
+        "should"
+       ],
+       "summary": "“Employees should create a record of queries and responses outside of the generative AI software or platform for future reference.”",
+       "citations": [
+        "Generative AI Guidelines for Responsible Use (GS-25-001), Guidelines > Use AI Tools Safely and Properly, p.2"
+       ],
+       "provision_ids": [
+        "GS-25-001-SAFE-5"
+       ]
+      },
+      {
+       "modality": "informational",
+       "modal_as_written": [
+        "may be subject to (statement of possibility, not a permission)"
+       ],
+       "summary": "“GenAI-generated content used in official communications or policy-making may be subject to Georgia’s records retention schedules and open records laws.”",
+       "citations": [
+        "Generative AI Responsible Use (SS-25-001), 1.7 Records Management and Public Access Compliance, p.4"
+       ],
+       "provision_ids": [
+        "SS-25-001-1.7-1"
+       ]
+      }
+     ],
+     "other_ai_statements": [],
+     "conflicts": [
+      {
+       "id": "C12",
+       "plain": "GS-25-001 mentions 'regularly clearing chats' while other provisions call for keeping records of prompts and responses; the documents do not say how these fit together."
+      }
+     ],
+     "open_questions": []
+    },
+    {
+     "id": "U_DATA_CARE",
+     "title": "Protect data when you use AI tools",
+     "tier": "umbrella",
+     "statements": [
+      {
+       "modality": "must",
+       "modal_as_written": [
+        "shall (in lead-in)"
+       ],
+       "summary": "SS-25-001 says “The following safeguards shall be observed”, including “data minimization practices to avoid the inclusion of unnecessary sensitive information” and adherence to “encryption and access control requirements consistent with all applicable enterprise security policies and standards”.",
+       "citations": [
+        "Generative AI Responsible Use (SS-25-001), 1.3 Data Privacy and Confidentiality, p.3"
+       ],
+       "provision_ids": [
+        "SS-25-001-1.3-3",
+        "SS-25-001-1.3-4"
+       ]
+      },
+      {
+       "modality": "should",
+       "modal_as_written": [
+        "imperative (no modal verb)"
+       ],
+       "summary": "GS-25-001 instructs, without a modal verb: “Opt out of data collection on any tool you use, particularly those involving pictures” and “Protect all data used by AI systems from unauthorized access or breaches.”",
+       "citations": [
+        "Generative AI Guidelines for Responsible Use (GS-25-001), Guidelines > Strategies for Data Privacy and AI, p.4"
+       ],
+       "provision_ids": [
+        "GS-25-001-STRAT-3",
+        "GS-25-001-STRAT-4"
+       ]
+      },
+      {
+       "modality": "informational",
+       "modal_as_written": [
+        "none"
+       ],
+       "summary": "“Generative AI models use user-inputted information to further train their models”; protecting data “includes regularly changing passwords, minimizing data retention by regularly clearing chats, and conducting regular audits to ensure compliance”.",
+       "citations": [
+        "Generative AI Guidelines for Responsible Use (GS-25-001), Guidelines > Use AI Tools Safely and Properly, p.2",
+        "Generative AI Guidelines for Responsible Use (GS-25-001), Guidelines > Strategies for Data Privacy and AI, p.4"
+       ],
+       "provision_ids": [
+        "GS-25-001-SAFE-13",
+        "GS-25-001-STRAT-5"
+       ]
+      }
+     ],
+     "other_ai_statements": [],
+     "conflicts": [
+      {
+       "id": "C12",
+       "plain": "GS-25-001 mentions 'regularly clearing chats' while other provisions call for keeping records of prompts and responses; the documents do not say how these fit together."
+      }
+     ],
+     "open_questions": [
+      {
+       "id": "OQ09",
+       "plain": "What do the undefined trigger terms mean: 'official capacity', 'moderate-risk use case', 'sensitive data', 'regulated data', 'confidential information', 'state business', 'significant incidents'?"
+      },
+      {
+       "id": "OQ24",
+       "plain": "Should the data-entry prohibitions be shown to every employee rather than only to those who answer yes or not sure?"
+      },
+      {
+       "id": "OQ27",
+       "plain": "Do provisions in SS-25-001 and GS-25-001 that say 'AI' rather than 'GenAI' reach non-generative AI?"
+      }
+     ]
+    },
+    {
+     "id": "U_LAWS",
+     "title": "Stay within privacy and other laws",
+     "tier": "umbrella",
+     "statements": [
+      {
+       "modality": "must",
+       "modal_as_written": [
+        "must"
+       ],
+       "summary": "“The use of GenAI tools must be consistent with Georgia’s privacy laws, such as the Georgia Computer Data Privacy Act (GCDPA).”",
+       "citations": [
+        "Generative AI Guidelines for Responsible Use (GS-25-001), Guidelines > Strategies for Data Privacy and AI, p.4"
+       ],
+       "provision_ids": [
+        "GS-25-001-STRAT-7"
+       ]
+      },
+      {
+       "modality": "should",
+       "modal_as_written": [
+        "imperative (no modal verb)"
+       ],
+       "summary": "The rubric instructs, without a modal verb: “Ensure that all AI applications are fully compliant with relevant laws and regulations, both at the federal level, as well as those set forth by the State of Georgia.”",
+       "citations": [
+        "Generative AI Guidelines for Responsible Use (GS-25-001), Mitigating the Risks of Generative AI: Rubric, p.10"
+       ],
+       "provision_ids": [
+        "GS-25-001-RUBRIC-12"
+       ]
+      }
+     ],
+     "other_ai_statements": [],
+     "conflicts": [],
+     "open_questions": []
+    },
+    {
+     "id": "U_BIAS",
+     "title": "Watch for bias",
+     "tier": "umbrella",
+     "statements": [
+      {
+       "modality": "should",
+       "modal_as_written": [
+        "It is important to",
+        "imperative (no modal verb)"
+       ],
+       "summary": "“It is important to be aware of these types of biases in any work produced by AI and screen the work for bias before putting them into use”; GS-25-001 also instructs, without a modal verb, to word questions carefully, to consider whether a question “presupposes things that are not necessarily true”, and to “consult a third party or non-AI source before proceeding”.",
+       "citations": [
+        "Generative AI Guidelines for Responsible Use (GS-25-001), Guidelines > Beware of Bias, p.5",
+        "Generative AI Guidelines for Responsible Use (GS-25-001), Mitigating the Risks of Generative AI: Rubric, p.10"
+       ],
+       "provision_ids": [
+        "GS-25-001-BIAS-2",
+        "GS-25-001-BIAS-3",
+        "GS-25-001-BIAS-4",
+        "GS-25-001-BIAS-5",
+        "GS-25-001-RUBRIC-8",
+        "GS-25-001-RUBRIC-9"
+       ]
+      },
+      {
+       "modality": "informational",
+       "modal_as_written": [
+        "can"
+       ],
+       "summary": "“Generative AI models can inadvertently perpetuate biases”.",
+       "citations": [
+        "Generative AI Guidelines for Responsible Use (GS-25-001), Guidelines > Beware of Bias, p.4"
+       ],
+       "provision_ids": [
+        "GS-25-001-BIAS-1"
+       ]
+      }
+     ],
+     "other_ai_statements": [],
+     "conflicts": [],
+     "open_questions": [
+      {
+       "id": "OQ27",
+       "plain": "Do provisions in SS-25-001 and GS-25-001 that say 'AI' rather than 'GenAI' reach non-generative AI?"
+      }
+     ]
+    },
+    {
+     "id": "U_TRAINING",
+     "title": "Training",
+     "tier": "umbrella",
+     "statements": [
+      {
+       "modality": "must",
+       "modal_as_written": [
+        "shall",
+        "shall (in lead-in)"
+       ],
+       "summary": "“All users of AI systems shall undergo appropriate training to ensure the responsible and ethical use of these tools”, including “Being familiarized with this AI Usage Policy and any other relevant policies, guidelines, and best practices” and “Participating in regular training sessions and workshops”.",
+       "citations": [
+        "Artificial Intelligence Responsible Use (SS-23-002), 7. Training and Awareness, p.10"
+       ],
+       "provision_ids": [
+        "SS-23-002-7-1",
+        "SS-23-002-7-2",
+        "SS-23-002-7-3"
+       ]
+      }
+     ],
+     "other_ai_statements": [
+      {
+       "modality": "must",
+       "summary": "“All users of AI systems shall undergo appropriate training to ensure the responsible and ethical use of these tools”, including “Being familiarized with this AI Usage Policy and any other relevant policies, guidelines, and best practices” and “Participating in regular training sessions and workshops”.",
+       "citations": [
+        "Artificial Intelligence Responsible Use (SS-23-002), 7. Training and Awareness, p.10"
+       ],
+       "provision_ids": [
+        "SS-23-002-7-1",
+        "SS-23-002-7-2",
+        "SS-23-002-7-3"
+       ]
+      }
+     ],
+     "conflicts": [],
+     "open_questions": [
+      {
+       "id": "OQ20",
+       "plain": "Does SS-23-002's training requirement apply before an employee may use a GenAI tool, and what training satisfies it?"
+      },
+      {
+       "id": "OQ26",
+       "plain": "Is it acceptable that training (SS-23-002 section 7) is shown to every employee?"
+      }
+     ]
+    },
+    {
+     "id": "U_CONSEQUENCES",
+     "title": "What the documents say happens if they are not followed",
+     "tier": "umbrella",
+     "statements": [
+      {
+       "modality": "informational",
+       "modal_as_written": [
+        "may result in (consequence)",
+        "will be subject to (consequence)"
+       ],
+       "summary": "“Failure to follow these requirements may result in revocation of tool access and additional oversight actions by GTA” (SS-25-001); “Any state employee, contractor, or vendor found to violate this standard will be subject to disciplinary action, including but not limited to, termination of employment, contract, or agreement” (SS-23-002).",
+       "citations": [
+        "Generative AI Responsible Use (SS-25-001), 1.7 Records Management and Public Access Compliance, p.4",
+        "Artificial Intelligence Responsible Use (SS-23-002), 11. Violations, p.14"
+       ],
+       "provision_ids": [
+        "SS-25-001-1.7-5",
+        "SS-23-002-11-1"
+       ]
+      }
+     ],
+     "other_ai_statements": [
+      {
+       "modality": "informational",
+       "summary": "SS-23-002 says: “Any state employee, contractor, or vendor found to violate this standard will be subject to disciplinary action, including but not limited to, termination of employment, contract, or agreement.” [modal as written: will be subject to (consequence)]",
+       "citations": [
+        "Artificial Intelligence Responsible Use (SS-23-002), 11. Violations, p.14"
+       ],
+       "provision_ids": [
+        "SS-23-002-11-1"
+       ]
+      }
+     ],
+     "conflicts": [],
+     "open_questions": [
+      {
+       "id": "OQ18",
+       "plain": "What does 'these requirements' cover in the SS-25-001 enforcement sentence?"
+      }
+     ]
+    }
+   ],
+   "indirect_pointers": [
+    {
+     "id": "P_AGENCY_RESTRICTIONS",
+     "as_written": "“Agencies shall implement additional restrictions based on their specific needs”",
+     "employee_pointer": "Check with your agency whether it has additional restrictions on GenAI use. The documents do not name an office.",
+     "citations": [
+      "Generative AI Responsible Use (SS-25-001), Standard (opening paragraphs, before section 1), p.2"
+     ],
+     "provision_ids": [
+      "SS-25-001-STD-4",
+      "SS-25-001-STD-5"
+     ],
+     "other_ai_as_written": null,
+     "other_ai_citations": [],
+     "other_ai_provision_ids": [],
+     "conflicts": [],
+     "open_questions": [
+      {
+       "id": "OQ08",
+       "plain": "Does 'Agencies shall implement additional restrictions based on their specific needs' impose a duty or grant a permission?"
+      }
+     ]
+    },
+    {
+     "id": "P_ATTRIB_FORMAT",
+     "as_written": "“Agencies must use standardized attribution formats that include:” “Name of the GenAI tool used”; “Summary of the prompt or task”; “Identity of the staff who reviewed or edited the content”.",
+     "employee_pointer": "Check with your agency for its standardized attribution format. The documents do not name an office.",
+     "citations": [
+      "Generative AI Responsible Use (SS-25-001), 1.2 Disclosure and Attribution, p.3"
+     ],
+     "provision_ids": [
+      "SS-25-001-1.2-2",
+      "SS-25-001-1.2-3",
+      "SS-25-001-1.2-4",
+      "SS-25-001-1.2-5"
+     ],
+     "other_ai_as_written": null,
+     "other_ai_citations": [],
+     "other_ai_provision_ids": [],
+     "conflicts": [
+      {
+       "id": "C07",
+       "plain": "The two 2025 documents list different contents for an attribution: SS-25-001 lists tool name, prompt summary and reviewer identity; GS-25-001 lists model name, prompt, company and date."
+      }
+     ],
+     "open_questions": [
+      {
+       "id": "OQ11",
+       "plain": "Does the SS-25-001 attribution requirement (tool name, prompt summary, reviewer identity) apply to every labeled item, including internal and informal content?"
+      }
+     ]
+    },
+    {
+     "id": "P_AGENCY_GUIDELINES",
+     "as_written": "Agencies shall: “Ensure that AI-generated content is properly reviewed and approved by the business owner or designated personnel before it is published or used for decision-making.” and “Develop and implement guidelines for the responsible use of AI-generated outputs in different contexts and situations, tailored to the specific needs and requirements of the agency.”",
+     "employee_pointer": "Check with your agency for its own guidelines on using AI-generated outputs and for who reviews and approves AI-generated content (the standard says 'the business owner or designated personnel').",
+     "citations": [
+      "Artificial Intelligence Responsible Use (SS-23-002), 5. Ensuring Accuracy and Appropriateness of AI-generated Outputs, p.9"
+     ],
+     "provision_ids": [
+      "SS-23-002-5-4",
+      "SS-23-002-5-5"
+     ],
+     "other_ai_as_written": "Agencies shall: “Ensure that AI-generated content is properly reviewed and approved by the business owner or designated personnel before it is published or used for decision-making.” and “Develop and implement guidelines for the responsible use of AI-generated outputs in different contexts and situations, tailored to the specific needs and requirements of the agency.”",
+     "other_ai_citations": [
+      "Artificial Intelligence Responsible Use (SS-23-002), 5. Ensuring Accuracy and Appropriateness of AI-generated Outputs, p.9"
+     ],
+     "other_ai_provision_ids": [
+      "SS-23-002-5-4",
+      "SS-23-002-5-5"
+     ],
+     "conflicts": [
+      {
+       "id": "C12",
+       "plain": "GS-25-001 mentions 'regularly clearing chats' while other provisions call for keeping records of prompts and responses; the documents do not say how these fit together."
+      },
+      {
+       "id": "C13",
+       "plain": "SS-25-001 says review is by 'qualified personnel' before use 'in any official capacity'; SS-23-002 says agencies ensure review and approval 'by the business owner or designated personnel' before content is 'published or used for decision-making'."
+      }
+     ],
+     "open_questions": []
+    },
+    {
+     "id": "P_RECORDS",
+     "as_written": "Agencies shall: “Ensure proper classification and storage of GenAI outputs.”; “Retain audit trails of prompts, responses, and reviews”; “Prepare for potential public disclosure of GenAI-related records”. Agencies shall also be “Maintaining a record of AI tool usage, including the purpose, inputs, outputs, and any actions taken based on the AI-generated results.”",
+     "employee_pointer": "Check with your agency how it classifies, stores and retains GenAI prompts, responses and outputs. The documents do not name an office.",
+     "citations": [
+      "Generative AI Responsible Use (SS-25-001), 1.7 Records Management and Public Access Compliance, p.4",
+      "Artificial Intelligence Responsible Use (SS-23-002), 5. Ensuring Accuracy and Appropriateness of AI-generated Outputs, p.9"
+     ],
+     "provision_ids": [
+      "SS-25-001-1.7-2",
+      "SS-25-001-1.7-3",
+      "SS-25-001-1.7-4",
+      "SS-23-002-5-7"
+     ],
+     "other_ai_as_written": "SS-23-002 says: “To ensure that AI-generated outputs are accurate and appropriate, agencies shall:” … “Maintaining a record of AI tool usage, including the purpose, inputs, outputs, and any actions taken based on the AI-generated results.” [modal as written: shall (in lead-in)]",
+     "other_ai_citations": [
+      "Artificial Intelligence Responsible Use (SS-23-002), 5. Ensuring Accuracy and Appropriateness of AI-generated Outputs, p.9"
+     ],
+     "other_ai_provision_ids": [
+      "SS-23-002-5-7"
+     ],
+     "conflicts": [
+      {
+       "id": "C12",
+       "plain": "GS-25-001 mentions 'regularly clearing chats' while other provisions call for keeping records of prompts and responses; the documents do not say how these fit together."
+      },
+      {
+       "id": "C13",
+       "plain": "SS-25-001 says review is by 'qualified personnel' before use 'in any official capacity'; SS-23-002 says agencies ensure review and approval 'by the business owner or designated personnel' before content is 'published or used for decision-making'."
+      }
+     ],
+     "open_questions": []
+    },
+    {
+     "id": "P_INCIDENTS",
+     "as_written": "“Agencies shall report significant incidents involving GenAI to the GTA Office of AI within 48 hours.” “Agencies shall report the following suspected misuse of AI systems, whether intentional or unintentional, to the agency CIO or senior executive and GTA OIS.” Agencies' data protection duties include “Reporting any data breaches or incidents involving AI systems to the designated Data Protection Officer (DPO) or other appropriate person(s).”",
+     "employee_pointer": "These reporting duties are written for agencies; the documents do not say whom an individual employee notifies. Check with your agency how to raise an incident or suspected misuse.",
+     "citations": [
+      "Generative AI Responsible Use (SS-25-001), 4.0 Monitoring and Audit, p.8",
+      "Artificial Intelligence Responsible Use (SS-23-002), 8. Reporting Misuse, p.10",
+      "Artificial Intelligence Responsible Use (SS-23-002), 6. Data Protection, Safety and Privacy, p.10"
+     ],
+     "provision_ids": [
+      "SS-25-001-4.0-2",
+      "SS-23-002-8-2",
+      "SS-23-002-6-6"
+     ],
+     "other_ai_as_written": "SS-23-002 says: “Agencies shall report the following suspected misuse of AI systems, whether intentional or unintentional, to the agency CIO or senior executive and GTA OIS.”; SS-23-002 says: “This includes:” … “Reporting any data breaches or incidents involving AI systems to the designated Data Protection Officer (DPO) or other appropriate person(s).” [modal as written: shall (in lead-in)]",
+     "other_ai_citations": [
+      "Artificial Intelligence Responsible Use (SS-23-002), 8. Reporting Misuse, p.10",
+      "Artificial Intelligence Responsible Use (SS-23-002), 6. Data Protection, Safety and Privacy, p.10"
+     ],
+     "other_ai_provision_ids": [
+      "SS-23-002-8-2",
+      "SS-23-002-6-6"
+     ],
+     "conflicts": [
+      {
+       "id": "C04",
+       "plain": "The documents disagree on whether personal or sensitive data can ever be entered and who can approve it: GTA's Office of Artificial Intelligence (SS-25-001 1.3), an 'appropriate agency authority' (SS-23-002 6), the Georgia Technology Authority generally (GS-25-001 rubric), or no stated exception (other GS-25-001 passages and the SS-25-001 table)."
+      },
+      {
+       "id": "C10",
+       "plain": "Incident and misuse reports go to different recipients in different documents, and only SS-25-001 sets a deadline (48 hours)."
+      }
+     ],
+     "open_questions": [
+      {
+       "id": "OQ19",
+       "plain": "Does the employee have a personal duty to report incidents or misuse, and to whom?"
+      }
+     ]
+    },
+    {
+     "id": "P_COMPLIANCE_CONTACT",
+     "as_written": "“Each agency shall designate a staff member who shall be responsible for ensuring full compliance with this Standard and the requirements set forth herein.”",
+     "employee_pointer": "Your agency is to have a staff member designated for compliance with SS-23-002. The documents do not say who that is in your agency.",
+     "citations": [
+      "Artificial Intelligence Responsible Use (SS-23-002), 8. Reporting Misuse, p.10"
+     ],
+     "provision_ids": [
+      "SS-23-002-8-1"
+     ],
+     "other_ai_as_written": "“Each agency shall designate a staff member who shall be responsible for ensuring full compliance with this Standard and the requirements set forth herein.”",
+     "other_ai_citations": [
+      "Artificial Intelligence Responsible Use (SS-23-002), 8. Reporting Misuse, p.10"
+     ],
+     "other_ai_provision_ids": [
+      "SS-23-002-8-1"
+     ],
+     "conflicts": [
+      {
+       "id": "C10",
+       "plain": "Incident and misuse reports go to different recipients in different documents, and only SS-25-001 sets a deadline (48 hours)."
+      }
+     ],
+     "open_questions": [
+      {
+       "id": "OQ19",
+       "plain": "Does the employee have a personal duty to report incidents or misuse, and to whom?"
+      }
+     ]
+    }
+   ]
+  },
+  "blocks": [
+   {
+    "id": "OUT_C_DATA",
+    "when": [
+     {
+      "F_DATA": [
+       "yes",
+       "not_sure"
+      ]
+     }
+    ],
+    "element": {
+     "id": "C_DATA",
+     "title": "Entering personal, sensitive or confidential information",
+     "tier": "conditional",
+     "statements": [
+      {
+       "modality": "must_not",
+       "modal_as_written": [
+        "Do not (imperative)",
+        "do not (imperative)",
+        "shall not"
+       ],
+       "summary": "“Personally identifiable information (PII), protected health information (PHI), or other regulated data shall not be used as inputs to GenAI tools unless formally approved by the GTA’s Office of Artificial Intelligence” (SS-25-001); GS-25-001 says “do not provide them with confidential or private state information, or personal records” and “Do not enter personal and/or sensitive data into a GenAI model.”",
+       "citations": [
+        "Generative AI Responsible Use (SS-25-001), 1.3 Data Privacy and Confidentiality, p.3",
+        "Generative AI Guidelines for Responsible Use (GS-25-001), Guidelines > Use AI Tools Safely and Properly, p.2",
+        "Generative AI Guidelines for Responsible Use (GS-25-001), Guidelines > Strategies for Data Privacy and AI, p.4"
+       ],
+       "provision_ids": [
+        "SS-25-001-1.3-2",
+        "GS-25-001-SAFE-14",
+        "GS-25-001-STRAT-6"
+       ]
+      },
+      {
+       "modality": "should",
+       "modal_as_written": [
+        "Always verify (imperative)",
+        "imperative (no modal verb)"
+       ],
+       "summary": "The GS-25-001 rubric instructs, without a modal verb: “Always verify that the AI is not handling sensitive or private information, unless given explicit approval from the Georgia Technology Authority. In such cases, ensure that strict data protection protocols are being consistently enforced.”",
+       "citations": [
+        "Generative AI Guidelines for Responsible Use (GS-25-001), Mitigating the Risks of Generative AI: Rubric, p.10"
+       ],
+       "provision_ids": [
+        "GS-25-001-RUBRIC-6",
+        "GS-25-001-RUBRIC-7"
+       ]
+      }
+     ],
+     "other_ai_statements": [],
+     "conflicts": [
+      {
+       "id": "C04",
+       "plain": "The documents disagree on whether personal or sensitive data can ever be entered and who can approve it: GTA's Office of Artificial Intelligence (SS-25-001 1.3), an 'appropriate agency authority' (SS-23-002 6), the Georgia Technology Authority generally (GS-25-001 rubric), or no stated exception (other GS-25-001 passages and the SS-25-001 table)."
+      }
+     ],
+     "open_questions": [
+      {
+       "id": "OQ09",
+       "plain": "What do the undefined trigger terms mean: 'official capacity', 'moderate-risk use case', 'sensitive data', 'regulated data', 'confidential information', 'state business', 'significant incidents'?"
+      },
+      {
+       "id": "OQ24",
+       "plain": "Should the data-entry prohibitions be shown to every employee rather than only to those who answer yes or not sure?"
+      },
+      {
+       "id": "OQ27",
+       "plain": "Do provisions in SS-25-001 and GS-25-001 that say 'AI' rather than 'GenAI' reach non-generative AI?"
+      }
+     ]
+    }
+   },
+   {
+    "id": "OUT_C_DATA_UNSURE",
+    "when": [
+     {
+      "F_DATA": [
+       "not_sure"
+      ]
+     }
+    ],
+    "element": {
+     "id": "C_DATA_UNSURE",
+     "title": "When you are not sure whether data may be entered",
+     "tier": "conditional",
+     "statements": [
+      {
+       "modality": "should",
+       "modal_as_written": [
+        "it is better to ... avoid",
+        "should"
+       ],
+       "summary": "“If employees are uncertain whether specific data should be entered into a generative AI tool, they should first consult with their department's data privacy officer or designated compliance authority to clarify”; “it is better to err on the side of caution and avoid inputting potentially sensitive information without approval”.",
+       "citations": [
+        "Generative AI Guidelines for Responsible Use (GS-25-001), Guidelines > Use AI Tools Safely and Properly, p.2"
+       ],
+       "provision_ids": [
+        "GS-25-001-SAFE-15",
+        "GS-25-001-SAFE-16"
+       ]
+      }
+     ],
+     "other_ai_statements": [],
+     "conflicts": [
+      {
+       "id": "C04",
+       "plain": "The documents disagree on whether personal or sensitive data can ever be entered and who can approve it: GTA's Office of Artificial Intelligence (SS-25-001 1.3), an 'appropriate agency authority' (SS-23-002 6), the Georgia Technology Authority generally (GS-25-001 rubric), or no stated exception (other GS-25-001 passages and the SS-25-001 table)."
+      }
+     ],
+     "open_questions": [
+      {
+       "id": "OQ09",
+       "plain": "What do the undefined trigger terms mean: 'official capacity', 'moderate-risk use case', 'sensitive data', 'regulated data', 'confidential information', 'state business', 'significant incidents'?"
+      }
+     ]
+    }
+   },
+   {
+    "id": "OUT_C_DECISIONS",
+    "when": [
+     {
+      "F_DECISION": [
+       "yes",
+       "not_sure"
+      ]
+     },
+     {
+      "F_TASK": [
+       "policy_drafting",
+       "education_training",
+       "not_sure"
+      ]
+     }
+    ],
+    "element": {
+     "id": "C_DECISIONS",
+     "title": "Decisions about people",
+     "tier": "conditional",
+     "statements": [
+      {
+       "modality": "must_not",
+       "modal_as_written": [
+        "'Do not' / 'Don’t' under column heading 'Prohibited' (legend: Red = Prohibited)",
+        "may not"
+       ],
+       "summary": "The same example says “it may not use AI to scan and reject resumes automatically”; the SS-25-001 table lists as prohibited “Do not use GenAI to make legal, disciplinary, or eligibility decisions” and “Do not use GenAI to assess employee performance or give personalized advice.”",
+       "citations": [
+        "Generative AI Guidelines for Responsible Use (GS-25-001), Guidelines > Use AI Tools Safely and Properly, p.2",
+        "Generative AI Responsible Use (SS-25-001), 3.0 Common Gen AI Use Cases (table), p.7"
+       ],
+       "provision_ids": [
+        "GS-25-001-SAFE-10",
+        "SS-25-001-3.0-TABLE-15",
+        "SS-25-001-3.0-TABLE-18"
+       ]
+      },
+      {
+       "modality": "may",
+       "modal_as_written": [
+        "may"
+       ],
+       "summary": "GS-25-001 gives this example: “an HR department may consult with AI platforms in making hiring decisions”.",
+       "citations": [
+        "Generative AI Guidelines for Responsible Use (GS-25-001), Guidelines > Use AI Tools Safely and Properly, p.2"
+       ],
+       "provision_ids": [
+        "GS-25-001-SAFE-9"
+       ]
+      }
+     ],
+     "other_ai_statements": [],
+     "conflicts": [],
+     "open_questions": [
+      {
+       "id": "OQ10",
+       "plain": "What is the status of the 'Conditional' column in the SS-25-001 use-case table, and when is 'Conditional Approval' needed?"
+      },
+      {
+       "id": "OQ13",
+       "plain": "How do the hiring example and the decision prohibitions fit together?"
+      },
+      {
+       "id": "OQ23",
+       "plain": "Is one task per run acceptable, and are prohibitions that sit in one table row limited to that row?"
+      },
+      {
+       "id": "OQ27",
+       "plain": "Do provisions in SS-25-001 and GS-25-001 that say 'AI' rather than 'GenAI' reach non-generative AI?"
+      }
+     ]
+    }
+   },
+   {
+    "id": "OUT_C_CITE_NONE",
+    "when": [
+     {
+      "F_PRODUCT": [
+       "none"
+      ]
+     }
+    ],
+    "element": {
+     "id": "C_CITE_NONE",
+     "title": "No citation when AI only helped you develop your own content",
+     "tier": "conditional",
+     "statements": [
+      {
+       "modality": "may",
+       "modal_as_written": [
+        "isn’t necessary"
+       ],
+       "summary": "GS-25-001 says “if the AI model helps a user in generating their own content and ideas, citation isn’t necessary”.",
+       "citations": [
+        "Generative AI Guidelines for Responsible Use (GS-25-001), How to Properly Cite AI-Generated Content, p.9"
+       ],
+       "provision_ids": [
+        "GS-25-001-CITE-4"
+       ]
+      }
+     ],
+     "other_ai_statements": [],
+     "conflicts": [
+      {
+       "id": "C06",
+       "plain": "SS-25-001 says any content 'generated or assisted by GenAI shall be clearly labeled'; GS-25-001 says citation 'isn't necessary' when AI only helped you generate your own content and ideas, yet elsewhere asks you to cite brainstormed and edited content."
+      }
+     ],
+     "open_questions": []
+    }
+   },
+   {
+    "id": "OUT_C_CITE_REQUIRED",
+    "when": [
+     {
+      "F_PRODUCT": [
+       "informal",
+       "official",
+       "not_sure"
+      ]
+     }
+    ],
+    "element": {
+     "id": "C_CITE_REQUIRED",
+     "title": "Citation when AI content appears in the final product",
+     "tier": "conditional",
+     "statements": [
+      {
+       "modality": "must",
+       "modal_as_written": [
+        "is required"
+       ],
+       "summary": "GS-25-001 says “if the AI model’s content or ideas appear in the final product, a citation is required”.",
+       "citations": [
+        "Generative AI Guidelines for Responsible Use (GS-25-001), How to Properly Cite AI-Generated Content, p.9"
+       ],
+       "provision_ids": [
+        "GS-25-001-CITE-5"
+       ]
+      }
+     ],
+     "other_ai_statements": [],
+     "conflicts": [
+      {
+       "id": "C06",
+       "plain": "SS-25-001 says any content 'generated or assisted by GenAI shall be clearly labeled'; GS-25-001 says citation 'isn't necessary' when AI only helped you generate your own content and ideas, yet elsewhere asks you to cite brainstormed and edited content."
+      }
+     ],
+     "open_questions": [
+      {
+       "id": "OQ05",
+       "plain": "What force do 'must', 'shall' and 'is required' carry inside documents labeled guidelines?"
+      }
+     ]
+    }
+   },
+   {
+    "id": "OUT_C_CITE_INFORMAL",
+    "when": [
+     {
+      "F_PRODUCT": [
+       "informal"
+      ]
+     }
+    ],
+    "element": {
+     "id": "C_CITE_INFORMAL",
+     "title": "How to cite in an informal document",
+     "tier": "conditional",
+     "statements": [
+      {
+       "modality": "must",
+       "modal_as_written": [
+        "all that is necessary is"
+       ],
+       "summary": "For “an informal document like an email”, GS-25-001 says “all that is necessary is to acknowledge somewhere in the text that AI was used in its development and which AI model was used”.",
+       "citations": [
+        "Generative AI Guidelines for Responsible Use (GS-25-001), How to Properly Cite AI-Generated Content, p.9"
+       ],
+       "provision_ids": [
+        "GS-25-001-CITE-6"
+       ]
+      }
+     ],
+     "other_ai_statements": [],
+     "conflicts": [
+      {
+       "id": "C07",
+       "plain": "The two 2025 documents list different contents for an attribution: SS-25-001 lists tool name, prompt summary and reviewer identity; GS-25-001 lists model name, prompt, company and date."
+      }
+     ],
+     "open_questions": [
+      {
+       "id": "OQ05",
+       "plain": "What force do 'must', 'shall' and 'is required' carry inside documents labeled guidelines?"
+      }
+     ]
+    }
+   },
+   {
+    "id": "OUT_C_CITE_OFFICIAL",
+    "when": [
+     {
+      "F_PRODUCT": [
+       "official",
+       "not_sure"
+      ]
+     }
+    ],
+    "element": {
+     "id": "C_CITE_OFFICIAL",
+     "title": "How to cite in a more official document",
+     "tier": "conditional",
+     "statements": [
+      {
+       "modality": "must",
+       "modal_as_written": [
+        "it is necessary to"
+       ],
+       "summary": "GS-25-001 says “on more official documents, it is necessary to use a more detailed citation”.",
+       "citations": [
+        "Generative AI Guidelines for Responsible Use (GS-25-001), How to Properly Cite AI-Generated Content, p.9"
+       ],
+       "provision_ids": [
+        "GS-25-001-CITE-7"
+       ]
+      },
+      {
+       "modality": "should",
+       "modal_as_written": [
+        "Be sure to (imperative)"
+       ],
+       "summary": "GS-25-001 instructs, without a modal verb: “Be sure to include the name of the AI model, the name of the prompt used, the company to which the AI model belongs, and the date that the content was generated.”",
+       "citations": [
+        "Generative AI Guidelines for Responsible Use (GS-25-001), How to Properly Cite AI-Generated Content, p.10"
+       ],
+       "provision_ids": [
+        "GS-25-001-CITE-8"
+       ]
+      }
+     ],
+     "other_ai_statements": [],
+     "conflicts": [
+      {
+       "id": "C07",
+       "plain": "The two 2025 documents list different contents for an attribution: SS-25-001 lists tool name, prompt summary and reviewer identity; GS-25-001 lists model name, prompt, company and date."
+      }
+     ],
+     "open_questions": [
+      {
+       "id": "OQ05",
+       "plain": "What force do 'must', 'shall' and 'is required' carry inside documents labeled guidelines?"
+      },
+      {
+       "id": "OQ16",
+       "plain": "Is text missing from GS-25-001 page 9?"
+      }
+     ]
+    }
+   },
+   {
+    "id": "OUT_C_TASK_SUMMARY",
+    "when": [
+     {
+      "F_TASK": [
+       "internal_summaries",
+       "not_sure"
+      ]
+     }
+    ],
+    "element": {
+     "id": "C_TASK_SUMMARY",
+     "title": "Task: summarizing or drafting internal documents",
+     "tier": "conditional",
+     "statements": [
+      {
+       "modality": "must",
+       "modal_as_written": [
+        "imperative under column heading 'Conditional' (legend: Yellow = Caution)"
+       ],
+       "summary": "SS-25-001 table, Conditional (Yellow = Caution): “Use GenAI-generated summaries only after review by staff.”",
+       "citations": [
+        "Generative AI Responsible Use (SS-25-001), 3.0 Common Gen AI Use Cases (table), p.6"
+       ],
+       "provision_ids": [
+        "SS-25-001-3.0-TABLE-2"
+       ]
+      },
+      {
+       "modality": "must_not",
+       "modal_as_written": [
+        "'Do not' / 'Don’t' under column heading 'Prohibited' (legend: Red = Prohibited)",
+        "listed under 'Prohibited:'"
+       ],
+       "summary": "SS-25-001 table, Prohibited (Red = Prohibited): “Do not share unreviewed summaries as official records or public communications.” GS-25-001, listed as Prohibited: “Summarizing sensitive government documents and personal private information, such as biometrics and financial data.”",
+       "citations": [
+        "Generative AI Responsible Use (SS-25-001), 3.0 Common Gen AI Use Cases (table), p.6",
+        "Generative AI Guidelines for Responsible Use (GS-25-001), Mitigating the Risks of Generative AI: Task-Specific > Information Processing, p.11"
+       ],
+       "provision_ids": [
+        "SS-25-001-3.0-TABLE-3",
+        "GS-25-001-TASK-INFOPROC-2"
+       ]
+      },
+      {
+       "modality": "may",
+       "modal_as_written": [
+        "imperative under column heading 'Acceptable' (legend: Green = Approved)",
+        "listed under 'Permissible:'"
+       ],
+       "summary": "SS-25-001 table, Acceptable (Green = Approved): “Use GenAI to summarize meeting notes or internal memos with attribution.” GS-25-001, listed as Permissible: “Summarizing publicly available information (e.g., news and research journal articles).”",
+       "citations": [
+        "Generative AI Responsible Use (SS-25-001), 3.0 Common Gen AI Use Cases (table), p.6",
+        "Generative AI Guidelines for Responsible Use (GS-25-001), Mitigating the Risks of Generative AI: Task-Specific > Information Processing, p.11"
+       ],
+       "provision_ids": [
+        "SS-25-001-3.0-TABLE-1",
+        "GS-25-001-TASK-INFOPROC-1"
+       ]
+      },
+      {
+       "modality": "informational",
+       "modal_as_written": [
+        "none"
+       ],
+       "summary": "GS-25-001, question to consider: “Does the data include sensitive information?” GS-25-001, question to consider: “Is all the information in the summary accurate?” GS-25-001, question to consider: “How could this summary be biased?”",
+       "citations": [
+        "Generative AI Guidelines for Responsible Use (GS-25-001), Mitigating the Risks of Generative AI: Task-Specific > Information Processing, p.11"
+       ],
+       "provision_ids": [
+        "GS-25-001-TASK-INFOPROC-3",
+        "GS-25-001-TASK-INFOPROC-4",
+        "GS-25-001-TASK-INFOPROC-5"
+       ]
+      }
+     ],
+     "other_ai_statements": [],
+     "conflicts": [],
+     "open_questions": [
+      {
+       "id": "OQ10",
+       "plain": "What is the status of the 'Conditional' column in the SS-25-001 use-case table, and when is 'Conditional Approval' needed?"
+      },
+      {
+       "id": "OQ12",
+       "plain": "How do the meeting provisions fit with the 'Drafting internal summaries' row?"
+      }
+     ]
+    }
+   },
+   {
+    "id": "OUT_C_TASK_RESEARCH",
+    "when": [
+     {
+      "F_TASK": [
+       "research",
+       "not_sure"
+      ]
+     }
+    ],
+    "element": {
+     "id": "C_TASK_RESEARCH",
+     "title": "Task: looking up or gathering information",
+     "tier": "conditional",
+     "statements": [
+      {
+       "modality": "must_not",
+       "modal_as_written": [
+        "listed under 'Prohibited:'"
+       ],
+       "summary": "GS-25-001, listed as Prohibited: “Relying solely on an LLM and failing to verify your findings with other sources.”",
+       "citations": [
+        "Generative AI Guidelines for Responsible Use (GS-25-001), Mitigating the Risks of Generative AI: Task-Specific > Information Gathering, p.11"
+       ],
+       "provision_ids": [
+        "GS-25-001-TASK-INFOGATH-2"
+       ]
+      },
+      {
+       "modality": "may",
+       "modal_as_written": [
+        "listed under 'Permissible:'"
+       ],
+       "summary": "GS-25-001, listed as Permissible: “Using an LLM to provide you with basic information on a topic.”",
+       "citations": [
+        "Generative AI Guidelines for Responsible Use (GS-25-001), Mitigating the Risks of Generative AI: Task-Specific > Information Gathering, p.11"
+       ],
+       "provision_ids": [
+        "GS-25-001-TASK-INFOGATH-1"
+       ]
+      },
+      {
+       "modality": "informational",
+       "modal_as_written": [
+        "none"
+       ],
+       "summary": "GS-25-001, question to consider: “Does the data include sensitive information?” GS-25-001, question to consider: “Is all the information in the summary accurate?” GS-25-001, question to consider: “How could this summary be wrong?”",
+       "citations": [
+        "Generative AI Guidelines for Responsible Use (GS-25-001), Mitigating the Risks of Generative AI: Task-Specific > Information Gathering, p.11"
+       ],
+       "provision_ids": [
+        "GS-25-001-TASK-INFOGATH-3",
+        "GS-25-001-TASK-INFOGATH-4",
+        "GS-25-001-TASK-INFOGATH-5"
+       ]
+      }
+     ],
+     "other_ai_statements": [],
+     "conflicts": [],
+     "open_questions": []
+    }
+   },
+   {
+    "id": "OUT_C_TASK_PUBLIC",
+    "when": [
+     {
+      "F_TASK": [
+       "public_comms",
+       "chatbot_public",
+       "not_sure"
+      ]
+     }
+    ],
+    "element": {
+     "id": "C_TASK_PUBLIC",
+     "title": "Task: public-facing communications",
+     "tier": "conditional",
+     "statements": [
+      {
+       "modality": "must",
+       "modal_as_written": [
+        "imperative under column heading 'Conditional' (legend: Yellow = Caution)"
+       ],
+       "summary": "SS-25-001 table, Conditional (Yellow = Caution): “Deploy public chatbots with GenAI only after bias/safety review.”",
+       "citations": [
+        "Generative AI Responsible Use (SS-25-001), 3.0 Common Gen AI Use Cases (table), p.6"
+       ],
+       "provision_ids": [
+        "SS-25-001-3.0-TABLE-5"
+       ]
+      },
+      {
+       "modality": "must_not",
+       "modal_as_written": [
+        "'Do not' / 'Don’t' under column heading 'Prohibited' (legend: Red = Prohibited)"
+       ],
+       "summary": "SS-25-001 table, Prohibited (Red = Prohibited): “Do not allow GenAI to autonomously publish content to websites, emails, or social media.”",
+       "citations": [
+        "Generative AI Responsible Use (SS-25-001), 3.0 Common Gen AI Use Cases (table), p.6"
+       ],
+       "provision_ids": [
+        "SS-25-001-3.0-TABLE-6"
+       ]
+      },
+      {
+       "modality": "may",
+       "modal_as_written": [
+        "imperative under column heading 'Acceptable' (legend: Green = Approved)"
+       ],
+       "summary": "SS-25-001 table, Acceptable (Green = Approved): “Use GenAI to draft first-pass content, reviewed and edited by staff.”",
+       "citations": [
+        "Generative AI Responsible Use (SS-25-001), 3.0 Common Gen AI Use Cases (table), p.6"
+       ],
+       "provision_ids": [
+        "SS-25-001-3.0-TABLE-4"
+       ]
+      }
+     ],
+     "other_ai_statements": [],
+     "conflicts": [],
+     "open_questions": [
+      {
+       "id": "OQ10",
+       "plain": "What is the status of the 'Conditional' column in the SS-25-001 use-case table, and when is 'Conditional Approval' needed?"
+      }
+     ]
+    }
+   },
+   {
+    "id": "OUT_C_TASK_CODING",
+    "when": [
+     {
+      "F_TASK": [
+       "coding",
+       "not_sure"
+      ]
+     }
+    ],
+    "element": {
+     "id": "C_TASK_CODING",
+     "title": "Task: coding and software development",
+     "tier": "conditional",
+     "statements": [
+      {
+       "modality": "must",
+       "modal_as_written": [
+        "imperative under column heading 'Conditional' (legend: Yellow = Caution)"
+       ],
+       "summary": "SS-25-001 table, Conditional (Yellow = Caution): “Use in sandbox/test environments and validate security of outputs.”",
+       "citations": [
+        "Generative AI Responsible Use (SS-25-001), 3.0 Common Gen AI Use Cases (table), p.7"
+       ],
+       "provision_ids": [
+        "SS-25-001-3.0-TABLE-8"
+       ]
+      },
+      {
+       "modality": "must_not",
+       "modal_as_written": [
+        "'Do not' / 'Don’t' under column heading 'Prohibited' (legend: Red = Prohibited)",
+        "listed under 'Prohibited:'"
+       ],
+       "summary": "SS-25-001 table, Prohibited (Red = Prohibited): “Do not deploy unreviewed GenAI-generated code to production systems.” GS-25-001, listed as Prohibited: “Deploying AI-generated code without human validation/oversight.” GS-25-001, listed as Prohibited: “Generating code that violates Georgia’s AI ethics standards.”",
+       "citations": [
+        "Generative AI Responsible Use (SS-25-001), 3.0 Common Gen AI Use Cases (table), p.7",
+        "Generative AI Guidelines for Responsible Use (GS-25-001), Mitigating the Risks of Generative AI: Task-Specific > Coding/Interpreting Software, p.11"
+       ],
+       "provision_ids": [
+        "SS-25-001-3.0-TABLE-9",
+        "GS-25-001-TASK-CODE-3",
+        "GS-25-001-TASK-CODE-4"
+       ]
+      },
+      {
+       "modality": "may",
+       "modal_as_written": [
+        "imperative under column heading 'Acceptable' (legend: Green = Approved)",
+        "listed under 'Permissible:'"
+       ],
+       "summary": "SS-25-001 table, Acceptable (Green = Approved): “Use GenAI for code suggestions, bug spotting, documentation.” GS-25-001, listed as Permissible: “Generating documentation and/or comments for existing software code.” GS-25-001, listed as Permissible: “Debugging existing software code.”",
+       "citations": [
+        "Generative AI Responsible Use (SS-25-001), 3.0 Common Gen AI Use Cases (table), p.7",
+        "Generative AI Guidelines for Responsible Use (GS-25-001), Mitigating the Risks of Generative AI: Task-Specific > Coding/Interpreting Software, p.11"
+       ],
+       "provision_ids": [
+        "SS-25-001-3.0-TABLE-7",
+        "GS-25-001-TASK-CODE-1",
+        "GS-25-001-TASK-CODE-2"
+       ]
+      },
+      {
+       "modality": "informational",
+       "modal_as_written": [
+        "none"
+       ],
+       "summary": "GS-25-001, question to consider: “Is GenAI being used to code entire scripts autonomously?” GS-25-001, question to consider: “Is the generated code thoroughly reviewed by a human?” GS-25-001, question to consider: “Does the software application deal with any sensitive information?”",
+       "citations": [
+        "Generative AI Guidelines for Responsible Use (GS-25-001), Mitigating the Risks of Generative AI: Task-Specific > Coding/Interpreting Software, p.11"
+       ],
+       "provision_ids": [
+        "GS-25-001-TASK-CODE-5",
+        "GS-25-001-TASK-CODE-6",
+        "GS-25-001-TASK-CODE-7"
+       ]
+      }
+     ],
+     "other_ai_statements": [],
+     "conflicts": [],
+     "open_questions": [
+      {
+       "id": "OQ10",
+       "plain": "What is the status of the 'Conditional' column in the SS-25-001 use-case table, and when is 'Conditional Approval' needed?"
+      }
+     ]
+    }
+   },
+   {
+    "id": "OUT_C_TASK_DATA_ANALYSIS",
+    "when": [
+     {
+      "F_TASK": [
+       "data_analysis",
+       "not_sure"
+      ]
+     }
+    ],
+    "element": {
+     "id": "C_TASK_DATA_ANALYSIS",
+     "title": "Task: data analysis and reports",
+     "tier": "conditional",
+     "statements": [
+      {
+       "modality": "must",
+       "modal_as_written": [
+        "imperative under column heading 'Conditional' (legend: Yellow = Caution)"
+       ],
+       "summary": "SS-25-001 table, Conditional (Yellow = Caution): “Cross-validate with source data and check for misinterpretation.”",
+       "citations": [
+        "Generative AI Responsible Use (SS-25-001), 3.0 Common Gen AI Use Cases (table), p.7"
+       ],
+       "provision_ids": [
+        "SS-25-001-3.0-TABLE-11"
+       ]
+      },
+      {
+       "modality": "must_not",
+       "modal_as_written": [
+        "'Do not' / 'Don’t' under column heading 'Prohibited' (legend: Red = Prohibited)"
+       ],
+       "summary": "SS-25-001 table, Prohibited (Red = Prohibited): “Don’t use GenAI to analyze or process personally identifiable or regulated data.”",
+       "citations": [
+        "Generative AI Responsible Use (SS-25-001), 3.0 Common Gen AI Use Cases (table), p.7"
+       ],
+       "provision_ids": [
+        "SS-25-001-3.0-TABLE-12"
+       ]
+      },
+      {
+       "modality": "may",
+       "modal_as_written": [
+        "imperative under column heading 'Acceptable' (legend: Green = Approved)"
+       ],
+       "summary": "SS-25-001 table, Acceptable (Green = Approved): “Use GenAI to visualize trends or automate draft insights from open data.”",
+       "citations": [
+        "Generative AI Responsible Use (SS-25-001), 3.0 Common Gen AI Use Cases (table), p.7"
+       ],
+       "provision_ids": [
+        "SS-25-001-3.0-TABLE-10"
+       ]
+      }
+     ],
+     "other_ai_statements": [],
+     "conflicts": [
+      {
+       "id": "C04",
+       "plain": "The documents disagree on whether personal or sensitive data can ever be entered and who can approve it: GTA's Office of Artificial Intelligence (SS-25-001 1.3), an 'appropriate agency authority' (SS-23-002 6), the Georgia Technology Authority generally (GS-25-001 rubric), or no stated exception (other GS-25-001 passages and the SS-25-001 table)."
+      }
+     ],
+     "open_questions": [
+      {
+       "id": "OQ10",
+       "plain": "What is the status of the 'Conditional' column in the SS-25-001 use-case table, and when is 'Conditional Approval' needed?"
+      },
+      {
+       "id": "OQ23",
+       "plain": "Is one task per run acceptable, and are prohibitions that sit in one table row limited to that row?"
+      }
+     ]
+    }
+   },
+   {
+    "id": "OUT_C_TASK_POLICY",
+    "when": [
+     {
+      "F_TASK": [
+       "policy_drafting",
+       "not_sure"
+      ]
+     }
+    ],
+    "element": {
+     "id": "C_TASK_POLICY",
+     "title": "Task: policy drafting support",
+     "tier": "conditional",
+     "statements": [
+      {
+       "modality": "must",
+       "modal_as_written": [
+        "imperative under column heading 'Conditional' (legend: Yellow = Caution)"
+       ],
+       "summary": "SS-25-001 table, Conditional (Yellow = Caution): “Review all content for tone, bias, and policy implications before sharing.”",
+       "citations": [
+        "Generative AI Responsible Use (SS-25-001), 3.0 Common Gen AI Use Cases (table), p.7"
+       ],
+       "provision_ids": [
+        "SS-25-001-3.0-TABLE-14"
+       ]
+      },
+      {
+       "modality": "may",
+       "modal_as_written": [
+        "imperative under column heading 'Acceptable' (legend: Green = Approved)"
+       ],
+       "summary": "SS-25-001 table, Acceptable (Green = Approved): “Use GenAI to brainstorm policy language or summarize research.”",
+       "citations": [
+        "Generative AI Responsible Use (SS-25-001), 3.0 Common Gen AI Use Cases (table), p.7"
+       ],
+       "provision_ids": [
+        "SS-25-001-3.0-TABLE-13"
+       ]
+      }
+     ],
+     "other_ai_statements": [],
+     "conflicts": [],
+     "open_questions": [
+      {
+       "id": "OQ10",
+       "plain": "What is the status of the 'Conditional' column in the SS-25-001 use-case table, and when is 'Conditional Approval' needed?"
+      },
+      {
+       "id": "OQ23",
+       "plain": "Is one task per run acceptable, and are prohibitions that sit in one table row limited to that row?"
+      }
+     ]
+    }
+   },
+   {
+    "id": "OUT_C_TASK_EDU",
+    "when": [
+     {
+      "F_TASK": [
+       "education_training",
+       "not_sure"
+      ]
+     }
+    ],
+    "element": {
+     "id": "C_TASK_EDU",
+     "title": "Task: education and training materials",
+     "tier": "conditional",
+     "statements": [
+      {
+       "modality": "must",
+       "modal_as_written": [
+        "imperative under column heading 'Conditional' (legend: Yellow = Caution)"
+       ],
+       "summary": "SS-25-001 table, Conditional (Yellow = Caution): “Vet any public-facing content for bias and misinformation.”",
+       "citations": [
+        "Generative AI Responsible Use (SS-25-001), 3.0 Common Gen AI Use Cases (table), p.7"
+       ],
+       "provision_ids": [
+        "SS-25-001-3.0-TABLE-17"
+       ]
+      },
+      {
+       "modality": "may",
+       "modal_as_written": [
+        "imperative under column heading 'Acceptable' (legend: Green = Approved)"
+       ],
+       "summary": "SS-25-001 table, Acceptable (Green = Approved): “Use GenAI to create quiz questions, flashcards, or explainers for internal use.”",
+       "citations": [
+        "Generative AI Responsible Use (SS-25-001), 3.0 Common Gen AI Use Cases (table), p.7"
+       ],
+       "provision_ids": [
+        "SS-25-001-3.0-TABLE-16"
+       ]
+      }
+     ],
+     "other_ai_statements": [],
+     "conflicts": [],
+     "open_questions": [
+      {
+       "id": "OQ10",
+       "plain": "What is the status of the 'Conditional' column in the SS-25-001 use-case table, and when is 'Conditional Approval' needed?"
+      },
+      {
+       "id": "OQ23",
+       "plain": "Is one task per run acceptable, and are prohibitions that sit in one table row limited to that row?"
+      }
+     ]
+    }
+   },
+   {
+    "id": "OUT_C_TASK_CHATBOT",
+    "when": [
+     {
+      "F_TASK": [
+       "chatbot_public",
+       "chatbot_internal",
+       "not_sure"
+      ]
+     }
+    ],
+    "element": {
+     "id": "C_TASK_CHATBOT",
+     "title": "Task: chatbots and user interaction",
+     "tier": "conditional",
+     "statements": [
+      {
+       "modality": "must",
+       "modal_as_written": [
+        "imperative under column heading 'Conditional' (legend: Yellow = Caution)"
+       ],
+       "summary": "SS-25-001 table, Conditional (Yellow = Caution): “Provide escalation path to human assistance and monitor performance.”",
+       "citations": [
+        "Generative AI Responsible Use (SS-25-001), 3.0 Common Gen AI Use Cases (table), p.7"
+       ],
+       "provision_ids": [
+        "SS-25-001-3.0-TABLE-20"
+       ]
+      },
+      {
+       "modality": "must_not",
+       "modal_as_written": [
+        "'Do not' / 'Don’t' under column heading 'Prohibited' (legend: Red = Prohibited)",
+        "listed under 'Prohibited:'"
+       ],
+       "summary": "SS-25-001 table, Prohibited (Red = Prohibited): “Don’t allow GenAI chatbots to answer legal, medical, or emergency questions.” GS-25-001, listed as Prohibited: “Storing information from user interactions with GenAI without explicit consent from the user.”",
+       "citations": [
+        "Generative AI Responsible Use (SS-25-001), 3.0 Common Gen AI Use Cases (table), p.7",
+        "Generative AI Guidelines for Responsible Use (GS-25-001), Mitigating the Risks of Generative AI: Task-Specific > User Interaction, p.12"
+       ],
+       "provision_ids": [
+        "SS-25-001-3.0-TABLE-21",
+        "GS-25-001-TASK-USER-2"
+       ]
+      },
+      {
+       "modality": "should",
+       "modal_as_written": [
+        "imperative (no modal verb)"
+       ],
+       "summary": "GS-25-001: “For applications requiring users’ data, ensure that such data is only used with user consent.”",
+       "citations": [
+        "Generative AI Guidelines for Responsible Use (GS-25-001), Guidelines > Use AI Tools Safely and Properly, p.3"
+       ],
+       "provision_ids": [
+        "GS-25-001-SAFE-18"
+       ]
+      },
+      {
+       "modality": "may",
+       "modal_as_written": [
+        "imperative under column heading 'Acceptable' (legend: Green = Approved)",
+        "listed under 'Permissible:'"
+       ],
+       "summary": "SS-25-001 table, Acceptable (Green = Approved): “Use GenAI to support FAQ responses clearly marked as AI-generated.” GS-25-001, listed as Permissible: “Creating chatbots to streamline user support.”",
+       "citations": [
+        "Generative AI Responsible Use (SS-25-001), 3.0 Common Gen AI Use Cases (table), p.7",
+        "Generative AI Guidelines for Responsible Use (GS-25-001), Mitigating the Risks of Generative AI: Task-Specific > User Interaction, p.12"
+       ],
+       "provision_ids": [
+        "SS-25-001-3.0-TABLE-19",
+        "GS-25-001-TASK-USER-1"
+       ]
+      },
+      {
+       "modality": "informational",
+       "modal_as_written": [
+        "none"
+       ],
+       "summary": "GS-25-001, question to consider: “Are users aware that they are interacting with AI-generated content?” GS-25-001, question to consider: “Does the AI application require sensitive or private user information?” GS-25-001, question to consider: “Is that information stored, or is it promptly deleted following the interaction?”",
+       "citations": [
+        "Generative AI Guidelines for Responsible Use (GS-25-001), Mitigating the Risks of Generative AI: Task-Specific > User Interaction, p.12"
+       ],
+       "provision_ids": [
+        "GS-25-001-TASK-USER-3",
+        "GS-25-001-TASK-USER-4",
+        "GS-25-001-TASK-USER-5"
+       ]
+      }
+     ],
+     "other_ai_statements": [],
+     "conflicts": [],
+     "open_questions": [
+      {
+       "id": "OQ10",
+       "plain": "What is the status of the 'Conditional' column in the SS-25-001 use-case table, and when is 'Conditional Approval' needed?"
+      },
+      {
+       "id": "OQ30",
+       "plain": "Does the SS-25-001 'Constituent service' row apply to chatbots used only by state staff?"
+      }
+     ]
+    }
+   },
+   {
+    "id": "OUT_C_TASK_MEDIA",
+    "when": [
+     {
+      "F_TASK": [
+       "media",
+       "not_sure"
+      ]
+     }
+    ],
+    "element": {
+     "id": "C_TASK_MEDIA",
+     "title": "Task: image, audio or video generation",
+     "tier": "conditional",
+     "statements": [
+      {
+       "modality": "must",
+       "modal_as_written": [
+        "imperative under column heading 'Conditional' (legend: Yellow = Caution)",
+        "must"
+       ],
+       "summary": "SS-25-001 table, Conditional (Yellow = Caution): “Clearly disclose synthetic content when used in public contexts.” GS-25-001: “Photos and videos must have a clear watermark indicating that the following content was generated by AI.” GS-25-001: “Any audio including AI-generated sound must include an audio disclaimer notifying listeners that some or all of the recording was generated with AI.”",
+       "citations": [
+        "Generative AI Responsible Use (SS-25-001), 3.0 Common Gen AI Use Cases (table), p.7",
+        "Generative AI Guidelines for Responsible Use (GS-25-001), How to Properly Cite AI-Generated Content, p.10"
+       ],
+       "provision_ids": [
+        "SS-25-001-3.0-TABLE-23",
+        "GS-25-001-CITE-9",
+        "GS-25-001-CITE-10"
+       ]
+      },
+      {
+       "modality": "must_not",
+       "modal_as_written": [
+        "'Do not' / 'Don’t' under column heading 'Prohibited' (legend: Red = Prohibited)"
+       ],
+       "summary": "SS-25-001 table, Prohibited (Red = Prohibited): “Do not use GenAI to create deepfakes, impersonations, or sensitive likenesses.”",
+       "citations": [
+        "Generative AI Responsible Use (SS-25-001), 3.0 Common Gen AI Use Cases (table), p.7"
+       ],
+       "provision_ids": [
+        "SS-25-001-3.0-TABLE-24"
+       ]
+      },
+      {
+       "modality": "may",
+       "modal_as_written": [
+        "imperative under column heading 'Acceptable' (legend: Green = Approved)"
+       ],
+       "summary": "SS-25-001 table, Acceptable (Green = Approved): “Use for creative brainstorming, mockups, training materials (with proper attribution).”",
+       "citations": [
+        "Generative AI Responsible Use (SS-25-001), 3.0 Common Gen AI Use Cases (table), p.7"
+       ],
+       "provision_ids": [
+        "SS-25-001-3.0-TABLE-22"
+       ]
+      }
+     ],
+     "other_ai_statements": [],
+     "conflicts": [],
+     "open_questions": [
+      {
+       "id": "OQ05",
+       "plain": "What force do 'must', 'shall' and 'is required' carry inside documents labeled guidelines?"
+      },
+      {
+       "id": "OQ10",
+       "plain": "What is the status of the 'Conditional' column in the SS-25-001 use-case table, and when is 'Conditional Approval' needed?"
+      }
+     ]
+    }
+   },
+   {
+    "id": "OUT_C_TASK_TRANSLATION",
+    "when": [
+     {
+      "F_TASK": [
+       "translation",
+       "not_sure"
+      ]
+     }
+    ],
+    "element": {
+     "id": "C_TASK_TRANSLATION",
+     "title": "Task: translation and accessibility",
+     "tier": "conditional",
+     "statements": [
+      {
+       "modality": "must",
+       "modal_as_written": [
+        "imperative under column heading 'Conditional' (legend: Yellow = Caution)"
+       ],
+       "summary": "SS-25-001 table, Conditional (Yellow = Caution): “Confirm with human review, especially for formal or legal documents.”",
+       "citations": [
+        "Generative AI Responsible Use (SS-25-001), 3.0 Common Gen AI Use Cases (table), p.8"
+       ],
+       "provision_ids": [
+        "SS-25-001-3.0-TABLE-26"
+       ]
+      },
+      {
+       "modality": "must_not",
+       "modal_as_written": [
+        "'Do not' / 'Don’t' under column heading 'Prohibited' (legend: Red = Prohibited)"
+       ],
+       "summary": "SS-25-001 table, Prohibited (Red = Prohibited): “Do not rely on GenAI alone for accessibility compliance or legal document translations.”",
+       "citations": [
+        "Generative AI Responsible Use (SS-25-001), 3.0 Common Gen AI Use Cases (table), p.8"
+       ],
+       "provision_ids": [
+        "SS-25-001-3.0-TABLE-27"
+       ]
+      },
+      {
+       "modality": "may",
+       "modal_as_written": [
+        "imperative under column heading 'Acceptable' (legend: Green = Approved)"
+       ],
+       "summary": "SS-25-001 table, Acceptable (Green = Approved): “Use GenAI to provide draft translations or captioning to improve access.”",
+       "citations": [
+        "Generative AI Responsible Use (SS-25-001), 3.0 Common Gen AI Use Cases (table), p.8"
+       ],
+       "provision_ids": [
+        "SS-25-001-3.0-TABLE-25"
+       ]
+      }
+     ],
+     "other_ai_statements": [],
+     "conflicts": [],
+     "open_questions": [
+      {
+       "id": "OQ10",
+       "plain": "What is the status of the 'Conditional' column in the SS-25-001 use-case table, and when is 'Conditional Approval' needed?"
+      }
+     ]
+    }
+   },
+   {
+    "id": "OUT_C_TASK_LEGAL",
+    "when": [
+     {
+      "F_TASK": [
+       "legal",
+       "not_sure"
+      ]
+     }
+    ],
+    "element": {
+     "id": "C_TASK_LEGAL",
+     "title": "Task: legal and regulatory analysis",
+     "tier": "conditional",
+     "statements": [
+      {
+       "modality": "must",
+       "modal_as_written": [
+        "imperative under column heading 'Conditional' (legend: Yellow = Caution)"
+       ],
+       "summary": "SS-25-001 table, Conditional (Yellow = Caution): “Use with legal staff oversight only.”",
+       "citations": [
+        "Generative AI Responsible Use (SS-25-001), 3.0 Common Gen AI Use Cases (table), p.8"
+       ],
+       "provision_ids": [
+        "SS-25-001-3.0-TABLE-29"
+       ]
+      },
+      {
+       "modality": "must_not",
+       "modal_as_written": [
+        "'Do not' / 'Don’t' under column heading 'Prohibited' (legend: Red = Prohibited)"
+       ],
+       "summary": "SS-25-001 table, Prohibited (Red = Prohibited): “Do not use GenAI to provide legal advice or determine compliance status.”",
+       "citations": [
+        "Generative AI Responsible Use (SS-25-001), 3.0 Common Gen AI Use Cases (table), p.8"
+       ],
+       "provision_ids": [
+        "SS-25-001-3.0-TABLE-30"
+       ]
+      },
+      {
+       "modality": "may",
+       "modal_as_written": [
+        "imperative under column heading 'Acceptable' (legend: Green = Approved)"
+       ],
+       "summary": "SS-25-001 table, Acceptable (Green = Approved): “Use GenAI to organize and summarize non-sensitive legal text for research.”",
+       "citations": [
+        "Generative AI Responsible Use (SS-25-001), 3.0 Common Gen AI Use Cases (table), p.8"
+       ],
+       "provision_ids": [
+        "SS-25-001-3.0-TABLE-28"
+       ]
+      }
+     ],
+     "other_ai_statements": [],
+     "conflicts": [],
+     "open_questions": [
+      {
+       "id": "OQ10",
+       "plain": "What is the status of the 'Conditional' column in the SS-25-001 use-case table, and when is 'Conditional Approval' needed?"
+      }
+     ]
+    }
+   },
+   {
+    "id": "OUT_C_TASK_CONTENT",
+    "when": [
+     {
+      "F_TASK": [
+       "content",
+       "not_sure"
+      ]
+     }
+    ],
+    "element": {
+     "id": "C_TASK_CONTENT",
+     "title": "Task: brainstorming, editing and other content generation",
+     "tier": "conditional",
+     "statements": [
+      {
+       "modality": "must_not",
+       "modal_as_written": [
+        "listed under 'Prohibited:'"
+       ],
+       "summary": "GS-25-001, listed as Prohibited: “Generating content that replicates or closely mimics copyrighted material.”",
+       "citations": [
+        "Generative AI Guidelines for Responsible Use (GS-25-001), Mitigating the Risks of Generative AI: Task-Specific > Content Generation, p.12"
+       ],
+       "provision_ids": [
+        "GS-25-001-TASK-CONTENT-3"
+       ]
+      },
+      {
+       "modality": "may",
+       "modal_as_written": [
+        "listed under 'Permissible:'"
+       ],
+       "summary": "GS-25-001, listed as Permissible: “Brainstorming a list of ideas.” GS-25-001, listed as Permissible: “Checking for grammatical errors and/or formatting a human-written document that does not include sensitive information.”",
+       "citations": [
+        "Generative AI Guidelines for Responsible Use (GS-25-001), Mitigating the Risks of Generative AI: Task-Specific > Content Generation, p.12"
+       ],
+       "provision_ids": [
+        "GS-25-001-TASK-CONTENT-1",
+        "GS-25-001-TASK-CONTENT-2"
+       ]
+      },
+      {
+       "modality": "informational",
+       "modal_as_written": [
+        "none"
+       ],
+       "summary": "GS-25-001, question to consider: “Did the GenAI “hallucinate” or create other false information?” GS-25-001, question to consider: “Is the content plagiarized or involved in any form of copyright infringement?”",
+       "citations": [
+        "Generative AI Guidelines for Responsible Use (GS-25-001), Mitigating the Risks of Generative AI: Task-Specific > Content Generation, p.12"
+       ],
+       "provision_ids": [
+        "GS-25-001-TASK-CONTENT-4",
+        "GS-25-001-TASK-CONTENT-5"
+       ]
+      }
+     ],
+     "other_ai_statements": [],
+     "conflicts": [],
+     "open_questions": []
+    }
+   },
+   {
+    "id": "OUT_C_MEETINGS",
+    "when": [
+     {
+      "F_TASK": [
+       "meetings",
+       "not_sure"
+      ]
+     }
+    ],
+    "element": {
+     "id": "C_MEETINGS",
+     "title": "AI in virtual meetings",
+     "tier": "conditional",
+     "statements": [
+      {
+       "modality": "should",
+       "modal_as_written": [
+        "imperative (no modal verb)",
+        "is strongly discouraged",
+        "should",
+        "should not"
+       ],
+       "summary": "“The use of AI note-taking tools in Microsoft Teams meetings or any other conferencing platforms is strongly discouraged for meetings held within the State”; AI recording and transcription “should be used thoughtfully”, “AI should not be used to manipulate or misrepresent the contributions of participants”, and “AI outputs should be used only to supplement, not replace, human judgment.”",
+       "citations": [
+        "Generative AI Guidelines for Responsible Use (GS-25-001), Guidelines > Be Vigilant in Virtual Meetings, p.3"
+       ],
+       "provision_ids": [
+        "GS-25-001-MEET-1",
+        "GS-25-001-MEET-5",
+        "GS-25-001-MEET-7",
+        "GS-25-001-MEET-8",
+        "GS-25-001-MEET-9"
+       ]
+      },
+      {
+       "modality": "informational",
+       "modal_as_written": [
+        "none"
+       ],
+       "summary": "“Once created, meeting recordings and transcriptions become public records and are subject to retention rules.”",
+       "citations": [
+        "Generative AI Guidelines for Responsible Use (GS-25-001), Guidelines > Be Vigilant in Virtual Meetings, p.3"
+       ],
+       "provision_ids": [
+        "GS-25-001-MEET-10"
+       ]
+      }
+     ],
+     "other_ai_statements": [],
+     "conflicts": [],
+     "open_questions": [
+      {
+       "id": "OQ12",
+       "plain": "How do the meeting provisions fit with the 'Drafting internal summaries' row?"
+      }
+     ]
+    }
+   },
+   {
+    "id": "OUT_C_MEETING_HOST",
+    "when": [
+     {
+      "F_TASK": [
+       "meetings",
+       "not_sure"
+      ],
+      "F_HOST": [
+       "host",
+       "not_sure"
+      ]
+     }
+    ],
+    "element": {
+     "id": "C_MEETING_HOST",
+     "title": "If you host the meeting",
+     "tier": "conditional",
+     "statements": [
+      {
+       "modality": "must",
+       "modal_as_written": [
+        "are responsible for"
+       ],
+       "summary": "GS-25-001 says, without a modal verb: “Meeting hosts are responsible for determining the need for recordings and automated transcriptions and keeping any records created.”",
+       "citations": [
+        "Generative AI Guidelines for Responsible Use (GS-25-001), Guidelines > Be Vigilant in Virtual Meetings, p.3"
+       ],
+       "provision_ids": [
+        "GS-25-001-MEET-11"
+       ]
+      },
+      {
+       "modality": "should",
+       "modal_as_written": [
+        "should"
+       ],
+       "summary": "“Meeting hosts should be diligent when admitting participants to virtual meetings to ensure no AI bot note-takers join.”",
+       "citations": [
+        "Generative AI Guidelines for Responsible Use (GS-25-001), Guidelines > Be Vigilant in Virtual Meetings, p.3"
+       ],
+       "provision_ids": [
+        "GS-25-001-MEET-3"
+       ]
+      },
+      {
+       "modality": "may",
+       "modal_as_written": [
+        "may"
+       ],
+       "summary": "“Meeting hosts may opt to use the recording and transcription services built into Teams.”",
+       "citations": [
+        "Generative AI Guidelines for Responsible Use (GS-25-001), Guidelines > Be Vigilant in Virtual Meetings, p.3"
+       ],
+       "provision_ids": [
+        "GS-25-001-MEET-2"
+       ]
+      },
+      {
+       "modality": "informational",
+       "modal_as_written": [
+        "can"
+       ],
+       "summary": "“You can look for the “.ai” suffix to confirm.”",
+       "citations": [
+        "Generative AI Guidelines for Responsible Use (GS-25-001), Guidelines > Be Vigilant in Virtual Meetings, p.3"
+       ],
+       "provision_ids": [
+        "GS-25-001-MEET-4"
+       ]
+      }
+     ],
+     "other_ai_statements": [],
+     "conflicts": [],
+     "open_questions": [
+      {
+       "id": "OQ12",
+       "plain": "How do the meeting provisions fit with the 'Drafting internal summaries' row?"
+      }
+     ]
+    }
+   },
+   {
+    "id": "OUT_C_PROCURE_APPROVAL",
+    "when": [
+     {
+      "F_ROLE": [
+       "procure",
+       "both",
+       "not_sure"
+      ]
+     }
+    ],
+    "element": {
+     "id": "C_PROCURE_APPROVAL",
+     "title": "GTA approval before procuring a GenAI product or service",
+     "tier": "conditional",
+     "statements": [
+      {
+       "modality": "must",
+       "modal_as_written": [
+        "must (in lead-in)"
+       ],
+       "summary": "“Any procurement of GenAI products or services must” be “approved in advance by the Georgia Technology Authority (GTA) by completing the review form at https://ai.georgia.gov/ai-application-and-tool-request-form”, comply “with GTA’s IT security, privacy, and accessibility standards”, and include “provisions for auditability, explainability, model documentation, data retention, and intellectual property rights in contracts”.",
+       "citations": [
+        "Generative AI Responsible Use (SS-25-001), 1.5 Procurement and Third-Party Vendor Compliance, p.3",
+        "Generative AI Responsible Use (SS-25-001), 1.5 Procurement and Third-Party Vendor Compliance, p.4"
+       ],
+       "provision_ids": [
+        "SS-25-001-1.5-1",
+        "SS-25-001-1.5-2",
+        "SS-25-001-1.5-3"
+       ]
+      }
+     ],
+     "other_ai_statements": [],
+     "conflicts": [
+      {
+       "id": "C08",
+       "plain": "Pre-procurement review is described three ways: a web form at ai.georgia.gov (SS-25-001), a Business Solutions Review form sent by email (SS-23-002), and submission to GTA with no channel named (PS-23-001)."
+      }
+     ],
+     "open_questions": [
+      {
+       "id": "OQ07",
+       "plain": "May an employee use a free or individually obtained GenAI tool, and are ChatGPT, Gemini, Claude and Copilot approved?"
+      },
+      {
+       "id": "OQ29",
+       "plain": "Does PS-23-001 reach non-generative AI tools, given that its own definition of 'Artificial Intelligence' uses the generative-content wording?"
+      }
+     ]
+    }
+   },
+   {
+    "id": "OUT_C_PROC_PRINCIPLES",
+    "when": [
+     {
+      "F_ROLE": [
+       "procure",
+       "both",
+       "not_sure"
+      ]
+     }
+    ],
+    "element": {
+     "id": "C_PROC_PRINCIPLES",
+     "title": "Procurement of AI tools: key principles",
+     "tier": "conditional",
+     "statements": [
+      {
+       "modality": "should",
+       "modal_as_written": [
+        "imperative (no modal verb)"
+       ],
+       "summary": "GS-25-002's key principles are instructions written without modal verbs, for example “Prioritize data assessment and governance before procurement”, “Emphasize the problem, not a specific solution”, “Establish robust oversight mechanisms”, and “Plan for ongoing evaluation, maintenance, training, and knowledge transfer throughout the AI system's lifecycle.”",
+       "citations": [
+        "Procurement of AI tools Guidelines for Responsible Use (GS-25-002), Guidelines > Key Principles, p.1"
+       ],
+       "provision_ids": [
+        "GS-25-002-KP-1",
+        "GS-25-002-KP-2",
+        "GS-25-002-KP-3",
+        "GS-25-002-KP-4",
+        "GS-25-002-KP-5",
+        "GS-25-002-KP-6",
+        "GS-25-002-KP-7",
+        "GS-25-002-KP-8",
+        "GS-25-002-KP-9"
+       ]
+      },
+      {
+       "modality": "informational",
+       "modal_as_written": [
+        "none"
+       ],
+       "summary": "“These guidelines outline best practices for state agencies when preparing and evaluating Requests for Proposals (RFPs) or other procurements for AI tools or solutions that include AI features.”",
+       "citations": [
+        "Procurement of AI tools Guidelines for Responsible Use (GS-25-002), Purpose, p.1"
+       ],
+       "provision_ids": [
+        "GS-25-002-PURPOSE-1"
+       ]
+      }
+     ],
+     "other_ai_statements": [
+      {
+       "modality": "should",
+       "summary": "GS-25-002's key principles are instructions written without modal verbs, for example “Prioritize data assessment and governance before procurement”, “Emphasize the problem, not a specific solution”, “Establish robust oversight mechanisms”, and “Plan for ongoing evaluation, maintenance, training, and knowledge transfer throughout the AI system's lifecycle.”",
+       "citations": [
+        "Procurement of AI tools Guidelines for Responsible Use (GS-25-002), Guidelines > Key Principles, p.1"
+       ],
+       "provision_ids": [
+        "GS-25-002-KP-1",
+        "GS-25-002-KP-2",
+        "GS-25-002-KP-3",
+        "GS-25-002-KP-4",
+        "GS-25-002-KP-5",
+        "GS-25-002-KP-6",
+        "GS-25-002-KP-7",
+        "GS-25-002-KP-8",
+        "GS-25-002-KP-9"
+       ]
+      },
+      {
+       "modality": "informational",
+       "summary": "“These guidelines outline best practices for state agencies when preparing and evaluating Requests for Proposals (RFPs) or other procurements for AI tools or solutions that include AI features.”",
+       "citations": [
+        "Procurement of AI tools Guidelines for Responsible Use (GS-25-002), Purpose, p.1"
+       ],
+       "provision_ids": [
+        "GS-25-002-PURPOSE-1"
+       ]
+      }
+     ],
+     "conflicts": [],
+     "open_questions": [
+      {
+       "id": "OQ22",
+       "plain": "Should the procurement guideline (GS-25-002) be shown to an employee who works on an AI procurement?"
+      }
+     ]
+    }
+   },
+   {
+    "id": "OUT_C_PROC_PREP",
+    "when": [
+     {
+      "F_ROLE": [
+       "procure",
+       "both",
+       "not_sure"
+      ]
+     }
+    ],
+    "element": {
+     "id": "C_PROC_PREP",
+     "title": "Procurement of AI tools: preparing the RFP",
+     "tier": "conditional",
+     "statements": [
+      {
+       "modality": "should",
+       "modal_as_written": [
+        "Specify that ... must (imperative to the drafter; 'must' describes the RFP term)",
+        "imperative (no modal verb)",
+        "should"
+       ],
+       "summary": "GS-25-002 lists twelve topics of instructions for preparing the RFP (objectives and scope; ethics and fairness; transparency and explainability; data privacy and security; performance and accountability; open standards; workforce change management and training; continuous monitoring; ethical AI governance; algorithmic impact assessment; collaboration; referrals), written without modal verbs except where it says the vendor or the assessment “should” do something; read the cited section for each item.",
+       "citations": [
+        "Procurement of AI tools Guidelines for Responsible Use (GS-25-002), Guidelines for Preparing the RFP > 1. Define Objectives and Scope, p.2",
+        "Procurement of AI tools Guidelines for Responsible Use (GS-25-002), Guidelines for Preparing the RFP > 2. Ethical and Fairness Considerations, p.2",
+        "Procurement of AI tools Guidelines for Responsible Use (GS-25-002), Guidelines for Preparing the RFP > 3. Transparency and Explainability, p.2",
+        "Procurement of AI tools Guidelines for Responsible Use (GS-25-002), Guidelines for Preparing the RFP > 4. Data Privacy and Security, p.2",
+        "Procurement of AI tools Guidelines for Responsible Use (GS-25-002), Guidelines for Preparing the RFP > 4. Data Privacy and Security, p.3",
+        "Procurement of AI tools Guidelines for Responsible Use (GS-25-002), Guidelines for Preparing the RFP > 5. Performance and Accountability, p.3",
+        "Procurement of AI tools Guidelines for Responsible Use (GS-25-002), Guidelines for Preparing the RFP > 6. Open Standards and Interoperability, p.3",
+        "Procurement of AI tools Guidelines for Responsible Use (GS-25-002), Guidelines for Preparing the RFP > 7. Workforce Change Management and Training, p.3",
+        "Procurement of AI tools Guidelines for Responsible Use (GS-25-002), Guidelines for Preparing the RFP > 8. Continuous Monitoring and Feedback Loops, p.3",
+        "Procurement of AI tools Guidelines for Responsible Use (GS-25-002), Guidelines for Preparing the RFP > 9. Ethical AI Governance, p.3",
+        "Procurement of AI tools Guidelines for Responsible Use (GS-25-002), Guidelines for Preparing the RFP > 10. Algorithmic Impact Assessment, p.4",
+        "Procurement of AI tools Guidelines for Responsible Use (GS-25-002), Guidelines for Preparing the RFP > 11. Collaboration and Knowledge Sharing, p.4",
+        "Procurement of AI tools Guidelines for Responsible Use (GS-25-002), Guidelines for Preparing the RFP > 12. Referrals and Production-Facing Examples of Work, p.4"
+       ],
+       "provision_ids": [
+        "GS-25-002-PREP-1-1",
+        "GS-25-002-PREP-1-2",
+        "GS-25-002-PREP-1-3",
+        "GS-25-002-PREP-1-4",
+        "GS-25-002-PREP-2-1",
+        "GS-25-002-PREP-2-2",
+        "GS-25-002-PREP-2-3",
+        "GS-25-002-PREP-2-4",
+        "GS-25-002-PREP-3-1",
+        "GS-25-002-PREP-3-2",
+        "GS-25-002-PREP-3-3",
+        "GS-25-002-PREP-4-1",
+        "GS-25-002-PREP-4-2",
+        "GS-25-002-PREP-4-3",
+        "GS-25-002-PREP-4-4",
+        "GS-25-002-PREP-5-1",
+        "GS-25-002-PREP-5-2",
+        "GS-25-002-PREP-5-3",
+        "GS-25-002-PREP-6-1",
+        "GS-25-002-PREP-6-2",
+        "GS-25-002-PREP-6-3",
+        "GS-25-002-PREP-7-1",
+        "GS-25-002-PREP-7-2",
+        "GS-25-002-PREP-7-3",
+        "GS-25-002-PREP-7-4",
+        "GS-25-002-PREP-7-5",
+        "GS-25-002-PREP-8-1",
+        "GS-25-002-PREP-8-2",
+        "GS-25-002-PREP-8-3",
+        "GS-25-002-PREP-9-1",
+        "GS-25-002-PREP-9-2",
+        "GS-25-002-PREP-9-3",
+        "GS-25-002-PREP-10-1",
+        "GS-25-002-PREP-10-2",
+        "GS-25-002-PREP-10-3",
+        "GS-25-002-PREP-10-4",
+        "GS-25-002-PREP-10-5",
+        "GS-25-002-PREP-10-6",
+        "GS-25-002-PREP-11-1",
+        "GS-25-002-PREP-11-2",
+        "GS-25-002-PREP-12-1",
+        "GS-25-002-PREP-12-2",
+        "GS-25-002-PREP-12-3"
+       ]
+      }
+     ],
+     "other_ai_statements": [
+      {
+       "modality": "should",
+       "summary": "GS-25-002 lists twelve topics of instructions for preparing the RFP (objectives and scope; ethics and fairness; transparency and explainability; data privacy and security; performance and accountability; open standards; workforce change management and training; continuous monitoring; ethical AI governance; algorithmic impact assessment; collaboration; referrals), written without modal verbs except where it says the vendor or the assessment “should” do something; read the cited section for each item.",
+       "citations": [
+        "Procurement of AI tools Guidelines for Responsible Use (GS-25-002), Guidelines for Preparing the RFP > 1. Define Objectives and Scope, p.2",
+        "Procurement of AI tools Guidelines for Responsible Use (GS-25-002), Guidelines for Preparing the RFP > 2. Ethical and Fairness Considerations, p.2",
+        "Procurement of AI tools Guidelines for Responsible Use (GS-25-002), Guidelines for Preparing the RFP > 3. Transparency and Explainability, p.2",
+        "Procurement of AI tools Guidelines for Responsible Use (GS-25-002), Guidelines for Preparing the RFP > 4. Data Privacy and Security, p.2",
+        "Procurement of AI tools Guidelines for Responsible Use (GS-25-002), Guidelines for Preparing the RFP > 4. Data Privacy and Security, p.3",
+        "Procurement of AI tools Guidelines for Responsible Use (GS-25-002), Guidelines for Preparing the RFP > 5. Performance and Accountability, p.3",
+        "Procurement of AI tools Guidelines for Responsible Use (GS-25-002), Guidelines for Preparing the RFP > 6. Open Standards and Interoperability, p.3",
+        "Procurement of AI tools Guidelines for Responsible Use (GS-25-002), Guidelines for Preparing the RFP > 7. Workforce Change Management and Training, p.3",
+        "Procurement of AI tools Guidelines for Responsible Use (GS-25-002), Guidelines for Preparing the RFP > 8. Continuous Monitoring and Feedback Loops, p.3",
+        "Procurement of AI tools Guidelines for Responsible Use (GS-25-002), Guidelines for Preparing the RFP > 9. Ethical AI Governance, p.3",
+        "Procurement of AI tools Guidelines for Responsible Use (GS-25-002), Guidelines for Preparing the RFP > 10. Algorithmic Impact Assessment, p.4",
+        "Procurement of AI tools Guidelines for Responsible Use (GS-25-002), Guidelines for Preparing the RFP > 11. Collaboration and Knowledge Sharing, p.4",
+        "Procurement of AI tools Guidelines for Responsible Use (GS-25-002), Guidelines for Preparing the RFP > 12. Referrals and Production-Facing Examples of Work, p.4"
+       ],
+       "provision_ids": [
+        "GS-25-002-PREP-1-1",
+        "GS-25-002-PREP-1-2",
+        "GS-25-002-PREP-1-3",
+        "GS-25-002-PREP-1-4",
+        "GS-25-002-PREP-2-1",
+        "GS-25-002-PREP-2-2",
+        "GS-25-002-PREP-2-3",
+        "GS-25-002-PREP-2-4",
+        "GS-25-002-PREP-3-1",
+        "GS-25-002-PREP-3-2",
+        "GS-25-002-PREP-3-3",
+        "GS-25-002-PREP-4-1",
+        "GS-25-002-PREP-4-2",
+        "GS-25-002-PREP-4-3",
+        "GS-25-002-PREP-4-4",
+        "GS-25-002-PREP-5-1",
+        "GS-25-002-PREP-5-2",
+        "GS-25-002-PREP-5-3",
+        "GS-25-002-PREP-6-1",
+        "GS-25-002-PREP-6-2",
+        "GS-25-002-PREP-6-3",
+        "GS-25-002-PREP-7-1",
+        "GS-25-002-PREP-7-2",
+        "GS-25-002-PREP-7-3",
+        "GS-25-002-PREP-7-4",
+        "GS-25-002-PREP-7-5",
+        "GS-25-002-PREP-8-1",
+        "GS-25-002-PREP-8-2",
+        "GS-25-002-PREP-8-3",
+        "GS-25-002-PREP-9-1",
+        "GS-25-002-PREP-9-2",
+        "GS-25-002-PREP-9-3",
+        "GS-25-002-PREP-10-1",
+        "GS-25-002-PREP-10-2",
+        "GS-25-002-PREP-10-3",
+        "GS-25-002-PREP-10-4",
+        "GS-25-002-PREP-10-5",
+        "GS-25-002-PREP-10-6",
+        "GS-25-002-PREP-11-1",
+        "GS-25-002-PREP-11-2",
+        "GS-25-002-PREP-12-1",
+        "GS-25-002-PREP-12-2",
+        "GS-25-002-PREP-12-3"
+       ]
+      }
+     ],
+     "conflicts": [],
+     "open_questions": [
+      {
+       "id": "OQ22",
+       "plain": "Should the procurement guideline (GS-25-002) be shown to an employee who works on an AI procurement?"
+      }
+     ]
+    }
+   },
+   {
+    "id": "OUT_C_PROC_EVAL",
+    "when": [
+     {
+      "F_ROLE": [
+       "procure",
+       "both",
+       "not_sure"
+      ]
+     }
+    ],
+    "element": {
+     "id": "C_PROC_EVAL",
+     "title": "Procurement of AI tools: evaluating RFP responses",
+     "tier": "conditional",
+     "statements": [
+      {
+       "modality": "should",
+       "modal_as_written": [
+        "imperative (no modal verb)",
+        "should"
+       ],
+       "summary": "GS-25-002 lists thirteen topics of instructions for evaluating RFP responses, from “Establish a diverse evaluation committee with expertise in AI, ethics, and procurement” to “Where feasible, require a pilot phase before full deployment”, written without modal verbs except “Both training and technical documentation should be provided”; read the cited section for each item.",
+       "citations": [
+        "Procurement of AI tools Guidelines for Responsible Use (GS-25-002), Guidelines for Evaluating RFP Responses > 1. Fair and Objective Evaluation Process, p.4",
+        "Procurement of AI tools Guidelines for Responsible Use (GS-25-002), Guidelines for Evaluating RFP Responses > 2. Assessing Bias Mitigation Strategies, p.4",
+        "Procurement of AI tools Guidelines for Responsible Use (GS-25-002), Guidelines for Evaluating RFP Responses > 3. Examining Transparency and Explainability, p.5",
+        "Procurement of AI tools Guidelines for Responsible Use (GS-25-002), Guidelines for Evaluating RFP Responses > 4. Reviewing Data Security and Privacy Protections, p.5",
+        "Procurement of AI tools Guidelines for Responsible Use (GS-25-002), Guidelines for Evaluating RFP Responses > 5. Evaluating Performance and Accountability Measures, p.5",
+        "Procurement of AI tools Guidelines for Responsible Use (GS-25-002), Guidelines for Evaluating RFP Responses > 6. Ensuring Compliance with Ethical and Legal Standards, p.5",
+        "Procurement of AI tools Guidelines for Responsible Use (GS-25-002), Guidelines for Evaluating RFP Responses > 7. Evaluating Workforce Change Management and Training Plans, p.5",
+        "Procurement of AI tools Guidelines for Responsible Use (GS-25-002), Guidelines for Evaluating RFP Responses > 8. Evaluating Continuous Monitoring and Feedback Loops, p.5",
+        "Procurement of AI tools Guidelines for Responsible Use (GS-25-002), Guidelines for Evaluating RFP Responses > 9. Evaluating Ethical AI Governance, p.5",
+        "Procurement of AI tools Guidelines for Responsible Use (GS-25-002), Guidelines for Evaluating RFP Responses > 10. Evaluating Algorithmic Impact Assessments, p.5",
+        "Procurement of AI tools Guidelines for Responsible Use (GS-25-002), Guidelines for Evaluating RFP Responses > 11. Evaluating Collaboration and Knowledge Sharing, p.6",
+        "Procurement of AI tools Guidelines for Responsible Use (GS-25-002), Guidelines for Evaluating RFP Responses > 12. Evaluating Referrals or Similar Work Product, p.6",
+        "Procurement of AI tools Guidelines for Responsible Use (GS-25-002), Guidelines for Evaluating RFP Responses > 13. Conducting a Pilot or Trial Implementation, p.6"
+       ],
+       "provision_ids": [
+        "GS-25-002-EVAL-1-1",
+        "GS-25-002-EVAL-1-2",
+        "GS-25-002-EVAL-1-3",
+        "GS-25-002-EVAL-2-1",
+        "GS-25-002-EVAL-2-2",
+        "GS-25-002-EVAL-3-1",
+        "GS-25-002-EVAL-3-2",
+        "GS-25-002-EVAL-4-1",
+        "GS-25-002-EVAL-4-2",
+        "GS-25-002-EVAL-4-3",
+        "GS-25-002-EVAL-5-1",
+        "GS-25-002-EVAL-5-2",
+        "GS-25-002-EVAL-5-3",
+        "GS-25-002-EVAL-6-1",
+        "GS-25-002-EVAL-6-2",
+        "GS-25-002-EVAL-7-1",
+        "GS-25-002-EVAL-7-2",
+        "GS-25-002-EVAL-7-3",
+        "GS-25-002-EVAL-7-4",
+        "GS-25-002-EVAL-8-1",
+        "GS-25-002-EVAL-8-2",
+        "GS-25-002-EVAL-9-1",
+        "GS-25-002-EVAL-9-2",
+        "GS-25-002-EVAL-10-1",
+        "GS-25-002-EVAL-10-2",
+        "GS-25-002-EVAL-10-3",
+        "GS-25-002-EVAL-11-1",
+        "GS-25-002-EVAL-12-1",
+        "GS-25-002-EVAL-12-2",
+        "GS-25-002-EVAL-13-1",
+        "GS-25-002-EVAL-13-2",
+        "GS-25-002-EVAL-13-3"
+       ]
+      }
+     ],
+     "other_ai_statements": [
+      {
+       "modality": "should",
+       "summary": "GS-25-002 lists thirteen topics of instructions for evaluating RFP responses, from “Establish a diverse evaluation committee with expertise in AI, ethics, and procurement” to “Where feasible, require a pilot phase before full deployment”, written without modal verbs except “Both training and technical documentation should be provided”; read the cited section for each item.",
+       "citations": [
+        "Procurement of AI tools Guidelines for Responsible Use (GS-25-002), Guidelines for Evaluating RFP Responses > 1. Fair and Objective Evaluation Process, p.4",
+        "Procurement of AI tools Guidelines for Responsible Use (GS-25-002), Guidelines for Evaluating RFP Responses > 2. Assessing Bias Mitigation Strategies, p.4",
+        "Procurement of AI tools Guidelines for Responsible Use (GS-25-002), Guidelines for Evaluating RFP Responses > 3. Examining Transparency and Explainability, p.5",
+        "Procurement of AI tools Guidelines for Responsible Use (GS-25-002), Guidelines for Evaluating RFP Responses > 4. Reviewing Data Security and Privacy Protections, p.5",
+        "Procurement of AI tools Guidelines for Responsible Use (GS-25-002), Guidelines for Evaluating RFP Responses > 5. Evaluating Performance and Accountability Measures, p.5",
+        "Procurement of AI tools Guidelines for Responsible Use (GS-25-002), Guidelines for Evaluating RFP Responses > 6. Ensuring Compliance with Ethical and Legal Standards, p.5",
+        "Procurement of AI tools Guidelines for Responsible Use (GS-25-002), Guidelines for Evaluating RFP Responses > 7. Evaluating Workforce Change Management and Training Plans, p.5",
+        "Procurement of AI tools Guidelines for Responsible Use (GS-25-002), Guidelines for Evaluating RFP Responses > 8. Evaluating Continuous Monitoring and Feedback Loops, p.5",
+        "Procurement of AI tools Guidelines for Responsible Use (GS-25-002), Guidelines for Evaluating RFP Responses > 9. Evaluating Ethical AI Governance, p.5",
+        "Procurement of AI tools Guidelines for Responsible Use (GS-25-002), Guidelines for Evaluating RFP Responses > 10. Evaluating Algorithmic Impact Assessments, p.5",
+        "Procurement of AI tools Guidelines for Responsible Use (GS-25-002), Guidelines for Evaluating RFP Responses > 11. Evaluating Collaboration and Knowledge Sharing, p.6",
+        "Procurement of AI tools Guidelines for Responsible Use (GS-25-002), Guidelines for Evaluating RFP Responses > 12. Evaluating Referrals or Similar Work Product, p.6",
+        "Procurement of AI tools Guidelines for Responsible Use (GS-25-002), Guidelines for Evaluating RFP Responses > 13. Conducting a Pilot or Trial Implementation, p.6"
+       ],
+       "provision_ids": [
+        "GS-25-002-EVAL-1-1",
+        "GS-25-002-EVAL-1-2",
+        "GS-25-002-EVAL-1-3",
+        "GS-25-002-EVAL-2-1",
+        "GS-25-002-EVAL-2-2",
+        "GS-25-002-EVAL-3-1",
+        "GS-25-002-EVAL-3-2",
+        "GS-25-002-EVAL-4-1",
+        "GS-25-002-EVAL-4-2",
+        "GS-25-002-EVAL-4-3",
+        "GS-25-002-EVAL-5-1",
+        "GS-25-002-EVAL-5-2",
+        "GS-25-002-EVAL-5-3",
+        "GS-25-002-EVAL-6-1",
+        "GS-25-002-EVAL-6-2",
+        "GS-25-002-EVAL-7-1",
+        "GS-25-002-EVAL-7-2",
+        "GS-25-002-EVAL-7-3",
+        "GS-25-002-EVAL-7-4",
+        "GS-25-002-EVAL-8-1",
+        "GS-25-002-EVAL-8-2",
+        "GS-25-002-EVAL-9-1",
+        "GS-25-002-EVAL-9-2",
+        "GS-25-002-EVAL-10-1",
+        "GS-25-002-EVAL-10-2",
+        "GS-25-002-EVAL-10-3",
+        "GS-25-002-EVAL-11-1",
+        "GS-25-002-EVAL-12-1",
+        "GS-25-002-EVAL-12-2",
+        "GS-25-002-EVAL-13-1",
+        "GS-25-002-EVAL-13-2",
+        "GS-25-002-EVAL-13-3"
+       ]
+      }
+     ],
+     "conflicts": [],
+     "open_questions": [
+      {
+       "id": "OQ22",
+       "plain": "Should the procurement guideline (GS-25-002) be shown to an employee who works on an AI procurement?"
+      }
+     ]
+    }
+   },
+   {
+    "id": "OUT_C_DEVELOP",
+    "when": [
+     {
+      "F_ROLE": [
+       "build",
+       "both",
+       "not_sure"
+      ]
+     }
+    ],
+    "element": {
+     "id": "C_DEVELOP",
+     "title": "Developing AI tools or working with external collaborators",
+     "tier": "conditional",
+     "statements": [
+      {
+       "modality": "must",
+       "modal_as_written": [
+        "must",
+        "shall"
+       ],
+       "summary": "“When developing AI tools or engaging with external collaborators, the following guidelines shall be adhered to”, including that “Collaboration agreements must clearly disclose the manner and use of AI technology”, “AI development shall prioritize safety, privacy, and ethical considerations”, “Prior to deployment, AI systems shall undergo rigorous testing”, and risks or ethical concerns “shall be reported to the agency’s designated Ethics Officer, CIO, and State CIO”.",
+       "citations": [
+        "Artificial Intelligence Responsible Use (SS-23-002), 9. AI Development and External Collaboration, p.12",
+        "Artificial Intelligence Responsible Use (SS-23-002), 9. AI Development and External Collaboration, p.13"
+       ],
+       "provision_ids": [
+        "SS-23-002-9-1",
+        "SS-23-002-9-3",
+        "SS-23-002-9-4",
+        "SS-23-002-9-5",
+        "SS-23-002-9-6",
+        "SS-23-002-9-7",
+        "SS-23-002-9-8",
+        "SS-23-002-9-9",
+        "SS-23-002-9-10"
+       ]
+      },
+      {
+       "modality": "should",
+       "modal_as_written": [
+        "should"
+       ],
+       "summary": "Collaboration agreements “should also address ownership and usage rights of AI models and data.”",
+       "citations": [
+        "Artificial Intelligence Responsible Use (SS-23-002), 9. AI Development and External Collaboration, p.12"
+       ],
+       "provision_ids": [
+        "SS-23-002-9-2"
+       ]
+      }
+     ],
+     "other_ai_statements": [
+      {
+       "modality": "must",
+       "summary": "“When developing AI tools or engaging with external collaborators, the following guidelines shall be adhered to”, including that “Collaboration agreements must clearly disclose the manner and use of AI technology”, “AI development shall prioritize safety, privacy, and ethical considerations”, “Prior to deployment, AI systems shall undergo rigorous testing”, and risks or ethical concerns “shall be reported to the agency’s designated Ethics Officer, CIO, and State CIO”.",
+       "citations": [
+        "Artificial Intelligence Responsible Use (SS-23-002), 9. AI Development and External Collaboration, p.12",
+        "Artificial Intelligence Responsible Use (SS-23-002), 9. AI Development and External Collaboration, p.13"
+       ],
+       "provision_ids": [
+        "SS-23-002-9-1",
+        "SS-23-002-9-3",
+        "SS-23-002-9-4",
+        "SS-23-002-9-5",
+        "SS-23-002-9-6",
+        "SS-23-002-9-7",
+        "SS-23-002-9-8",
+        "SS-23-002-9-9",
+        "SS-23-002-9-10"
+       ]
+      },
+      {
+       "modality": "should",
+       "summary": "Collaboration agreements “should also address ownership and usage rights of AI models and data.”",
+       "citations": [
+        "Artificial Intelligence Responsible Use (SS-23-002), 9. AI Development and External Collaboration, p.12"
+       ],
+       "provision_ids": [
+        "SS-23-002-9-2"
+       ]
+      }
+     ],
+     "conflicts": [
+      {
+       "id": "C10",
+       "plain": "Incident and misuse reports go to different recipients in different documents, and only SS-25-001 sets a deadline (48 hours)."
+      }
+     ],
+     "open_questions": []
+    }
+   }
+  ],
+  "conditional_pointers": [
+   {
+    "id": "OUT_P_DATA_AUTHORITY",
+    "when": [
+     {
+      "F_DATA": [
+       "yes",
+       "not_sure"
+      ]
+     }
+    ],
+    "pointer": {
+     "id": "P_DATA_AUTHORITY",
+     "as_written": "Agencies shall ensure that “all confidential information or sensitive and personal data must be authorized by appropriate agency authority for use in the manner proposed” and that it “when used, is anonymized, encrypted, or otherwise protected when used with AI tools”. “Before using any GenAI system, agencies shall assess whether the tool stores, processes, or accesses sensitive data.”",
+     "employee_pointer": "SS-23-002 refers to an 'appropriate agency authority' for authorizing use of confidential, sensitive or personal data with AI tools. The documents do not say who that is.",
+     "citations": [
+      "Artificial Intelligence Responsible Use (SS-23-002), 6. Data Protection, Safety and Privacy, p.9",
+      "Generative AI Responsible Use (SS-25-001), 1.3 Data Privacy and Confidentiality, p.3"
+     ],
+     "provision_ids": [
+      "SS-23-002-6-2",
+      "SS-23-002-6-3",
+      "SS-25-001-1.3-1"
+     ],
+     "other_ai_as_written": "SS-23-002 says: “This includes:” … “all confidential information or sensitive and personal data must be authorized by appropriate agency authority for use in the manner proposed”; SS-23-002 says: “This includes:” … “when used, is anonymized, encrypted, or otherwise protected when used with AI tools” [modal as written: must (earlier in same sentence)]",
+     "other_ai_citations": [
+      "Artificial Intelligence Responsible Use (SS-23-002), 6. Data Protection, Safety and Privacy, p.9"
+     ],
+     "other_ai_provision_ids": [
+      "SS-23-002-6-2",
+      "SS-23-002-6-3"
+     ],
+     "conflicts": [
+      {
+       "id": "C04",
+       "plain": "The documents disagree on whether personal or sensitive data can ever be entered and who can approve it: GTA's Office of Artificial Intelligence (SS-25-001 1.3), an 'appropriate agency authority' (SS-23-002 6), the Georgia Technology Authority generally (GS-25-001 rubric), or no stated exception (other GS-25-001 passages and the SS-25-001 table)."
+      },
+      {
+       "id": "C10",
+       "plain": "Incident and misuse reports go to different recipients in different documents, and only SS-25-001 sets a deadline (48 hours)."
+      }
+     ],
+     "open_questions": []
+    }
+   },
+   {
+    "id": "OUT_P_HIGH_RISK",
+    "when": [
+     {
+      "F_DECISION": [
+       "yes",
+       "not_sure"
+      ]
+     },
+     {
+      "F_TASK": [
+       "other",
+       "not_sure",
+       "policy_drafting",
+       "education_training"
+      ]
+     }
+    ],
+    "pointer": {
+     "id": "P_HIGH_RISK",
+     "as_written": "“Agencies should conduct their own risk assessments and consult with the Georgia Technology Authority (GTA) Office of Artificial Intelligence for novel, high-risk, or ambiguous use cases not represented here.” “Agencies shall implement human-in-the-loop (HITL) review workflows, especially for moderate- and high-risk use cases.”",
+     "employee_pointer": "Check with your agency about its risk assessment and human-in-the-loop review workflow for this use; SS-25-001 says agencies should consult the GTA Office of Artificial Intelligence for novel, high-risk, or ambiguous use cases.",
+     "citations": [
+      "Generative AI Responsible Use (SS-25-001), 3.0 Common Gen AI Use Cases (text above and below the table), p.6",
+      "Generative AI Responsible Use (SS-25-001), 1. Human Review and Validation, p.2"
+     ],
+     "provision_ids": [
+      "SS-25-001-3.0-4",
+      "SS-25-001-1-2"
+     ],
+     "other_ai_as_written": null,
+     "other_ai_citations": [],
+     "other_ai_provision_ids": [],
+     "conflicts": [
+      {
+       "id": "C12",
+       "plain": "GS-25-001 mentions 'regularly clearing chats' while other provisions call for keeping records of prompts and responses; the documents do not say how these fit together."
+      },
+      {
+       "id": "C13",
+       "plain": "SS-25-001 says review is by 'qualified personnel' before use 'in any official capacity'; SS-23-002 says agencies ensure review and approval 'by the business owner or designated personnel' before content is 'published or used for decision-making'."
+      }
+     ],
+     "open_questions": []
+    }
+   },
+   {
+    "id": "OUT_P_PROCUREMENT",
+    "when": [
+     {
+      "F_ROLE": [
+       "procure",
+       "both",
+       "not_sure"
+      ]
+     }
+    ],
+    "pointer": {
+     "id": "P_PROCUREMENT",
+     "as_written": "“Agencies shall submit all software, applications, tools, and services utilizing AI for business operations to GTA for review prior to procurement.” “Agencies shall submit a Business Solutions Review (BSR) Request form to GTA via email” “Agencies must consult with the GTA Office of Artificial Intelligence before entering into any contractual agreement involving GenAI features or integrations.” “Individual agencies retain discretion to purchase premium versions through standard procurement processes.”",
+     "employee_pointer": "Check with your agency how it submits AI tools to GTA for review before procurement. The documents describe more than one route (see conflict C08).",
+     "citations": [
+      "Enterprise Artificial Intelligence Responsible Use (PS-23-001), Policy, p.3",
+      "Artificial Intelligence Responsible Use (SS-23-002), 3. Procuring AI Solutions, p.5",
+      "Generative AI Responsible Use (SS-25-001), 1.5 Procurement and Third-Party Vendor Compliance, p.4",
+      "Generative AI Responsible Use (SS-25-001), Standard (opening paragraphs, before section 1), p.2"
+     ],
+     "provision_ids": [
+      "PS-23-001-POLICY-1",
+      "SS-23-002-3-1",
+      "SS-25-001-1.5-4",
+      "SS-25-001-STD-3"
+     ],
+     "other_ai_as_written": "PS-23-001 says: “Agencies shall submit all software, applications, tools, and services utilizing AI for business operations to GTA for review prior to procurement.”; SS-23-002 says: “Agencies shall submit a Business Solutions Review (BSR) Request form to GTA via email”",
+     "other_ai_citations": [
+      "Enterprise Artificial Intelligence Responsible Use (PS-23-001), Policy, p.3",
+      "Artificial Intelligence Responsible Use (SS-23-002), 3. Procuring AI Solutions, p.5"
+     ],
+     "other_ai_provision_ids": [
+      "PS-23-001-POLICY-1",
+      "SS-23-002-3-1"
+     ],
+     "conflicts": [
+      {
+       "id": "C02",
+       "plain": "PS-23-001 cites a standard numbered SS-23-001; the standard in the document set is numbered SS-23-002."
+      },
+      {
+       "id": "C03",
+       "plain": "PS-23-001 defines 'Artificial Intelligence' in the words the other documents use for 'Generative AI', so the reach of its procurement-review rule is unclear."
+      },
+      {
+       "id": "C08",
+       "plain": "Pre-procurement review is described three ways: a web form at ai.georgia.gov (SS-25-001), a Business Solutions Review form sent by email (SS-23-002), and submission to GTA with no channel named (PS-23-001)."
+      }
+     ],
+     "open_questions": [
+      {
+       "id": "OQ08",
+       "plain": "Does 'Agencies shall implement additional restrictions based on their specific needs' impose a duty or grant a permission?"
+      },
+      {
+       "id": "OQ17",
+       "plain": "Does PS-23-001's passed review date (01/15/2025) affect its status?"
+      }
+     ]
+    }
+   },
+   {
+    "id": "OUT_P_CONTRACTS",
+    "when": [
+     {
+      "F_ROLE": [
+       "procure",
+       "both",
+       "not_sure"
+      ]
+     }
+    ],
+    "pointer": {
+     "id": "P_CONTRACTS",
+     "as_written": "“Service and technology contracts shall provide standards of third-party provider and their partners or subcontractors, including:” “Adhering to GTA Policies, Standards and Guidelines (PSGs)”; “Adhering to NIST guidance, risk management frameworks and standards for responsible artificial intelligence practices.”; and providing the contractors' Responsible AI framework and policies to GTA.",
+     "employee_pointer": "Check with your agency's procurement process for the contract standards SS-23-002 section 3 lists. The documents do not name an office.",
+     "citations": [
+      "Artificial Intelligence Responsible Use (SS-23-002), 3. Procuring AI Solutions, p.5"
+     ],
+     "provision_ids": [
+      "SS-23-002-3-4",
+      "SS-23-002-3-5",
+      "SS-23-002-3-6"
+     ],
+     "other_ai_as_written": "“Service and technology contracts shall provide standards of third-party provider and their partners or subcontractors, including:” “Adhering to GTA Policies, Standards and Guidelines (PSGs)”; “Adhering to NIST guidance, risk management frameworks and standards for responsible artificial intelligence practices.”; and providing the contractors' Responsible AI framework and policies to GTA.",
+     "other_ai_citations": [
+      "Artificial Intelligence Responsible Use (SS-23-002), 3. Procuring AI Solutions, p.5"
+     ],
+     "other_ai_provision_ids": [
+      "SS-23-002-3-4",
+      "SS-23-002-3-5",
+      "SS-23-002-3-6"
+     ],
+     "conflicts": [],
+     "open_questions": []
+    }
+   },
+   {
+    "id": "OUT_P_SANDBOX",
+    "when": [
+     {
+      "F_ROLE": [
+       "build",
+       "both",
+       "not_sure"
+      ]
+     }
+    ],
+    "pointer": {
+     "id": "P_SANDBOX",
+     "as_written": "“To participate in the Horizons Innovation Lab, agencies shall:” “Submit a brief project proposal outlining goals, target outcomes, and potential risks via the online form at https://ai.georgia.gov/innovation-lab/how-do-i-submit-project-innovation-lab” “Following successful sandbox evaluation, agencies shall seek approval to transition GenAI projects into pilot or production phases.”",
+     "employee_pointer": "Sandbox participation is arranged by the agency with GTA's Horizons Innovation Lab; check with your agency whether your project is or should be in the Sandbox.",
+     "citations": [
+      "Generative AI Responsible Use (SS-25-001), 2.2 Participation Requirements, p.5",
+      "Generative AI Responsible Use (SS-25-001), 2.5 Advancement and Scaling, p.5"
+     ],
+     "provision_ids": [
+      "SS-25-001-2.2-1",
+      "SS-25-001-2.5-1"
+     ],
+     "other_ai_as_written": null,
+     "other_ai_citations": [],
+     "other_ai_provision_ids": [],
+     "conflicts": [],
+     "open_questions": []
+    }
+   },
+   {
+    "id": "OUT_P_MEETINGS_AGENCY",
+    "when": [
+     {
+      "F_TASK": [
+       "meetings",
+       "not_sure"
+      ]
+     }
+    ],
+    "pointer": {
+     "id": "P_MEETINGS_AGENCY",
+     "as_written": "“Agencies should ensure that the use of AI tools in virtual meetings complies with all relevant laws and regulations, including those related to data protection, intellectual property, and labor laws.”",
+     "employee_pointer": "Check with your agency for its rules on AI tools in virtual meetings. The documents do not name an office.",
+     "citations": [
+      "Generative AI Guidelines for Responsible Use (GS-25-001), Guidelines > Be Vigilant in Virtual Meetings, p.3"
+     ],
+     "provision_ids": [
+      "GS-25-001-MEET-6"
+     ],
+     "other_ai_as_written": null,
+     "other_ai_citations": [],
+     "other_ai_provision_ids": [],
+     "conflicts": [],
+     "open_questions": []
+    }
+   }
+  ],
+  "closing_line": "This tool lists which GTA policies, standards and guidelines apply to what you described. It does not say whether a specific use is permitted overall, and it is not legal advice. For decisions the documents leave to the agency, ask your agency."
+ },
+ "verification_report": {
+  "method": "Every path was enumerated by following 'next' from the first question and honoring 'ask_if'. For each path the outcome was assembled from this file's 'outcomes' and separately recomputed from stage2_map.json ('activated_by' for elements, 'show_when' for pointers); the two were compared. Each asked question was tested by changing only its answer and recomputing; each skipped question was tested by supplying every possible answer and recomputing.",
+  "number_of_paths": 6016,
+  "longest_path_questions": 7,
+  "shortest_path_questions": 1,
+  "paths_by_length": {
+   "1": 1,
+   "3": 15,
+   "5": 240,
+   "6": 4680,
+   "7": 1080
+  },
+  "max_questions_allowed": 8,
+  "within_limit": true,
+  "distinct_outcomes": 1161,
+  "mismatches": [],
+  "mismatch_count": 0,
+  "conditional_elements": 26,
+  "unreachable_conditional_elements": [],
+  "questions_whose_answer_cannot_change_the_result": [],
+  "skipped_questions_that_could_have_changed_the_result": [],
+  "all_questions_built_from_map_facts": true,
+  "facts_not_used": [],
+  "every_question_has_not_sure": true,
+  "question_order": [
+   "Q_TYPE",
+   "Q_TASK",
+   "Q_PRODUCT",
+   "Q_ROLE",
+   "Q_DATA",
+   "Q_HOST",
+   "Q_DECISION"
+  ],
+  "ordering_basis": [
+   {
+    "fact": "F_TYPE",
+    "gate": true,
+    "note": "Asked first: it decides which provisions are in scope."
+   },
+   {
+    "fact": "F_TASK",
+    "average_elements_ruled_out_per_answer": 12.94,
+    "elements_depending_on_fact": 15
+   },
+   {
+    "fact": "F_PRODUCT",
+    "average_elements_ruled_out_per_answer": 2.25,
+    "elements_depending_on_fact": 4
+   },
+   {
+    "fact": "F_ROLE",
+    "average_elements_ruled_out_per_answer": 2.0,
+    "elements_depending_on_fact": 5
+   },
+   {
+    "fact": "F_DATA",
+    "average_elements_ruled_out_per_answer": 1.0,
+    "elements_depending_on_fact": 2
+   },
+   {
+    "fact": "F_HOST",
+    "average_elements_ruled_out_per_answer": 0.33,
+    "elements_depending_on_fact": 1
+   },
+   {
+    "fact": "F_DECISION",
+    "average_elements_ruled_out_per_answer": 0.33,
+    "elements_depending_on_fact": 1
+   }
+  ],
+  "ordering_note": "The AI-type question comes first because it decides which provisions are in scope. The rest are ordered by the average number of fact-dependent elements an answer rules out, assuming each answer is equally likely. Only 'It does not use AI' ends the interview early; otherwise order does not change how many questions are asked, only the 'ask_if' skips do."
+ }
+}

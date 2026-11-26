@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GTA GenAI Policy Check</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Public+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* layout: one question card on the left, a sticky guardrails panel on the right; source wording is always set in the serif */
+  --bg:#eef2f1; --surface:#ffffff; --sunk:#e3e9e8; --ink:#14232b; --muted:#55666f; --line:#cfd9d8;
+  --accent:#0d5a61; --accent-ink:#ffffff; --accent-soft:#d9ecec; --ctl:#77878d; --band:#0d5a61; --band-ink:#ffffff; --band-muted:#d9eeef; --pill-bg:#083f44; --b1:#5dcaa5; --b2:#1d9e75; --b3:#0f6e56; --b4:#085041; --stop:#b3261e; --stop-bg:#fbe1de; --shadow:0 1px 2px rgba(20,35,43,.06),0 8px 20px -12px rgba(20,35,43,.18);
+  --must:#8f4a00; --must-bg:#fbecd3; --mustnot:#a3211a; --mustnot-bg:#fbe1de; --should:#1d5887; --should-bg:#dfecf7; --may:#2a6a3d; --may-bg:#dff0e3; --info:#55666f; --info-bg:#e6ebea;
+  --notsure:#ee7a1f;
+  --display:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif; --body:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif; --quote:"Newsreader",Georgia,"Times New Roman",serif;
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){ color-scheme:dark;
+    --bg:#0f181c; --surface:#17242a; --sunk:#111c21; --ink:#e7eef0; --muted:#9db0b8; --line:#2b3c44;
+    --accent:#62c6cd; --accent-ink:#06282b; --accent-soft:#163a3e; --ctl:#6b8089; --band:#12343a; --band-ink:#e7eef0; --band-muted:#c3d6db; --pill-bg:#0b2226; --b1:#1d9e75; --b2:#3fb98f; --b3:#6fd3b0; --b4:#9fe1cb; --stop:#e05a4a; --stop-bg:#421a17; --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 20px -12px rgba(0,0,0,.6);
+    --must:#f0b765; --must-bg:#3a2a10; --mustnot:#f39a92; --mustnot-bg:#421a17; --should:#8fc3ee; --should-bg:#152f45; --may:#8fd3a2; --may-bg:#16351f; --info:#9db0b8; --info-bg:#223138; }
+}
+:root[data-theme="dark"]{ color-scheme:dark;
+  --bg:#0f181c; --surface:#17242a; --sunk:#111c21; --ink:#e7eef0; --muted:#9db0b8; --line:#2b3c44;
+  --accent:#62c6cd; --accent-ink:#06282b; --accent-soft:#163a3e; --ctl:#6b8089; --band:#12343a; --band-ink:#e7eef0; --band-muted:#c3d6db; --pill-bg:#0b2226; --b1:#1d9e75; --b2:#3fb98f; --b3:#6fd3b0; --b4:#9fe1cb; --stop:#e05a4a; --stop-bg:#421a17; --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 20px -12px rgba(0,0,0,.6);
+  --must:#f0b765; --must-bg:#3a2a10; --mustnot:#f39a92; --mustnot-bg:#421a17; --should:#8fc3ee; --should-bg:#152f45; --may:#8fd3a2; --may-bg:#16351f; --info:#9db0b8; --info-bg:#223138; }
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.wrap{max-width:1120px;margin:0 auto;padding:20px 16px 56px}
+header.top{display:flex;flex-wrap:wrap;gap:8px 20px;align-items:baseline;justify-content:space-between;padding-bottom:16px;border-bottom:2px solid var(--ink)}
+header.top h1{font-family:var(--display);font-weight:800;font-size:1.5rem;letter-spacing:-.01em;margin:0;text-wrap:balance}
+header.top p{margin:0;color:var(--muted);font-size:.9rem;max-width:60ch}
+.grid{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:24px;margin-top:20px;align-items:start}
+.rail{position:sticky;top:16px;display:flex;flex-direction:column;gap:16px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:20px}
+/* heat */
+.heat{display:grid;grid-template-columns:84px 1fr;gap:14px;align-items:center}
+.heat h2{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:0 0 2px;font-weight:700}
+.level{font-family:var(--display);font-weight:800;font-size:1.35rem;line-height:1.1}
+.thermo{position:relative;height:30px;margin-top:14px}
+.thermo .bulb{position:absolute;left:0;top:0;width:22px;height:22px;border-radius:50%;background:var(--fc,var(--b2));border:1.5px solid var(--ctl);transition:background .4s}
+.thermo .tube{position:absolute;left:16px;right:0;top:6px;height:10px;border-radius:0 5px 5px 0;background:var(--sunk);border:1.5px solid var(--ctl);border-left:0;overflow:hidden}
+.thermo .fill{position:absolute;left:0;top:0;bottom:0;width:var(--t,0%);background:var(--fc,var(--b2));transition:width .5s cubic-bezier(.3,1.2,.5,1),background .4s}
+.thermo .tick{position:absolute;top:18px;width:1.5px;height:6px;background:var(--muted)}
+@media (prefers-reduced-motion:reduce){.thermo .fill{transition:none}}
+.heatnote{font-size:.8rem;color:var(--muted);margin:8px 0 0}.heatnote p{margin:4px 0 0}
+.more>summary{font-size:.84rem;font-weight:600}.q .more{margin:0 0 12px}.q .more .help{margin:4px 0 4px}
+.drivers{list-style:none;margin:12px 0 0;padding:0;display:flex;flex-direction:column;gap:6px;font-size:.85rem}
+.drivers li{display:flex;justify-content:space-between;gap:10px;border-top:1px solid var(--line);padding-top:6px}
+.drivers b{font-variant-numeric:tabular-nums;white-space:nowrap}
+.rail h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:0 0 8px;font-weight:700}
+.answers{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;font-size:.88rem}
+.answers li{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
+.answers span{min-width:0}
+.answers small{display:block;color:var(--muted)}
+.link{background:none;border:0;padding:0 4px;min-height:44px;min-width:44px;color:var(--accent);text-decoration:underline;cursor:pointer;font-weight:600;white-space:nowrap}
+/* question */
+.progress{display:flex;gap:6px;margin-bottom:14px;align-items:center;font-size:.8rem;color:var(--muted)}
+.progress i{width:26px;height:5px;border-radius:3px;background:var(--line)}
+.progress i.done{background:var(--accent)}
+.progress i.now{background:var(--ink)}
+.q h2{font-family:var(--display);font-weight:700;font-size:1.45rem;line-height:1.25;margin:0 0 8px;text-wrap:balance;max-width:28ch}
+.q .help{color:var(--muted);font-size:.92rem;max-width:65ch;margin:0 0 16px}
+.opts{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:8px}
+.opt{text-align:left;background:var(--surface);border:1.5px solid var(--ctl);border-radius:8px;padding:11px 14px;cursor:pointer;min-height:48px;transition:border-color .15s,background .15s}
+.opt:hover{border-color:var(--accent);background:var(--accent-soft)}
+.opt[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft);font-weight:600}
+.opt.ns{border-style:dashed}
+.hint{margin:0 0 8px;font-size:.88rem;font-weight:600;color:var(--muted)}
+.nav{display:flex;gap:12px;margin-top:16px;align-items:center}
+.btn{background:var(--accent);color:var(--accent-ink);border:0;border-radius:8px;padding:10px 16px;min-height:44px;font-weight:700;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--accent);border:1.5px solid var(--accent)}
+.confirm{margin-top:14px;padding:12px 14px;border-left:4px solid var(--notsure);background:var(--must-bg);border-radius:0 8px 8px 0;font-size:.9rem;max-width:70ch}
+.base{margin-top:20px}
+/* results */
+.sec{margin-top:28px}
+.sec>h2{font-family:var(--display);font-size:1.15rem;font-weight:800;margin:0 0 4px}
+.sec>p{margin:0 0 12px;color:var(--muted);font-size:.9rem;max-width:65ch}
+.els{display:flex;flex-direction:column;gap:12px}
+.el{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px}
+.el h3{font-size:1.02rem;margin:0 0 10px;font-weight:700}
+.st{display:grid;grid-template-columns:92px minmax(0,1fr);gap:4px 12px;padding:10px 0;border-top:1px solid var(--line)}
+.pill{display:inline-block;font-size:.72rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase;padding:3px 8px;border-radius:999px;align-self:start;justify-self:start;border:1px solid currentColor}
+.pill.must{color:var(--must);background:var(--must-bg)} .pill.must_not{color:var(--mustnot);background:var(--mustnot-bg)}
+.pill.should{color:var(--should);background:var(--should-bg)} .pill.may{color:var(--may);background:var(--may-bg)} .pill.informational{color:var(--info);background:var(--info-bg)}
+.st p{margin:0;max-width:68ch}
+details{grid-column:2;margin-top:6px}
+summary{cursor:pointer;color:var(--accent);font-weight:600;font-size:.88rem;width:fit-content;min-height:44px;display:flex;align-items:center;gap:6px}
+summary::before{content:"\25B8";display:inline-block;transition:transform .15s}details[open]>summary::before{transform:rotate(90deg)}summary::-webkit-details-marker{display:none}summary{list-style:none}
+@media (prefers-reduced-motion:reduce){summary::before{transition:none}}
+.src{list-style:none;margin:8px 0 0;padding:0;display:flex;flex-direction:column;gap:10px}
+.src li{border-left:3px solid var(--accent);padding:2px 0 2px 12px}
+.src blockquote{margin:0;font-family:var(--quote);font-size:1.05rem;line-height:1.4}
+.src .lead{font-family:var(--quote);font-style:italic;color:var(--muted);font-size:.95rem;margin:0 0 2px}
+.src cite{display:block;font-style:normal;font-size:.8rem;color:var(--muted);margin-top:3px}
+.src cite a,.row cite a{color:var(--accent);display:inline-block;padding:12px 0}
+.flags{grid-column:1/-1;margin:8px 0 0;padding:0 12px;background:var(--sunk);border-radius:8px;font-size:.85rem}
+.flags b{display:block;font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:4px}
+.flags ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
+.ptr .aw{font-family:var(--quote);font-size:1.02rem;margin:0 0 6px;max-width:68ch}
+.ptr .do{margin:0;font-weight:600;max-width:68ch}
+.views{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:14px}
+.views span{font-size:.8rem;font-weight:700;color:var(--muted);margin-right:4px}
+.views button{background:var(--surface);border:1.5px solid var(--ctl);border-radius:999px;padding:6px 14px;min-height:44px;font-size:.85rem;cursor:pointer}
+.views button[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft);font-weight:700}
+.row{display:grid;grid-template-columns:92px minmax(0,1fr);gap:4px 12px;padding:12px 0;border-top:1px solid var(--line)}
+.row:first-child{border-top:0;padding-top:0}
+.row blockquote{margin:0;font-family:var(--quote);font-size:1.05rem;line-height:1.4;max-width:68ch}
+.row .lead{font-family:var(--quote);font-style:italic;color:var(--muted);font-size:.95rem;margin:0 0 2px}
+.row cite{display:block;font-style:normal;font-size:.8rem;color:var(--muted);margin-top:3px}
+.row cite a{color:var(--accent)}
+.row .tag{font-size:.8rem;margin-top:4px}
+.gnote{font-size:.85rem;color:var(--muted);margin:0 0 10px;max-width:68ch}
+@media (max-width:820px){.row{grid-template-columns:minmax(0,1fr)}}
+.tabs{display:flex;gap:4px;margin-top:16px;border-bottom:2px solid var(--line)}
+.tabs button{background:none;border:0;border-bottom:3px solid transparent;margin-bottom:-2px;padding:8px 14px;min-height:44px;font-weight:700;cursor:pointer;color:var(--muted)}
+.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+.step h3{margin:0 0 6px}
+.step .where{margin:6px 0 0;font-size:.92rem}
+.step .where a{color:var(--accent);font-weight:600;margin-right:10px}
+.step .roles{margin:8px 0 0;padding-left:18px;font-size:.92rem}
+.step .roles li{margin:3px 0}
+.step .snote{margin:6px 0 0;font-size:.85rem;color:var(--muted)}
+.step .mw{font-size:.8rem;color:var(--muted);margin-left:8px}
+.closing{margin-top:28px;padding:16px 18px;border:2px solid var(--ink);border-radius:var(--r);max-width:75ch}
+.sr{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.updated{margin:4px 0 0;font-size:.85rem;color:var(--muted)}
+.err{padding:16px;border:2px solid var(--mustnot);border-radius:var(--r)}
+@media (max-width:820px){
+  .grid{grid-template-columns:minmax(0,1fr)}
+  .rail{position:static;order:-1}
+  .rail .ans{order:3}
+  .gbox{height:76px}
+  .heat{grid-template-columns:60px 1fr}
+  .drivers{display:none}
+  .st{grid-template-columns:minmax(0,1fr)} details{grid-column:1}
+  .q h2{font-size:1.25rem}
+}
+
+/* 1 header band */
+header.top{background-color:var(--band);background-image:repeating-linear-gradient(135deg,rgba(255,255,255,.045) 0 1px,transparent 1px 16px);color:var(--band-ink);padding:24px 26px 20px;border-radius:var(--r);border-bottom:0;row-gap:10px}
+header.top h1{color:var(--band-ink)}
+header.top p{color:var(--band-muted)}
+header.top p.updated{order:3;flex-basis:100%;max-width:none;margin:0}
+header.top p.updated{display:flex}
+.updated{font-size:.8rem}
+header.top .updated>*:first-child,header.top .updated{color:var(--band-ink)}
+.updpill{display:inline-block;background:var(--pill-bg);color:var(--band-ink);border-radius:12px;padding:4px 12px}
+/* 2 serif headings */
+header.top h1{font-family:var(--quote);font-weight:500;font-size:2rem;letter-spacing:-.01em}
+.q h2{font-family:var(--quote);font-weight:500;font-size:1.8rem;line-height:1.15;max-width:30ch}
+.sec>h2{font-family:var(--quote);font-weight:500;font-size:1.4rem;margin-bottom:6px}
+.sec{margin-top:36px}
+/* 3 answer cards */
+.opt{position:relative;padding-right:44px;transition:border-color .15s,background .15s,transform .15s,box-shadow .15s}
+.opt:hover{transform:translateY(-1px);box-shadow:var(--shadow)}
+.opt.ns::after{content:"?" / "";position:absolute;right:12px;top:12px;width:20px;height:20px;border-radius:50%;border:1.5px solid var(--ctl);color:var(--muted);font-size:.75rem;font-weight:800;display:grid;place-items:center}
+.opts.multi .opt:not(.ns):not([aria-pressed="true"])::after{content:"" / "";position:absolute;right:12px;top:12px;width:20px;height:20px;border-radius:5px;border:1.5px solid var(--ctl)}
+.opts.multi .opt:not(.ns)[aria-pressed="true"]::after{border-radius:5px}
+.opt[aria-pressed="true"]::after{content:"\2713" / "";position:absolute;right:12px;top:12px;width:20px;height:20px;border-radius:50%;border:0;background:var(--accent);color:var(--accent-ink);font-size:.78rem;font-weight:800;display:grid;place-items:center}
+/* 4 guardrails panel */
+.gbox{height:110px;background:var(--fbg,var(--sunk));border-radius:8px;overflow:hidden;transition:background .4s}
+#gr{display:block;width:100%;height:100%}
+.g-road{fill:color-mix(in srgb,var(--ink) 9%,var(--sunk))}.g-edge{stroke:var(--ctl);stroke-width:1;fill:none}
+.g-lane{stroke:var(--muted);stroke-width:1.6;fill:none;stroke-dasharray:5 7;animation:gdrive 1.2s linear infinite}
+@keyframes gdrive{to{stroke-dashoffset:-12}}
+.g-post{fill:var(--b3);transform-box:fill-box;transform-origin:50% 100%;transform:scaleY(0);transition:transform .45s cubic-bezier(.3,1.5,.5,1)}
+.g-post.on{transform:scaleY(1)}
+.g-beam{stroke:var(--b2);stroke-width:2.6;stroke-linecap:round;fill:none;opacity:0;transition:opacity .4s}.g-beam.on{opacity:1}
+.g-scene{transition:opacity .4s}.gbox.stop .g-scene{opacity:.18}.gbox.stop .g-lane{animation-play-state:paused}
+.g-stop{transform-box:fill-box;transform-origin:50% 50%;transform:scale(0) rotate(-45deg);transition:transform .5s cubic-bezier(.3,1.5,.5,1)}
+.gbox.stop .g-stop{transform:scale(1) rotate(0)}
+.g-oct{fill:var(--stop)}.g-ring{fill:none;stroke:#fff;stroke-width:2.5}.g-txt{fill:#fff;font:800 15px var(--display);letter-spacing:.04em}
+.level.stop{color:var(--stop)}
+.stopwhy{list-style:none;margin:12px 0 0;padding:10px 12px;border-left:4px solid var(--stop);background:var(--stop-bg);border-radius:0 8px 8px 0;font-size:.84rem;display:flex;flex-direction:column;gap:6px}
+.stopwhy[hidden]{display:none}.stopwhy small{display:block;color:var(--muted)}
+.stopban{margin:14px 0 4px;padding:14px 16px;border-left:4px solid var(--stop);background:var(--stop-bg);border-radius:0 8px 8px 0;max-width:75ch}
+.stopban h3{margin:0 0 8px;display:flex;gap:8px;align-items:center;font-size:1.05rem}
+.stopban .sreason{margin:12px 0 0}.stopban .sreason b{display:block}.stopban .qt{margin:6px 0;padding-left:22px;font-family:var(--quote);font-size:1.02rem;line-height:1.5}.stopban small{display:block;color:var(--muted)}
+@media (prefers-reduced-motion:reduce){.g-lane{animation:none}.g-post,.g-beam,.g-scene,.g-stop,.gbox{transition:none}}
+/* 4b band bar */
+.thermo .tube{background:linear-gradient(90deg,color-mix(in srgb,var(--b1) 22%,var(--sunk)) 0 16.67%,color-mix(in srgb,var(--b2) 22%,var(--sunk)) 16.67% 43.33%,color-mix(in srgb,var(--b3) 22%,var(--sunk)) 43.33% 83.33%,color-mix(in srgb,var(--b4) 22%,var(--sunk)) 83.33%)}
+.thermo .fill{width:100%;background:linear-gradient(90deg,var(--b1) 0 16.67%,var(--b2) 16.67% 43.33%,var(--b3) 43.33% 83.33%,var(--b4) 83.33%);clip-path:inset(0 calc(100% - var(--t,0%)) 0 0);transition:clip-path .5s cubic-bezier(.3,1.2,.5,1)}
+.bands{display:grid;grid-template-columns:10fr 16fr 24fr 10fr;margin:2px 0 0 16px;font-size:.68rem;color:var(--muted);font-weight:600}
+.bands span{padding-left:2px}
+.drivers li{display:grid;grid-template-columns:minmax(0,1fr) auto;row-gap:4px}
+.drivers .bar{grid-column:1/-1;height:4px;border-radius:2px;background:var(--sunk);overflow:hidden}
+.drivers .bar i{display:block;height:100%;width:var(--w);background:var(--b2);border-radius:2px}
+/* 5 provenance */
+.src blockquote,.row blockquote,.stopban blockquote{position:relative;padding-left:22px;line-height:1.5}
+blockquote.qt::before{content:"\201C";position:absolute;left:-2px;top:-.28em;font-size:2.4em;line-height:1;color:var(--ctl);font-family:var(--quote)}
+.st,.row{border-left:4px solid transparent;padding-left:12px}
+.m-must{border-left-color:var(--must)!important}.m-must_not{border-left-color:var(--mustnot)!important}.m-should{border-left-color:var(--should)!important}.m-may{border-left-color:var(--may)!important}.m-informational{border-left-color:var(--info)!important}
+.el.step.m-must,.el.step.m-must_not,.el.step.m-should,.el.step.m-may,.el.step.m-informational{border-left-width:5px}
+cite.chips{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:8px}
+.chip{display:inline-block;background:var(--sunk);color:var(--ink);border-radius:6px;padding:2px 8px;font-size:.76rem;line-height:1.5}
+.chip.id{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-weight:600}
+.chip.aw{color:var(--muted)}
+cite.chips a.srcl{display:inline-flex;align-items:center;gap:4px;padding:10px 4px;min-height:44px;font-weight:600;font-size:.8rem;color:var(--accent)}
+/* 6 decisions */
+.status{display:inline-flex;gap:8px;align-items:center;padding:4px 12px 4px 6px;border-radius:999px;font-size:.88rem}
+.status .sico{display:grid;place-items:center;width:20px;height:20px;border-radius:50%;font-weight:800;font-size:.75rem;background:var(--surface)}
+.s-named{background:var(--may-bg);color:var(--may)}.s-documents_disagree{background:var(--must-bg);color:var(--must)}.s-not_named{background:var(--info-bg);color:var(--info)}
+.step .roles{list-style:none;padding-left:0;display:flex;flex-direction:column;gap:6px}
+.rchip{display:inline-block;min-width:84px;text-align:center;font-size:.72rem;font-weight:700;padding:2px 8px;border-radius:6px;background:var(--accent-soft);color:var(--accent);margin-right:8px}
+/* 7 tiles + motion */
+.tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:6px 0 12px}
+.tile{background:var(--sunk);border-radius:8px;padding:10px 12px}
+.tile b{display:block;font-family:var(--quote);font-weight:500;font-size:1.9rem;line-height:1.1}
+.tile span{display:block;font-size:.8rem;line-height:1.3;color:var(--muted)}
+.tabs{position:relative}
+.tabs button[aria-selected="true"]{border-bottom-color:transparent}
+.tabs::after{content:"";position:absolute;bottom:-2px;left:var(--il,0);width:var(--iw,0);height:3px;background:var(--accent);border-radius:2px;transition:left .25s ease,width .25s ease}
+@keyframes rise{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.el{animation:rise .35s ease both;animation-delay:calc(var(--i,0) * 45ms)}
+@media (prefers-reduced-motion:reduce){.opt,.opt:hover{transition:none;transform:none}.thermo .fill{transition:none}.tabs::after{transition:none}.el{animation:none}.gbox{transition:none}}
+/* 8 polish */
+.card,.el{box-shadow:var(--shadow)}
+.el .el{box-shadow:none}
+@media (max-width:820px){header.top h1{font-size:1.6rem}.q h2{font-size:1.45rem}.tiles{grid-template-columns:repeat(3,minmax(0,1fr))}.tile b{font-size:1.5rem}}
+@media print{
+  :root{--shadow:none}
+  body{background:#fff;color:#000;font-size:11pt}
+  header.top{background:none;color:#000;border-bottom:2px solid #000;border-radius:0;padding:0 0 10px}
+  header.top h1,header.top p,header.top .updated,.updpill{color:#000;background:none;padding:0}
+  .grid{display:block}.rail .ans,.views,.tabs,.nav,.link,.gbox,.drivers,.heatnote,.tiles{display:none!important}
+  .rail{position:static}.card,.el{box-shadow:none;border-color:#999}.src li,.tile,.roles li{break-inside:avoid}h2,h3{break-after:avoid}
+  .els{display:block}.els>*{margin-bottom:12px}.st,.row{display:block}.st .pill,.row .pill{margin-bottom:4px}
+  header.top *{color:#000!important}
+  .el{animation:none}
+  summary::before{display:none}
+  cite.chips a.srcl::after{content:" (" attr(href) ")";font-weight:400;word-break:break-all}
+  a{color:#000}
+}
+
+/* simplified next steps */
+.step.simple .sthead{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.step.simple .sthead h3{margin:0}
+.sttags{display:flex;gap:6px;align-items:center;flex-shrink:0}
+.tag.vol{font-size:.72rem;font-weight:700;padding:3px 8px;border-radius:6px;background:var(--info-bg);color:var(--info)}
+.wherebox{margin-top:8px}
+.golinks{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+a.go{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 14px;border:1.5px solid var(--ctl);border-radius:8px;color:var(--accent);font-weight:600;text-decoration:none;font-size:.9rem;overflow-wrap:anywhere}
+a.go:hover{background:var(--accent-soft)}
+.ico{display:inline-flex;line-height:0}
+.who{display:flex;gap:8px;align-items:flex-start;margin:8px 0 0;font-size:.92rem}
+.who .sico{flex-shrink:0;display:grid;place-items:center;width:20px;height:20px;border-radius:50%;font-weight:800;font-size:.75rem;margin-top:1px}
+.who.s-named .sico{background:var(--may-bg);color:var(--may)}.who.s-documents_disagree .sico{background:var(--must-bg);color:var(--must)}.who.s-not_named{color:var(--muted)}.who.s-not_named .sico{background:var(--sunk);color:var(--muted)}
+.declist{padding:4px 16px}
+.decrow{border-bottom:1px solid var(--line)}
+.decrow:last-child{border-bottom:0}
+.decrow>summary{display:grid;grid-template-columns:24px minmax(0,1fr) auto;gap:10px;align-items:center;width:auto;color:var(--ink);font-weight:600;font-size:.92rem;padding:6px 0}
+.decrow>summary::before{display:none}
+.decrow>summary .sico{display:grid;place-items:center;width:22px;height:22px;border-radius:50%;font-weight:800;font-size:.75rem}
+.decrow.s-named .sico{background:var(--may-bg);color:var(--may)}.decrow.s-documents_disagree .sico{background:var(--must-bg);color:var(--must)}.decrow.s-not_named .sico{background:var(--sunk);color:var(--muted)}
+.decrow .dwho{font-weight:400;color:var(--muted);font-size:.85rem;text-align:right;max-width:38ch}
+.decrow .decbody{padding:0 0 12px 34px}
+.decrow .decbody .who{display:none}
+details.agency{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:4px 18px;box-shadow:var(--shadow)}
+details.agency>summary{font-family:var(--quote);font-weight:500;font-size:1.2rem;color:var(--ink);gap:10px}
+details.agency>summary .ico{color:var(--accent)}
+details.agency[open]{padding-bottom:18px}
+details.agency .els{margin-top:12px}
+details.agency .declist{margin-top:12px;box-shadow:none}
+.revbar{margin-top:28px;display:flex;justify-content:flex-end}
+.revsw{display:inline-flex;align-items:center;gap:10px;min-height:44px;background:none;border:0;color:var(--muted);font:inherit;font-size:.88rem;cursor:pointer;padding:0 4px}
+.revsw .knob{position:relative;width:36px;height:20px;border-radius:999px;background:var(--sunk);border:1.5px solid var(--ctl);flex-shrink:0}
+.revsw .knob::after{content:"";position:absolute;top:2px;left:2px;width:13px;height:13px;border-radius:50%;background:var(--ctl);transition:left .15s}
+.revsw[aria-checked="true"]{color:var(--accent)}
+.revsw[aria-checked="true"] .knob{background:var(--accent-soft);border-color:var(--accent)}
+.revsw[aria-checked="true"] .knob::after{left:18px;background:var(--accent)}
+@media (prefers-reduced-motion:reduce){.revsw .knob::after{transition:none}}
+.who[class*="s-"],.decrow[class*="s-"]{background:none;color:var(--ink);padding:0;border-radius:0}
+.decrow[class*="s-"]{padding:0}.who.s-not_named{color:var(--muted)}
+@media (max-width:820px){.grid{display:flex;flex-direction:column}.grid>main{order:1}.grid>.rail{order:2}.decrow>summary{grid-template-columns:24px minmax(0,1fr)}.decrow .dwho{grid-column:2;text-align:left}.step.simple .sthead{flex-direction:column;gap:6px}}
+@media print{.revbar{display:none}details.agency{box-shadow:none}}
+.rowsrc{margin-top:4px}.rowsrc>summary{font-size:.82rem}.rowsrc cite.chips{margin-top:2px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <h1>GTA GenAI Policy Check</h1>
+    <p>Answer up to seven questions about how you plan to use an AI tool. You get the Georgia Technology Authority rules that apply, each with its exact source wording.</p>
+    <p class="updated" id="updated">Last updated: loading…</p>
+  </header>
+  <p id="status" class="sr" role="status" aria-live="polite"></p>
+  <div class="grid">
+    <main id="main"><div class="card">Loading the policy map…</div></main>
+    <aside class="rail" aria-label="Guardrails and your answers">
+      <section class="card" aria-labelledby="guardh">
+        <div class="heat">
+          <div class="gbox" id="gbox" aria-hidden="true">
+            <svg id="gr" viewBox="0 0 100 110" preserveAspectRatio="xMidYMax meet"><g class="g-scene"><path class="g-road" d="M44 6 L56 6 L84 110 L16 110 Z"/><path class="g-edge" d="M44 6 L16 110 M56 6 L84 110"/><path class="g-lane" d="M50 8 L50 110"/><g id="gposts"></g></g>
+            <g class="g-stop"><path class="g-oct" d="M37 25 L63 25 L81 43 L81 69 L63 87 L37 87 L19 69 L19 43 Z"/><path class="g-ring" d="M38.5 29 L61.5 29 L77 44.5 L77 67.5 L61.5 83 L38.5 83 L23 67.5 L23 44.5 Z"/><text class="g-txt" x="50" y="61.5" text-anchor="middle">STOP</text></g></svg>
+          </div>
+          <div>
+            <h2 id="guardh">Guardrails</h2>
+            <div class="level" id="level">Baseline</div>
+            
+          </div>
+        </div>
+        <div class="thermo" id="thermo" role="meter" aria-label="Guardrail count" aria-valuemin="0" aria-valuemax="60" aria-valuenow="0">
+              <div class="tube"><div class="fill"></div></div><div class="bulb"></div>
+              <i class="tick" style="left:calc(16px + (100% - 16px)*10/60)"></i><i class="tick" style="left:calc(16px + (100% - 16px)*26/60)"></i><i class="tick" style="left:calc(16px + (100% - 16px)*50/60)"></i>
+            </div>
+            <div class="bands" aria-hidden="true"><span>Light</span><span>Standard</span><span>Extra</span><span>Full</span></div>
+        <ul class="stopwhy" id="stopwhy" hidden></ul>
+        <ul class="drivers" id="drivers"></ul>
+        <details class="heatnote more"><summary>How this count works</summary><p id="heatnote">The guardrails rise as your answers trigger more rules. Each rule counts once. Rules for the tasks you chose count 1 point (2 for a prohibition); other rules count 2 (4); rules on personal or sensitive information and on decisions about people count 4 (8). These weights are this tool’s, not GTA’s. The ticks mark Light, Standard and Extra; the top is Full. This count is not a GTA rating. A stop sign replaces the guardrails when the documents require GTA approval for something you described (personal or regulated data, or buying a GenAI tool), or list it as prohibited (decisions about people). A Not sure answer to those questions also shows it.</p></details>
+      </section>
+      <section class="card ans">
+        <h3>Your answers</h3>
+        <ul class="answers" id="answers"><li><span><small>None yet</small></span></li></ul>
+        <div class="nav"><button class="link" id="restart" type="button">Start over</button></div>
+      </section>
+    </aside>
+  </div>
+</div>
+<script>
+(function(){
+"use strict";
+var openMore={},Q=[],EL=[],PT=[],META={},facts={},editing=null,keepV=null,showResults=false,view="topic",tab="applies",STEPS=[],STEPGAP=null,review=/(^|[#&])review\b/.test(location.hash),DEC=[],DCTX={};
+var MOD={must:"Must",must_not:"Must not",should:"Should",may:"May",informational:"Note"};
+var $=function(id){return document.getElementById(id)};
+function h(tag,attrs,kids){var e=document.createElement(tag);if(attrs)for(var k in attrs){if(k==="text")e.textContent=attrs[k];else if(k==="on")for(var ev in attrs.on)e.addEventListener(ev,attrs.on[ev]);else e.setAttribute(k,attrs[k]);}
+  (kids||[]).forEach(function(c){if(c)e.appendChild(typeof c==="string"?document.createTextNode(c):c)});
+  if(tag==="a"&&attrs&&attrs.target==="_blank"){var w=document.createElement("span");w.className="sr";w.textContent=" (opens in a new tab)";e.appendChild(w)}return e;}
+function has(l,v){return Array.isArray(v)?v.some(function(x){return l.indexOf(x)>=0}):l.indexOf(v)>=0}
+function match(cond,f){if(cond==="always")return true;return cond.some(function(alt){return Object.keys(alt).every(function(k){return has(alt[k],f[k])})})}
+function sel(q){var v=facts[q.fact];return v===undefined?[]:Array.isArray(v)?v:[v]}
+function asked(q,f){return q.ask_if==="always"||match([q.ask_if],f)}
+function prune(){Q.forEach(function(q){if(!asked(q,facts))delete facts[q.fact]})}
+function applicable(){return Q.filter(function(q){return asked(q,facts)})}
+function current(){if(editing)return Q.filter(function(q){return q.id===editing})[0];var a=applicable();for(var i=0;i<a.length;i++)if(!(a[i].fact in facts))return a[i];return null}
+function gated(){return !!META.gate&&match(META.gate.when,facts)}
+function isOther(){return !!META.when_other&&match(META.when_other,facts)}
+function sts(e){return isOther()?e.other:e.statements}
+function active(){if(gated())return[];return EL.filter(function(e){return e.tier==="conditional"&&match(e.when,facts)&&sts(e).length})}
+function baseEls(){if(gated())return[];return EL.filter(function(e){return e.tier==="umbrella"&&sts(e).length})}
+function ptrsNow(){if(gated())return[];return PT.filter(function(p){return match(p.when,facts)&&(!isOther()||p.o_as_written)})}
+var HEAVY={C_DATA:1,C_DECISIONS:1};
+function taskOnly(e){return e.when!=="always"&&e.when.every(function(a){return Object.keys(a).every(function(k){return k==="F_TASK"||k==="F_HOST"})})}
+function weight(e){return taskOnly(e)?1:HEAVY[e.id]?4:2}
+function points(e){var n=0;sts(e).forEach(function(s){if(s.m==="must")n+=s.prov.length;if(s.m==="must_not")n+=2*s.prov.length});return n*weight(e)}
+function optLabel(q){var s=sel(q);return q.options.filter(function(o){return s.indexOf(o.value)>=0}).map(function(o){return q.multi?o.label.replace(/\s*\([^)]*\)\s*$/,""):o.label}).join("; ")}
+
+var STOPS=[{f:"F_DATA",v:["yes","not_sure"],pid:"SS-25-001-1.3-2",t:"GTA approval needed: personal or regulated data"},
+  {f:"F_ROLE",v:["procure","both","not_sure"],pid:"SS-25-001-1.5-1",t:"GTA approval needed: buying a GenAI product or service"},
+  {f:"F_DECISION",v:["yes","not_sure"],pid:"SS-25-001-3.0-TABLE-15",t:"Listed as prohibited: decisions about people",
+   n:"The documents disagree here: GS-25-001 gives this example: “an HR department may consult with AI platforms in making hiring decisions” (open question OQ13)."}];
+var PROV={};function provById(id){if(!PROV.ready){EL.forEach(function(e){e.statements.forEach(function(s){s.prov.forEach(function(p){PROV[p.id]=p})})});PROV.ready=1}return PROV[id]}
+function stopsNow(){if(gated()||isOther())return[];return STOPS.filter(function(x){return x.v.indexOf(facts[x.f])>=0&&provById(x.pid)})}
+function cite(p){return (p.docid?p.docid+", ":"")+p.sec+", p."+p.pg}
+var GPOSTS=[],GBEAMS=[];
+function buildGuard(){var g=$("gposts"),NS="http://www.w3.org/2000/svg",ys=[104,84,66,50,36];
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e}
+  var pos=ys.map(function(y){var f=(y-6)/104,w=2+3*f,hh=6+16*f;return{y:y,hh:hh,w:w,l:44-28*f-3-w,r:56+28*f+3}});
+  pos.forEach(function(q,i){[q.l,q.r].forEach(function(x){var r=el("rect",{x:x.toFixed(1),y:(q.y-q.hh).toFixed(1),width:q.w.toFixed(1),height:q.hh.toFixed(1),rx:.8,"class":"g-post"});g.appendChild(r);GPOSTS.push([i,r])})});
+  for(var i=0;i<4;i++){var a=pos[i],b=pos[i+1];
+    [[a.l+a.w/2,b.l+b.w/2],[a.r+a.w/2,b.r+b.w/2]].forEach(function(xs){var l=el("path",{d:"M"+xs[0].toFixed(1)+" "+(a.y-a.hh*.7).toFixed(1)+" L"+xs[1].toFixed(1)+" "+(b.y-b.hh*.7).toFixed(1),"class":"g-beam"});g.appendChild(l);GBEAMS.push([i,l])})}}
+function renderRail(){var gb0;
+  var act=active(),total=0,rows=[];
+  act.forEach(function(e){var p=points(e);total+=p;if(p)rows.push([e.title,p])});
+  rows.sort(function(a,b){return b[1]-a[1]});
+  var lv=total===0?0:total<10?1:total<26?2:total<50?3:4;
+  var names=["No extra","Light","Standard","Extra","Full"],stops=stopsNow(),stop=stops.length>0;
+  if(!GPOSTS.length)buildGuard();
+  var n=[0,1,3,4,5][lv];GPOSTS.forEach(function(p){p[1].classList.toggle("on",p[0]<n)});GBEAMS.forEach(function(b){b[1].classList.toggle("on",b[0]<n-1)});
+  var tints=["var(--sunk)","color-mix(in srgb,var(--b1) 16%,var(--sunk))","color-mix(in srgb,var(--b2) 16%,var(--sunk))","color-mix(in srgb,var(--b3) 16%,var(--sunk))","color-mix(in srgb,var(--b4) 20%,var(--sunk))"];
+  var BC=["var(--b1)","var(--b1)","var(--b2)","var(--b3)","var(--b4)"];gb0=$("gbox");gb0.closest(".card").style.setProperty("--fc",stop?"var(--stop)":BC[lv]);
+  var gb=$("gbox");gb.style.setProperty("--fbg",stop?"var(--stop-bg)":tints[lv]);gb.classList.toggle("stop",stop);
+  var lvl=$("level");lvl.textContent=stop?"Stop and check first":names[lv]+" · "+total;lvl.classList.toggle("stop",stop);
+  var sw=$("stopwhy");sw.textContent="";sw.hidden=!stop;
+  stops.forEach(function(x){var p=provById(x.pid);sw.appendChild(h("li",null,[x.t,h("small",{text:cite(p)+(facts[x.f]==="not_sure"?" · you answered Not sure":"")})]))});
+  var said=stop?"Stop and check first: "+stops.map(function(x){return x.t}).join("; "):names[lv]+" guardrails, "+total+" points";
+  if(renderRail.last!==undefined&&renderRail.last!==said)$("status").textContent=stop?said+".":"Guardrails now "+said+".";renderRail.last=said;
+  var th=$("thermo");th.style.setProperty("--t",(Math.min(1,total/60)*100).toFixed(1)+"%");th.setAttribute("aria-valuenow",String(Math.min(total,60)));th.setAttribute("aria-valuetext",names[lv]+" guardrails, "+total+" points");
+  var d=$("drivers");d.textContent="";
+  var mx=rows.length?rows[0][1]:1;
+  rows.slice(0,5).forEach(function(r){var bar=h("span",{class:"bar","aria-hidden":"true"},[h("i",null,[])]);bar.firstChild.style.setProperty("--w",(r[1]/mx*100).toFixed(0)+"%");d.appendChild(h("li",null,[h("span",{text:r[0]}),h("b",{text:"+"+r[1]}),bar]))});
+  if(rows.length>5)d.appendChild(h("li",null,[h("span",{text:(rows.length-5)+" more"}),h("b",{text:""})]));
+  var a=$("answers");a.textContent="";var any=false;
+  applicable().forEach(function(q){if(!(q.fact in facts))return;any=true;
+    a.appendChild(h("li",null,[h("span",null,[h("small",{text:q.text}),optLabel(q)]),h("button",{class:"link",type:"button","aria-label":"Change answer: "+q.text,on:{click:function(){editing=q.id;showResults=false;render()}}},["Change"])]))});
+  if(!any)a.appendChild(h("li",null,[h("span",null,[h("small",{text:"None yet"})])]));
+}
+function citeEl(p,withDt,step){
+  var parts=[[p.doc,""]];if(p.docid||!step)parts.push([p.docid||"no identifier","id"]);if(withDt)parts.push([p.dt,""]);parts.push([p.sec,""],["p."+p.pg,""]);if(!step)parts.push(["Modal as written: "+p.aw,"aw"]);
+  var c=h("cite",{class:"chips"},[]);
+  parts.forEach(function(x,i){c.appendChild(h("span",{class:"chip "+x[1],text:x[0]}));c.appendChild(h("span",{class:"sr",text:i<parts.length-1?", ":". "}))});
+  if(p.url)c.appendChild(h("a",{class:"srcl",href:p.url,target:"_blank",rel:"noopener"},["Open the GTA source page",h("span",{"aria-hidden":"true",text:" ↗"})]));
+  else if(!step)c.appendChild(h("span",{class:"chip aw",text:"Source: the GTA PDF of this document, page "+p.pg+"."}));
+  return c}
+function quote(p){return h("blockquote",{class:"qt",text:p.x+"”"})}
+function sources(prov){
+  return h("details",null,[h("summary",{text:"Exact wording ("+prov.length+(prov.length===1?" source)":" sources)")}),
+    h("ul",{class:"src"},prov.map(function(p){
+      return h("li",{id:"src-"+p.id},[p.lead?h("p",{class:"lead",text:p.lead}):null,quote(p),citeEl(p,false)]);
+    }))]);
+}
+function flags(x){
+  if(!x.conflicts.length&&!x.oqs.length)return null;
+  var items=x.conflicts.map(function(c){return h("li",{text:"The documents disagree ("+c.id+"): "+c.plain})}).concat(x.oqs.map(function(o){return h("li",{text:"Unsettled ("+o.id+"): "+o.plain})}));
+  return h("details",{class:"flags"},[h("summary",{text:"Where the documents disagree or leave this open ("+items.length+")"}),h("ul",null,items)]);
+}
+function elCard(e){
+  return h("article",{class:"el"},[h("h3",{text:e.title})].concat(sts(e).map(function(s){
+    return h("div",{class:"st m-"+s.m},[h("span",{class:"pill "+s.m,text:MOD[s.m]}),h("p",{text:s.summary}),sources(s.prov)]);
+  })).concat([flags(e)]));
+}
+function ptrCard(p){
+  return h("article",{class:"el ptr"},[h("p",{class:"do",text:p.pointer}),h("div",{class:"st m-informational"},[h("span",{class:"pill informational",text:"Agency"}),h("p",{class:"aw",text:isOther()?p.o_as_written:p.as_written}),sources(isOther()?p.oprov:p.prov)]),flags(p)]);
+}
+var MODORD=["must","must_not","should","may","informational"],MODNAME={must:"Must",must_not:"Must not",should:"Should",may:"May",informational:"Note (no obligation stated)"};
+var DTORD=["Policy","Standard","Guideline","Web page"],DTNAME={Policy:"Policies",Standard:"Standards",Guideline:"Guidelines","Web page":"Web page (no policy, standard or guideline label)"};
+function rowsNow(act,base,ptrs){var r=[];
+  act.concat(base).forEach(function(e){sts(e).forEach(function(s){s.prov.forEach(function(p){r.push({p:p,m:p.mod,where:"Topic: "+e.title})})})});
+  ptrs.forEach(function(q){(isOther()?q.oprov:q.prov).forEach(function(p){r.push({p:p,m:p.mod,where:"Written for agencies: "+q.pointer})})});
+  return r}
+function docKey(p){return p.docid||"5GP"}
+function rowEl(x){var p=x.p;
+  return h("div",{class:"row m-"+x.m},[h("span",{class:"pill "+x.m,text:MOD[x.m]}),h("div",null,[p.lead?h("p",{class:"lead",text:p.lead}):null,quote(p),
+    h("details",{class:"rowsrc"},[h("summary",{text:"Source: "+(p.docid||p.doc)+", p."+p.pg}),citeEl(p,true),h("p",{class:"tag",text:x.where})])])]);
+}
+function grouped(rows){
+  var key,order,name,note;
+  if(view==="mod"){key=function(x){return x.m};order=MODORD;name=function(k){return MODNAME[k]};}
+  else if(view==="dt"){key=function(x){return x.p.dt};order=DTORD;name=function(k){return DTNAME[k]};}
+  else{key=function(x){return docKey(x.p)};
+    var docs={};rows.forEach(function(x){docs[docKey(x.p)]=x.p});
+    order=Object.keys(docs).sort(function(a,b){var d=DTORD.indexOf(docs[a].dt)-DTORD.indexOf(docs[b].dt);return d||a.localeCompare(b)});
+    name=function(k){var p=docs[k];return p.doc+(p.docid?" ("+p.docid+")":" (no identifier)")+" · "+p.dt}}
+  var cmp=function(a,b){return (MODORD.indexOf(a.m)-MODORD.indexOf(b.m))||docKey(a.p).localeCompare(docKey(b.p))||(a.p.pg-b.p.pg)||a.p.id.localeCompare(b.p.id)};
+  return order.map(function(k){var g=rows.filter(function(x){return key(x)===k}).sort(cmp);if(!g.length)return null;
+    var notes={};g.forEach(function(x){if(x.p.dtn)notes[x.p.dtn]=1});
+    return h("section",{class:"sec"},[h("h2",{text:name(k)+" ("+g.length+")"})].concat(Object.keys(notes).map(function(n){return h("p",{class:"gnote",text:n})})).concat([h("div",{class:"el"},g.map(rowEl))]))}).filter(Boolean);
+}
+function viewBar(){var opts=[["topic","Topic"],["mod","Must / Should / May"],["dt","Policy, standard or guideline"],["doc","Document"]];
+  return h("div",{class:"views",role:"group","aria-label":"Group results by"},[h("span",{text:"Group by"})].concat(opts.map(function(o){
+    return h("button",{type:"button","aria-pressed":String(view===o[0]),on:{click:function(){view=o[0];renderResults();var b=document.querySelector('.views button[aria-pressed="true"]');if(b)b.focus()}}},[o[1]])})))}
+function tabBar(nSteps){var t=[["applies","What applies"],["steps","Next steps ("+nSteps+")"]];
+  return h("div",{class:"tabs",role:"tablist","aria-label":"Results"},t.map(function(o){
+    return h("button",{type:"button",role:"tab",id:"tab-"+o[0],"aria-selected":String(tab===o[0]),"aria-controls":"tabpanel",tabindex:tab===o[0]?"0":"-1",on:{click:function(){tab=o[0];renderResults();var b=$("tab-"+o[0]);if(b)b.focus()},
+      keydown:function(ev){var i=t.map(function(x){return x[0]}).indexOf(tab),n=null;
+        if(ev.key==="ArrowRight")n=(i+1)%t.length;else if(ev.key==="ArrowLeft")n=(i+t.length-1)%t.length;else if(ev.key==="Home")n=0;else if(ev.key==="End")n=t.length-1;
+        if(n===null)return;ev.preventDefault();tab=t[n][0];renderResults();var b=$("tab-"+tab);if(b)b.focus()}}},[o[1]])}))}
+function stepsNow(act,base,ptrs){var ids={};rowsNow(act,base,ptrs).forEach(function(x){ids[x.p.id]=1});return STEPS.filter(function(s){return ids[s.pid]})}
+function stepCard(s){var p=s.prov;
+  var where=s.quote?h("p",{class:"where"},[h("b",{text:"Where: "}),"“"+s.quote+"”"+(s.qcite?" ("+s.qcite+") ":" ")].concat(s.links.map(function(l){return h("a",{href:l[1],target:"_blank",rel:"noopener"},[l[0]])}))):h("p",{class:"where"},[h("b",{text:"Where: "}),"The documents do not say."]);
+  return h("article",{class:"el step m-"+p.mod},[h("h3",{text:s.title}),h("div",null,[h("span",{class:"pill "+p.mod,text:MOD[p.mod]}),h("span",{class:"mw",text:"Modal as written: "+p.aw})]),where,decLine(s),
+    s.note?h("p",{class:"snote",text:s.note}):null,
+    h("details",null,[h("summary",{text:"Exact wording"}),h("ul",{class:"src"},[h("li",null,[p.lead?h("p",{class:"lead",text:p.lead}):null,quote(p),citeEl(p,true,true)])])])])}
+function stepsViewReview(list,decs){var you=list.filter(function(s){return s.who==="you"}),ag=list.filter(function(s){return s.who==="agency"}),out=[];
+  var de=decs.filter(function(o){return o.d.level==="employee"}),da=decs.filter(function(o){return o.d.level==="agency"});
+  if(de.length)out.push(section("Who makes the call: decisions about your use","Each decision lists who the documents name, in the documents’ own words. Where they name no one, or name different people, it says so. This tool does not tell you whom to ask beyond that.",de.map(decCard)));
+  if(da.length)out.push(section("Who makes the call: decisions your agency handles","These decisions are written for agencies"+(isOther()?".":", and the Horizons Innovation Lab sandbox ones apply only if your project is in the sandbox. Participation is voluntary."),da.map(decCard)));
+  if(you.length)out.push(section("Steps you can take","Each step quotes the document. Where the documents name no contact, the step says so.",you.map(stepCard)));
+  if(ag.length)out.push(section("Steps your agency takes","These are written for agencies. Ask your agency whether they apply to your project.",ag.map(stepCard)));
+  if(!list.length)out.push(h("p",{class:"gnote",text:"The documents give no next steps for what you described."}));
+  if(STEPGAP)out.push(h("p",{class:"confirm",text:STEPGAP.text}));
+  return out}
+
+var ICONS={building:'<path d="M3 21h18M5 21V10M19 21V10M9 21v-6h6v6M3 10l9-6 9 6"/>',globe:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/>',mail:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>',person:'<circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/>'};
+function icon(n){var sp=document.createElement("span");sp.className="ico";sp.setAttribute("aria-hidden","true");
+  sp.innerHTML='<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+ICONS[n]+'</svg>';return sp}
+function whoLine(o){
+  if(!o)return null;
+  if(o.status==="named")return h("p",{class:"who s-named"},[h("span",{class:"sico","aria-hidden":"true",text:SICO.named}),h("span",null,["Decides: ",o.decides.map(function(r){return "“"+r+"”"}).join(" and ")])]);
+  if(o.status==="documents_disagree")return h("p",{class:"who s-documents_disagree"},[h("span",{class:"sico","aria-hidden":"true",text:SICO.documents_disagree}),h("span",null,[STATUS.documents_disagree+" ",o.decides.map(function(r){return "“"+r+"”"}).join("; ")])]);
+  return h("p",{class:"who s-not_named"},[h("span",{class:"sico","aria-hidden":"true",text:SICO.not_named}),h("span",{text:"Who decides: the documents do not say."})])}
+function simpleStep(s){var p=s.prov,o=s.dec&&DCTX[s.dec];
+  var links=s.links.map(function(l){var mail=/^mailto:/.test(l[1]);return h("a",{class:"go",href:l[1],target:"_blank",rel:"noopener"},[icon(mail?"mail":"globe"),l[0]])});
+  var where=s.quote?h("div",{class:"wherebox"},[h("p",{class:"where"},[h("b",{text:"Where: "}),"“"+s.quote+"”"]),links.length?h("div",{class:"golinks"},links):null]):null;
+  var who=whoLine(o);
+  if(!s.quote&&o&&o.status==="not_named")who=h("p",{class:"who s-not_named"},[h("span",{class:"sico","aria-hidden":"true",text:SICO.not_named}),h("span",{text:"Where and who decides: the documents do not say."})]);
+  else if(!s.quote&&!o)who=h("p",{class:"who s-not_named"},[h("span",{class:"sico","aria-hidden":"true",text:SICO.not_named}),h("span",{text:"Where: the documents do not say."})]);
+  var vol=s.note&&/voluntary/i.test(s.note)?h("span",{class:"tag vol",text:"Voluntary"}):null;
+  return h("article",{class:"el step simple m-"+p.mod},[h("div",{class:"sthead"},[h("h3",{text:s.title}),h("div",{class:"sttags"},[vol,h("span",{class:"pill "+p.mod,text:MOD[p.mod]})])]),where,who,
+    h("details",null,[h("summary",{text:"Exact wording"}),h("ul",{class:"src"},[h("li",null,[p.lead?h("p",{class:"lead",text:p.lead}):null,quote(p),citeEl(p,true)])])])])}
+function decRow(o){var d=o.d,seen={},provs=[];o.roles.forEach(function(r){if(!seen[r.pid]){seen[r.pid]=1;provs.push(r.prov)}});
+  var right=o.status==="not_named"?"Not specified in the documents":o.status==="documents_disagree"?"Different people named":o.decides.map(function(r){return "“"+r+"”"}).join(" and ");
+  return h("details",{class:"decrow s-"+o.status},[h("summary",null,[h("span",{class:"sico","aria-hidden":"true",text:SICO[o.status]}),h("span",{class:"dname",text:d.decision}),h("span",{class:"sr",text:". "}),h("span",{class:"dwho",text:right})]),
+    h("div",{class:"decbody"},[whoLine(o)].concat(sources(provs)))])}
+function stepsView(list,decs){
+  var out=[];
+  if(review){out=stepsViewReview(list,decs)}else{
+  var linked={};list.forEach(function(s){if(s.dec&&DCTX[s.dec])linked[s.dec]=1});
+  var you=list.filter(function(s){return s.who==="you"}),ag=list.filter(function(s){return s.who==="agency"});
+  var de=decs.filter(function(o){return o.d.level==="employee"&&!linked[o.d.id]}),da=decs.filter(function(o){return o.d.level==="agency"&&!linked[o.d.id]});
+  if(you.length)out.push(section("Steps you can take","Each step quotes the document. Where the documents name no contact, the step says so.",you.map(simpleStep)));
+  if(de.length)out.push(h("section",{class:"sec"},[h("h2",{text:"Who makes the call"}),h("p",{text:"Each decision lists who the documents name, in the documents’ own words."}),h("div",{class:"declist el"},de.map(decRow))]));
+  var n=ag.length+da.length;
+  if(n)out.push(h("details",{class:"agency sec"},[h("summary",null,[icon("building"),h("span",{text:"For your agency ("+n+")"})]),
+    h("p",{text:"These are written for agencies. Ask your agency whether they apply to your project."+(da.some(function(o){return o.d.force})||ag.some(function(s){return s.note&&/voluntary/i.test(s.note)})?" The Horizons Innovation Lab sandbox ones apply only if your project is in the sandbox. Participation is voluntary.":"")}),
+    h("div",{class:"els"},ag.map(simpleStep)),da.length?h("div",{class:"declist el"},da.map(decRow)):null]));
+  if(!list.length&&!decs.length)out.push(h("p",{class:"gnote",text:"The documents give no next steps for what you described."}));
+  if(STEPGAP)out.push(h("p",{class:"confirm",text:STEPGAP.text.replace(/\s*\((open question|unresolved reference) [A-Z]+\d+\)/g,"")}));
+  }
+  out.push(h("div",{class:"revbar"},[h("button",{type:"button",class:"revsw",role:"switch","aria-checked":String(review),on:{click:function(){review=!review;
+      try{history.replaceState(null,"",review?"#review":location.pathname+location.search)}catch(e){}
+      renderResults();var b=document.querySelector(".revsw");if(b)b.focus()}}},[h("span",{class:"knob","aria-hidden":"true"}),"Review details (for GTA admins)"])]));
+  return out}
+var SICO={named:"✓",documents_disagree:"⇄",not_named:"–"};
+var STATUS={named:"The documents name who decides.",documents_disagree:"The documents name different people for this.",not_named:"The documents do not say who decides."};
+function decsNow(act,base,ptrs){var ids={};rowsNow(act,base,ptrs).forEach(function(x){ids[x.p.id]=1});
+  var sandbox=!isOther()&&ptrs.some(function(p){return p.id==="P_SANDBOX"}),out=[],ctx={};
+  DEC.forEach(function(d){var vr=d.roles.filter(function(r){return ids[r.pid]});
+    if(d.force&&sandbox)vr=d.roles;
+    if(!vr.length)return;
+    var dec=[];vr.forEach(function(r){if(r.part==="Decides"&&dec.indexOf(r.role)<0)dec.push(r.role)});
+    var st=dec.length?((d.status==="documents_disagree"&&dec.length>1)?"documents_disagree":"named"):"not_named";
+    var o={d:d,roles:vr,status:st,decides:dec};out.push(o);ctx[d.id]=o});
+  DCTX=ctx;return out}
+function decCard(o){var d=o.d,seen={},provs=[];
+  o.roles.forEach(function(r){if(!seen[r.pid]){seen[r.pid]=1;provs.push(r.prov)}});
+  var ur=d.urs.length?h("details",{class:"flags"},[h("summary",{text:"Referred to but not in the seven documents ("+d.urs.length+")"}),h("ul",null,d.urs.map(function(u){return h("li",{text:u.id+": "+(u.ref.length>140?u.ref.slice(0,140)+"…":u.ref)})}))]):null;
+  return h("article",{class:"el step dec"},[h("h3",{text:d.decision}),h("p",{class:"where status s-"+o.status},[h("span",{class:"sico","aria-hidden":"true",text:SICO[o.status]}),h("b",{text:STATUS[o.status]})]),
+    h("ul",{class:"roles"},o.roles.map(function(r){return h("li",null,[h("b",{class:"rchip",text:r.part}),h("span",{class:"sr",text:": "}),"“"+r.role+"” ",h("span",{class:"mw",text:"Modal as written: "+r.prov.aw})])})),
+    o.status===d.status&&d.note?h("p",{class:"snote",text:d.note}):null,ur,
+    flags({conflicts:d.conflicts,oqs:[]}),sources(provs)])}
+function decLine(s){var o=s.dec&&DCTX[s.dec];if(!o)return null;
+  var t=o.status==="named"?"Who decides: "+o.decides.map(function(r){return "“"+r+"”"}).join(" and ")+".":o.status==="documents_disagree"?"Who decides: the documents name different people. See “Who makes the call” above.":"Who decides: the documents do not say.";
+  return h("p",{class:"where"},[h("b",{text:t})])}
+function moreBox(key,label,kids){var d=h("details",{class:"more"},[h("summary",{text:label})].concat(kids));if(openMore[key])d.open=true;
+  d.addEventListener("toggle",function(){openMore[key]=d.open});return d}
+function section(title,blurb,cards){return h("section",{class:"sec"},[h("h2",{text:title}),h("p",{text:blurb}),h("div",{class:"els"},cards)])}
+function renderQuestion(q){
+  var a=applicable(),idx=a.indexOf(q),main=$("main");main.textContent="";
+  var prog=h("div",{class:"progress"},a.map(function(x,i){return h("i",{"aria-hidden":"true",class:(x.fact in facts&&x!==q)?"done":(x===q?"now":"")})}).concat(["Question "+(idx+1)+" (up to 7)"]));
+  var s0=sel(q),chosen=q.options.filter(function(o){return s0.indexOf(o.value)>=0})[0];
+  var opts=h("div",{class:"opts"+(q.multi?" multi":""),role:"group","aria-labelledby":"qh"},q.options.map(function(o){
+    return h("button",{class:"opt"+(o.not_sure?" ns":""),type:"button","data-v":o.value,"aria-pressed":String(s0.indexOf(o.value)>=0),on:{click:function(){
+      if(q.multi){
+        var c=sel(q).slice(),i=c.indexOf(o.value);
+        if(i>=0)c.splice(i,1);
+        else if(o.not_sure)c=[o.value];
+        else{c=c.filter(function(v){return !q.options.some(function(x){return x.not_sure&&x.value===v})});c.push(o.value)}
+        c.sort(function(a,b){return q.options.map(function(x){return x.value}).indexOf(a)-q.options.map(function(x){return x.value}).indexOf(b)});
+        if(c.length)facts[q.fact]=c;else delete facts[q.fact];
+        prune();editing=q.id;keepV=o.value;render();return}
+      facts[q.fact]=o.value;prune();
+      if(o.not_sure){editing=q.id;render();}else{editing=null;render();}
+    }}},[o.label]);
+  }));
+  if(q.multi)opts.setAttribute("aria-describedby","qhint");
+  var kids=[prog,h("h2",{text:q.text,tabindex:"-1",id:"qh"}),moreBox(q.id,"About this question",[h("p",{class:"help",text:q.help})]),q.multi?h("p",{class:"hint",id:"qhint",text:"Select all that apply."}):null,opts];
+  if(chosen&&chosen.not_sure)kids.push(h("p",{class:"confirm",text:chosen.confirm}));
+  var nav=h("div",{class:"nav"},[]);
+  if(idx>0)nav.appendChild(h("button",{class:"btn ghost",type:"button",on:{click:function(){editing=a[idx-1].id;render()}}},["Back"]));
+  if(q.fact in facts)nav.appendChild(h("button",{class:"btn",type:"button",on:{click:function(){var n=a[idx+1];if(!n){editing=null;showResults=true}else{editing=(n.fact in facts)?n.id:null}render()}}},["Continue"]));
+  kids.push(nav);
+  main.appendChild(h("div",{class:"card q"},kids));
+  var act=active();
+  var base=baseEls();
+  main.appendChild(h("section",{class:"sec base"},[h("h2",{text:"Triggered so far"}),
+    h("p",{text:base.length+" topics apply to every use of the kind of AI you described. Your answers so far add "+act.length+(act.length===1?" more":" more")+(act.length?": "+act.map(function(e){return e.title}).join("; ")+".":".")})]));
+}
+function placeInd(){var tl=document.querySelector(".tabs"),b=tl&&tl.querySelector('[aria-selected="true"]');if(!b)return;
+  var to=[b.offsetLeft+"px",b.offsetWidth+"px"],fr=placeInd.last||to;tl.style.setProperty("--il",fr[0]);tl.style.setProperty("--iw",fr[1]);
+  requestAnimationFrame(function(){requestAnimationFrame(function(){tl.style.setProperty("--il",to[0]);tl.style.setProperty("--iw",to[1])})});placeInd.last=to}
+function stagger(){var els=document.querySelectorAll("#main .el");for(var i=0;i<els.length&&i<14;i++)els[i].style.setProperty("--i",String(i))}
+function stopBanner(){var st=stopsNow();if(!st.length)return null;
+  var ic=document.createElementNS("http://www.w3.org/2000/svg","svg");ic.setAttribute("viewBox","0 0 24 24");ic.setAttribute("width","22");ic.setAttribute("height","22");ic.setAttribute("aria-hidden","true");
+  ic.innerHTML='<path d="M8 2h8l6 6v8l-6 6H8l-6-6V8z" fill="var(--stop)"/><path d="M8 12h8" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/>';
+  return h("div",{class:"stopban",role:"note","aria-labelledby":"stoph"},[h("h3",{id:"stoph"},[ic,"Stop and check first"]),
+    h("p",{class:"help",text:"The documents say this needs GTA approval or is prohibited. The wording is below."})].concat(st.map(function(x){var p=provById(x.pid);
+    return h("div",{class:"sreason"},[h("b",{text:x.t}),p.lead?h("p",{class:"lead",text:p.lead}):null,quote(p),h("small",{text:p.doc+" ("+cite(p)+"). Modal as written: "+p.aw+(facts[x.f]==="not_sure"?". Shown because you answered Not sure.":".")}),x.n?h("small",{text:x.n}):null])})))}
+function renderResults(){
+  var main=$("main");main.textContent="";
+  if(gated()){var g=META.gate;
+    main.appendChild(h("div",{class:"card q"},[h("h2",{text:"No results for technology without AI",tabindex:"-1",id:"qh"}),h("p",{class:"help",text:g.text}),
+      moreBox("gate","More about this result",[h("p",{class:"help",text:g.note}),h("ul",{class:"src"},g.cites.map(function(c){return h("li",{text:c})}))])]));
+    main.appendChild(h("p",{class:"closing",text:META.closing}));return;}
+  var act=active(),ptrs=ptrsNow(),base=baseEls();
+  var ns=applicable().filter(function(q){var s=sel(q);return q.options.some(function(o){return o.not_sure&&s.indexOf(o.value)>=0})});
+  main.appendChild(h("div",{class:"card q"},[h("h2",{text:"What applies to this use",tabindex:"-1",id:"qh"}),
+    h("div",{class:"tiles","aria-hidden":"true"},[[act.length,"because of your answers"],[base.length,"apply to every use"],[ptrs.length,"point you to your agency"]].map(function(t){return h("div",{class:"tile"},[h("b",{text:String(t[0])}),h("span",{text:t[1]})])})),
+    h("p",{class:"help",text:act.length+" topics apply because of your answers, "+base.length+" apply to every use, and "+ptrs.length+" point you to your agency. Open “Exact wording” under any line to read the source text and where it comes from."})]
+    .concat([stopBanner()]).concat(ns.map(function(q){var o=q.options.filter(function(o){return o.not_sure})[0];return h("p",{class:"confirm",text:"You answered Not sure to “"+q.text+"” "+o.confirm})})).concat([tabBar(stepsNow(act,base,ptrs).length)]).concat(tab==="applies"?[viewBar()]:[])));
+  placeInd();
+  var pn=h("div",{role:"tabpanel",id:"tabpanel","aria-labelledby":"tab-"+tab});main.appendChild(pn);main=pn;
+  if(tab==="steps"){stepsView(stepsNow(act,base,ptrs),decsNow(act,base,ptrs)).forEach(function(n){main.appendChild(n)});main.appendChild(h("p",{class:"closing",text:META.closing}));return;}
+  (META.notes||[]).filter(function(n){return match(n.when,facts)}).forEach(function(n){
+    main.appendChild(h("article",{class:"el ptr"},[h("p",{class:"do",text:"About other AI and AI agents"}),
+      moreBox("note-"+n.id,"Read the note",[h("p",{text:n.text}),h("details",null,[h("summary",{text:"Sources ("+n.cites.length+")"}),h("ul",{class:"src"},n.cites.map(function(c){return h("li",{text:c})}))])])]))});
+  if(view!=="topic"){grouped(rowsNow(act,base,ptrs)).forEach(function(n){main.appendChild(n)});main.appendChild(h("p",{class:"closing",text:META.closing}));return;}
+  if(act.length)main.appendChild(section("Because of your answers","These apply only in the situation you described.",act.map(elCard)));
+  main.appendChild(section("Check with your agency","These rules are written for agencies. The documents do not name the office to ask, so the pointer stops at your agency.",ptrs.map(ptrCard)));
+  main.appendChild(section("Applies to every use","These apply to every use of the kind of AI you described.",base.map(elCard)));
+  main.appendChild(h("p",{class:"closing",text:META.closing}));
+}
+function render(){
+  var q=current();
+  if(q&&!showResults)renderQuestion(q);else{showResults=true;renderResults();stagger();}
+  renderRail();
+  var kv=keepV;keepV=null;
+  if(kv){var kb=document.querySelector('.opt[data-v="'+kv+'"]');if(kb)kb.focus({preventScroll:true})}
+  else{var f=$("qh");if(f&&render.ran){f.focus({preventScroll:true});window.scrollTo(0,0)}}
+  render.ran=true;
+}
+var opened=[];window.addEventListener("beforeprint",function(){opened=[];document.querySelectorAll("details:not([open])").forEach(function(d){d.open=true;opened.push(d)})});
+window.addEventListener("afterprint",function(){opened.forEach(function(d){d.open=false});opened=[]});
+$("restart").addEventListener("click",function(){facts={};editing=null;showResults=false;render()});
+fetch("data.json").then(function(r){if(!r.ok)throw new Error(r.status);return r.json()}).then(function(recs){
+  recs.forEach(function(r){if(r.k==="q")Q.push(r);else if(r.k==="el")EL.push(r);else if(r.k==="ptr")PT.push(r);else if(r.k==="meta"){META=r;if(r.updated){var u=$("updated");u.textContent="";var pl=h("span",{class:"updpill"},["Last updated: ",h("time",{datetime:r.updated.iso,text:r.updated.text}),(r.updated.basis?". "+r.updated.basis+".":"")]);u.appendChild(pl)}}else if(r.k==="step")STEPS.push(r);else if(r.k==="dec")DEC.push(r);else if(r.k==="stepgap")STEPGAP=r});
+  render();
+}).catch(function(e){$("main").textContent="";$("main").appendChild(h("div",{class:"err",role:"alert",text:"The policy map did not load ("+e.message+"). Reload the page to try again."}))});
+})();
+</script>
+</body>
+</html>
