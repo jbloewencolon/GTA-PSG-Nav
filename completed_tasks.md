@@ -72,3 +72,13 @@ Decisions: details kept in the browser only; agency required, email optional; pr
 - [x] Diagrams 10–15 (data pipeline, data at a glance, JSON anatomy, tech stack, current and planned architecture), generated from the data by docs/diagrams/; README Architecture and data section
 - [x] 16-tech-stack-simple.png: plain-language, logo version for non-expert audiences (Simple Icons, CC0; trademark notice in docs/diagrams/icons/NOTICE.md)
 - [x] Diagrams 10–16 reworked to show the proposed Georgia build (State's Microsoft Azure, GTA approval, Power BI insights), all marked PROPOSED; GitHub removed from the simplified stack; 14 renamed 14-architecture-georgia.png
+
+## 2026-11-26: Live count restored as "Rules that apply to you"
+Diagnosis: the live site worked as built, but Phase 1 replaced the rule count with risk-based posts that move only for six factors, so on many routes the panel sat at "0 posts" and felt broken.
+- [x] New first card in the side panel: total rules that apply (must, must not, should, should not, may), "+N from your answers", a pulse when it changes (off with reduced motion), a segmented bar and legend by obligation, and a note of Notes and agency rules not counted
+- [x] On results, a link opens the rules grouped by obligation; the live region announces the new total
+- [x] Guardrail posts and stop / Check first signs unchanged
+- [x] `tests/test_obligations.py` (added to CI): count and breakdown match the data after every answer on 4 routes; all 9 suites and the accessibility audit pass
+- [x] Page screenshots 00–09 regenerated
+- [x] Title screen simplified: one centred card (heading, one-line intro, agency, optional email, full-width Start, one privacy line); side panel and header description hidden until the questions start; whole form fits on a phone screen
+- [x] README rewritten: status and live link up front, current features (title screen, rules count, guardrails, signs), proposed Georgia build with diagram index, quick start, script/test tables, image regeneration, project documents; every command output and link verified

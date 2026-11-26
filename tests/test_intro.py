@@ -27,10 +27,12 @@ async def main():
         await pg.goto(URL); await pg.wait_for_selector("#agency")
 
         check("shows title screen first", await pg.locator(".opt").count() == 0 and await pg.locator("#qh").inner_text() != "")
-        check("proof-of-concept notice", "not an official Georgia Technology Authority tool" in await pg.locator(".pocnote").inner_text())
+        check("proof-of-concept notice", "not an official GTA tool" in await pg.locator(".pocpill").inner_text())
+        check("privacy promise", "never sent anywhere" in await pg.locator(".pocnote").inner_text())
         check("header pill", await pg.locator(".pocpill").is_visible())
+        check("side panel hidden until questions start", not await pg.locator("aside.rail").is_visible())
         check("noindex", await pg.locator('meta[name="robots"]').get_attribute("content") == "noindex, nofollow")
-        check("fields are labelled", await pg.get_by_label("Your agency (required)").count() == 1 and await pg.get_by_label("Work email (optional)").count() == 1)
+        check("fields are labelled", await pg.get_by_label("Your agency").count() == 1 and await pg.get_by_label("Work email (optional)").count() == 1)
 
         await pg.click("#start")
         focus = await pg.evaluate("document.activeElement.id")
@@ -46,6 +48,7 @@ async def main():
         saved = await pg.evaluate(f"localStorage.getItem('{KEY}')")
         check("starts with agency only; trimmed and saved locally", saved == '{"agency":"Department of Example","email":""}', saved)
         check("agency shown in Your answers", "Department of Example" in await pg.locator("#answers").inner_text())
+        check("side panel shown once started", await pg.locator("aside.rail").is_visible())
 
         await pg.reload(); await pg.wait_for_selector("#agency")
         check("pre-filled after reload", await pg.input_value("#agency") == "Department of Example")
