@@ -835,13 +835,10 @@
        "modality": "should",
        "modal_as_written": [
         "imperative (no modal verb)",
-        "should",
-        "should never",
-        "should not"
+        "should"
        ],
-       "summary": "AI tools “should not be the only agents involved in any decision-making” and “AI should never have autonomous decision-making capabilities”; “Employees should use common sense and exercise caution in deciding whether AI is right for a given task”; “Users should be aware of how AI contributes to outcomes and that humans remain responsible for those outcomes”; the rubric also instructs, without a modal verb, that a human review “both the inputs to and outputs from the AI”.",
+       "summary": "“Employees should use common sense and exercise caution in deciding whether AI is right for a given task”; “Users should be aware of how AI contributes to outcomes and that humans remain responsible for those outcomes”; the rubric also instructs, without a modal verb, that a human review “both the inputs to and outputs from the AI”.",
        "citations": [
-        "Generative AI Guidelines for Responsible Use (GS-25-001), Guidelines > Use AI Tools Safely and Properly, p.2",
         "Generative AI Guidelines for Responsible Use (GS-25-001), Guidelines > Use AI Tools Safely and Properly, p.3",
         "Generative AI Guidelines for Responsible Use (GS-25-001), Mitigating the Risks of Generative AI: Rubric, p.10",
         "Generative AI Guidelines for Responsible Use (GS-25-001), Guiding Principles > Keep Human Involvement at the Center, p.8",
@@ -849,30 +846,52 @@
         "Artificial Intelligence Responsible Use Guidelines (GS-23-001), V. Keep Human Involvement at the Center > 7. User Education, p.8"
        ],
        "provision_ids": [
-        "GS-25-001-SAFE-8",
         "GS-25-001-SAFE-24",
         "GS-25-001-RUBRIC-1",
-        "GS-25-001-RUBRIC-2",
         "GS-25-001-RUBRIC-3",
         "GS-25-001-GP-V-12",
         "5GP-V-12",
         "GS-23-001-V.7-2"
+       ]
+      },
+      {
+       "modality": "should_not",
+       "modal_as_written": [
+        "should never",
+        "should not"
+       ],
+       "summary": "AI tools “should not be the only agents involved in any decision-making”, and “AI should never have autonomous decision-making capabilities”.",
+       "citations": [
+        "Generative AI Guidelines for Responsible Use (GS-25-001), Guidelines > Use AI Tools Safely and Properly, p.2",
+        "Generative AI Guidelines for Responsible Use (GS-25-001), Mitigating the Risks of Generative AI: Rubric, p.10"
+       ],
+       "provision_ids": [
+        "GS-25-001-SAFE-8",
+        "GS-25-001-RUBRIC-2"
        ]
       }
      ],
      "other_ai_statements": [
       {
        "modality": "should",
-       "summary": "GS-25-001 says: “AI tools, including generative AI and other automated decision-making systems, should not be the only agents involved in any decision-making.”; 5 Guiding Principles says: “Users should be aware of how AI contributes to outcomes and that humans remain responsible for those outcomes.”; GS-23-001 says: “Users should be aware of how AI contributes to outcomes and that humans remain responsible for those outcomes.”",
+       "summary": "5 Guiding Principles says: “Users should be aware of how AI contributes to outcomes and that humans remain responsible for those outcomes.”; GS-23-001 says: “Users should be aware of how AI contributes to outcomes and that humans remain responsible for those outcomes.”",
        "citations": [
-        "Generative AI Guidelines for Responsible Use (GS-25-001), Guidelines > Use AI Tools Safely and Properly, p.2",
         "5 Guiding Principles (no identifier), Keep Human Involvement at the Center, p.9",
         "Artificial Intelligence Responsible Use Guidelines (GS-23-001), V. Keep Human Involvement at the Center > 7. User Education, p.8"
        ],
        "provision_ids": [
-        "GS-25-001-SAFE-8",
         "5GP-V-12",
         "GS-23-001-V.7-2"
+       ]
+      },
+      {
+       "modality": "should_not",
+       "summary": "GS-25-001 says: “AI tools, including generative AI and other automated decision-making systems, should not be the only agents involved in any decision-making.”",
+       "citations": [
+        "Generative AI Guidelines for Responsible Use (GS-25-001), Guidelines > Use AI Tools Safely and Properly, p.2"
+       ],
+       "provision_ids": [
+        "GS-25-001-SAFE-8"
        ]
       }
      ],
@@ -2755,19 +2774,30 @@
        "modal_as_written": [
         "imperative (no modal verb)",
         "is strongly discouraged",
-        "should",
-        "should not"
+        "should"
        ],
-       "summary": "“The use of AI note-taking tools in Microsoft Teams meetings or any other conferencing platforms is strongly discouraged for meetings held within the State”; AI recording and transcription “should be used thoughtfully”, “AI should not be used to manipulate or misrepresent the contributions of participants”, and “AI outputs should be used only to supplement, not replace, human judgment.”",
+       "summary": "“The use of AI note-taking tools in Microsoft Teams meetings or any other conferencing platforms is strongly discouraged for meetings held within the State”; AI recording and transcription “should be used thoughtfully”, and “AI outputs should be used only to supplement, not replace, human judgment.”",
        "citations": [
         "Generative AI Guidelines for Responsible Use (GS-25-001), Guidelines > Be Vigilant in Virtual Meetings, p.3"
        ],
        "provision_ids": [
         "GS-25-001-MEET-1",
         "GS-25-001-MEET-5",
-        "GS-25-001-MEET-7",
         "GS-25-001-MEET-8",
         "GS-25-001-MEET-9"
+       ]
+      },
+      {
+       "modality": "should_not",
+       "modal_as_written": [
+        "should not"
+       ],
+       "summary": "“AI should not be used to manipulate or misrepresent the contributions of participants.”",
+       "citations": [
+        "Generative AI Guidelines for Responsible Use (GS-25-001), Guidelines > Be Vigilant in Virtual Meetings, p.3"
+       ],
+       "provision_ids": [
+        "GS-25-001-MEET-7"
        ]
       },
       {

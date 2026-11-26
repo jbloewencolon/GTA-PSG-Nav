@@ -29,8 +29,16 @@ oc = tri['outcomes']
 import datetime as _dt
 UPD = os.environ.get('NAV_UPDATED') or _dt.date.today().isoformat()
 _d = _dt.date.fromisoformat(UPD)
-updated = dict(iso=UPD, text=f"{_d.day} {_d.strftime('%B %Y')}", basis='Content comes from seven GTA AI policy, standard and guideline documents')
-recs = [dict(k='meta', updated=updated, closing=oc['closing_line'], gate=dict(when=oc['scope_gate']['when'], text=oc['scope_gate']['outcome']['text'], note=oc['scope_gate']['outcome']['unresolved_note'], cites=oc['scope_gate']['outcome']['citations']),
+updated = dict(iso=UPD, text=f"{_d.day} {_d.strftime('%B %Y')}", basis='Content comes from seven GTA AI policy, standard and guideline documents. Each source shows its own dates')
+def _date(s):
+    """'7/1/2025', '12/12/23' or '7/21/26, 6:13 PM (...)' -> ('2025-07-01', '1 July 2025'); None -> None."""
+    if not s: return None
+    m, d_, y = (int(x) for x in s.split(',')[0].split('/'))
+    d = _dt.date(y + 2000 if y < 100 else y, m, d_)
+    return dict(iso=d.isoformat(), text=f"{d.day} {d.strftime('%B %Y')}")
+# Per-document dates, shown with each citation: effective date as printed, and when the copy used here was captured (where known).
+DOCDATES = {d['doc_id']: dict(eff=_date(d['effective_date']), cap=_date(d['printed_or_captured'])) for d in inv['documents']}
+recs = [dict(k='meta', updated=updated, docs=DOCDATES, closing=oc['closing_line'], gate=dict(when=oc['scope_gate']['when'], text=oc['scope_gate']['outcome']['text'], note=oc['scope_gate']['outcome']['unresolved_note'], cites=oc['scope_gate']['outcome']['citations']),
              when_other=oc['type_rule']['when_other'], notes=[dict(id=n['id'], when=n['when'], text=n['note']['text'], cites=n['note']['citations']) for n in oc['type_notes']])]
 # F_TASK takes several answers at once; results are the union of what each chosen value triggers (see tests/test_multi.py)
 MULTI = {'F_TASK'}

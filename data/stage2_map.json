@@ -369,23 +369,18 @@
      "modality": "should",
      "modal_as_written": [
       "imperative (no modal verb)",
-      "should",
-      "should never",
-      "should not"
+      "should"
      ],
-     "summary": "AI tools “should not be the only agents involved in any decision-making” and “AI should never have autonomous decision-making capabilities”; “Employees should use common sense and exercise caution in deciding whether AI is right for a given task”; “Users should be aware of how AI contributes to outcomes and that humans remain responsible for those outcomes”; the rubric also instructs, without a modal verb, that a human review “both the inputs to and outputs from the AI”.",
+     "summary": "“Employees should use common sense and exercise caution in deciding whether AI is right for a given task”; “Users should be aware of how AI contributes to outcomes and that humans remain responsible for those outcomes”; the rubric also instructs, without a modal verb, that a human review “both the inputs to and outputs from the AI”.",
      "provision_ids": [
-      "GS-25-001-SAFE-8",
       "GS-25-001-SAFE-24",
       "GS-25-001-RUBRIC-1",
-      "GS-25-001-RUBRIC-2",
       "GS-25-001-RUBRIC-3",
       "GS-25-001-GP-V-12",
       "5GP-V-12",
       "GS-23-001-V.7-2"
      ],
      "citations": [
-      "Generative AI Guidelines for Responsible Use (GS-25-001), Guidelines > Use AI Tools Safely and Properly, p.2",
       "Generative AI Guidelines for Responsible Use (GS-25-001), Guidelines > Use AI Tools Safely and Properly, p.3",
       "Generative AI Guidelines for Responsible Use (GS-25-001), Mitigating the Risks of Generative AI: Rubric, p.10",
       "Generative AI Guidelines for Responsible Use (GS-25-001), Guiding Principles > Keep Human Involvement at the Center, p.8",
@@ -393,15 +388,36 @@
       "Artificial Intelligence Responsible Use Guidelines (GS-23-001), V. Keep Human Involvement at the Center > 7. User Education, p.8"
      ],
      "other_ai_provision_ids": [
-      "GS-25-001-SAFE-8",
       "5GP-V-12",
       "GS-23-001-V.7-2"
      ],
-     "other_ai_summary": "GS-25-001 says: “AI tools, including generative AI and other automated decision-making systems, should not be the only agents involved in any decision-making.”; 5 Guiding Principles says: “Users should be aware of how AI contributes to outcomes and that humans remain responsible for those outcomes.”; GS-23-001 says: “Users should be aware of how AI contributes to outcomes and that humans remain responsible for those outcomes.”",
+     "other_ai_summary": "5 Guiding Principles says: “Users should be aware of how AI contributes to outcomes and that humans remain responsible for those outcomes.”; GS-23-001 says: “Users should be aware of how AI contributes to outcomes and that humans remain responsible for those outcomes.”",
      "other_ai_citations": [
-      "Generative AI Guidelines for Responsible Use (GS-25-001), Guidelines > Use AI Tools Safely and Properly, p.2",
       "5 Guiding Principles (no identifier), Keep Human Involvement at the Center, p.9",
       "Artificial Intelligence Responsible Use Guidelines (GS-23-001), V. Keep Human Involvement at the Center > 7. User Education, p.8"
+     ]
+    },
+    {
+     "modality": "should_not",
+     "modal_as_written": [
+      "should never",
+      "should not"
+     ],
+     "summary": "AI tools “should not be the only agents involved in any decision-making”, and “AI should never have autonomous decision-making capabilities”.",
+     "provision_ids": [
+      "GS-25-001-SAFE-8",
+      "GS-25-001-RUBRIC-2"
+     ],
+     "citations": [
+      "Generative AI Guidelines for Responsible Use (GS-25-001), Guidelines > Use AI Tools Safely and Properly, p.2",
+      "Generative AI Guidelines for Responsible Use (GS-25-001), Mitigating the Risks of Generative AI: Rubric, p.10"
+     ],
+     "other_ai_provision_ids": [
+      "GS-25-001-SAFE-8"
+     ],
+     "other_ai_summary": "GS-25-001 says: “AI tools, including generative AI and other automated decision-making systems, should not be the only agents involved in any decision-making.”",
+     "other_ai_citations": [
+      "Generative AI Guidelines for Responsible Use (GS-25-001), Guidelines > Use AI Tools Safely and Properly, p.2"
      ]
     }
    ],
@@ -2244,16 +2260,30 @@
      "modal_as_written": [
       "imperative (no modal verb)",
       "is strongly discouraged",
-      "should",
-      "should not"
+      "should"
      ],
-     "summary": "“The use of AI note-taking tools in Microsoft Teams meetings or any other conferencing platforms is strongly discouraged for meetings held within the State”; AI recording and transcription “should be used thoughtfully”, “AI should not be used to manipulate or misrepresent the contributions of participants”, and “AI outputs should be used only to supplement, not replace, human judgment.”",
+     "summary": "“The use of AI note-taking tools in Microsoft Teams meetings or any other conferencing platforms is strongly discouraged for meetings held within the State”; AI recording and transcription “should be used thoughtfully”, and “AI outputs should be used only to supplement, not replace, human judgment.”",
      "provision_ids": [
       "GS-25-001-MEET-1",
       "GS-25-001-MEET-5",
-      "GS-25-001-MEET-7",
       "GS-25-001-MEET-8",
       "GS-25-001-MEET-9"
+     ],
+     "citations": [
+      "Generative AI Guidelines for Responsible Use (GS-25-001), Guidelines > Be Vigilant in Virtual Meetings, p.3"
+     ],
+     "other_ai_provision_ids": [],
+     "other_ai_summary": null,
+     "other_ai_citations": []
+    },
+    {
+     "modality": "should_not",
+     "modal_as_written": [
+      "should not"
+     ],
+     "summary": "“AI should not be used to manipulate or misrepresent the contributions of participants.”",
+     "provision_ids": [
+      "GS-25-001-MEET-7"
      ],
      "citations": [
       "Generative AI Guidelines for Responsible Use (GS-25-001), Guidelines > Be Vigilant in Virtual Meetings, p.3"
@@ -4703,13 +4733,11 @@
      "modality": "should",
      "modal_as_written": [
       "imperative (no modal verb)",
-      "should",
-      "should not"
+      "should"
      ],
-     "summary": "33 provision(s) recorded with modality 'should' and addressee agency, unspecified; the documents state no action for the individual employee. See the provisions in stage1_inventory.json.",
+     "summary": "30 provision(s) recorded with modality 'should' and addressee agency, unspecified; the documents state no action for the individual employee. See the provisions in stage1_inventory.json.",
      "provision_ids": [
       "GS-25-001-GP-V-1",
-      "GS-25-001-GP-V-2",
       "GS-25-001-GP-V-3",
       "GS-25-001-GP-V-4",
       "GS-25-001-GP-V-5",
@@ -4722,7 +4750,6 @@
       "GS-25-001-GP-V-13",
       "GS-25-001-GP-V-14",
       "5GP-V-1",
-      "5GP-V-2",
       "5GP-V-3",
       "5GP-V-4",
       "5GP-V-5",
@@ -4734,7 +4761,6 @@
       "5GP-V-11",
       "5GP-V-13",
       "5GP-V-14",
-      "GS-23-001-V.3-1",
       "GS-23-001-V.5-1",
       "GS-23-001-V.6-1",
       "GS-23-001-V.6-2",
@@ -4748,7 +4774,6 @@
       "5 Guiding Principles (no identifier), Keep Human Involvement at the Center, p.7",
       "5 Guiding Principles (no identifier), Keep Human Involvement at the Center, p.8",
       "5 Guiding Principles (no identifier), Keep Human Involvement at the Center, p.9",
-      "Artificial Intelligence Responsible Use Guidelines (GS-23-001), V. Keep Human Involvement at the Center > 3. Human Oversight and Decision-Making, p.7",
       "Artificial Intelligence Responsible Use Guidelines (GS-23-001), V. Keep Human Involvement at the Center > 5. Clear Roles and Responsibilities, p.8",
       "Artificial Intelligence Responsible Use Guidelines (GS-23-001), V. Keep Human Involvement at the Center > 6. Human-AI Collaboration, p.8",
       "Artificial Intelligence Responsible Use Guidelines (GS-23-001), V. Keep Human Involvement at the Center > 7. User Education, p.8",
@@ -4756,7 +4781,6 @@
      ],
      "other_ai_provision_ids": [
       "5GP-V-1",
-      "5GP-V-2",
       "5GP-V-3",
       "5GP-V-4",
       "5GP-V-5",
@@ -4768,7 +4792,6 @@
       "5GP-V-11",
       "5GP-V-13",
       "5GP-V-14",
-      "GS-23-001-V.3-1",
       "GS-23-001-V.5-1",
       "GS-23-001-V.6-1",
       "GS-23-001-V.6-2",
@@ -4776,16 +4799,41 @@
       "GS-23-001-V.10-1",
       "GS-23-001-V.10-2"
      ],
-     "other_ai_summary": "5 Guiding Principles says: “State agencies should establish and adhere to policies that emphasize human responsibility and ownership of the outcomes produced by AI systems used in state services.”; 5 Guiding Principles says: “AI systems should not operate in isolation.”; 5 Guiding Principles says: “State agencies should ensure that humans retain control over the operation of AI systems and that human decision-makers remain responsible for the final decisions made with the support of AI.”; 5 Guiding Principles says: “State agencies should prioritize transparency and accountability in the deployment of AI systems.”; 5 Guiding Principles says: “Agencies should retain clear records of AI system use, their objectives, and the roles of individuals overseeing and interacting with these systems.”; 5 Guiding Principles says: “Agencies should mandate that AI systems be designed and used in accordance with ethical principles that prioritize fairness, transparency, accountability, and privacy.”; 5 Guiding Principles says: “Ethical considerations should be an integral part of AI system development and use.”; 5 Guiding Principles says: “Clearly define roles and responsibilities for individuals involved in AI system implementation.” [modal as written: imperative (no modal verb)]; 5 Guiding Principles says: “Encourage collaboration between humans and AI systems to enhance decision-making processes.” [modal as written: imperative (no modal verb)]; 5 Guiding Principles says: “AI should be viewed as a tool that complements human expertise rather than a replacement for human judgment.”; 5 Guiding Principles says: “Promote user education to ensure that individuals interacting with AI systems understand the capabilities and limitations of these technologies.” [modal as written: imperative (no modal verb)]; 5 Guiding Principles says: “Agencies should invest in training and development programs to equip their staff with the skills and knowledge necessary to effectively use AI systems and make informed decisions.”; 5 Guiding Principles says: “State agencies should retain ownership and control over the data used to train AI models and the models themselves.”; GS-23-001 says: “AI systems should not operate in isolation.”; GS-23-001 says: “Clearly define roles and responsibilities for individuals involved in AI system implementation.” [modal as written: imperative (no modal verb)]; GS-23-001 says: “Encourage collaboration between humans and AI systems to enhance decision-making processes.” [modal as written: imperative (no modal verb)]; GS-23-001 says: “AI should be viewed as a tool that complements human expertise rather than a replacement for human judgment.”; GS-23-001 says: “Promote user education to ensure that individuals interacting with AI systems understand the capabilities and limitations of these technologies.” [modal as written: imperative (no modal verb)]; GS-23-001 says: “Establish mechanisms for continuous monitoring and assessment of AI systems.” [modal as written: imperative (no modal verb)]; GS-23-001 says: “Regularly evaluate system performance, ethical adherence, and the impact on outcomes, and take corrective actions as needed.” [modal as written: imperative (no modal verb)]",
+     "other_ai_summary": "5 Guiding Principles says: “State agencies should establish and adhere to policies that emphasize human responsibility and ownership of the outcomes produced by AI systems used in state services.”; 5 Guiding Principles says: “State agencies should ensure that humans retain control over the operation of AI systems and that human decision-makers remain responsible for the final decisions made with the support of AI.”; 5 Guiding Principles says: “State agencies should prioritize transparency and accountability in the deployment of AI systems.”; 5 Guiding Principles says: “Agencies should retain clear records of AI system use, their objectives, and the roles of individuals overseeing and interacting with these systems.”; 5 Guiding Principles says: “Agencies should mandate that AI systems be designed and used in accordance with ethical principles that prioritize fairness, transparency, accountability, and privacy.”; 5 Guiding Principles says: “Ethical considerations should be an integral part of AI system development and use.”; 5 Guiding Principles says: “Clearly define roles and responsibilities for individuals involved in AI system implementation.” [modal as written: imperative (no modal verb)]; 5 Guiding Principles says: “Encourage collaboration between humans and AI systems to enhance decision-making processes.” [modal as written: imperative (no modal verb)]; 5 Guiding Principles says: “AI should be viewed as a tool that complements human expertise rather than a replacement for human judgment.”; 5 Guiding Principles says: “Promote user education to ensure that individuals interacting with AI systems understand the capabilities and limitations of these technologies.” [modal as written: imperative (no modal verb)]; 5 Guiding Principles says: “Agencies should invest in training and development programs to equip their staff with the skills and knowledge necessary to effectively use AI systems and make informed decisions.”; 5 Guiding Principles says: “State agencies should retain ownership and control over the data used to train AI models and the models themselves.”; GS-23-001 says: “Clearly define roles and responsibilities for individuals involved in AI system implementation.” [modal as written: imperative (no modal verb)]; GS-23-001 says: “Encourage collaboration between humans and AI systems to enhance decision-making processes.” [modal as written: imperative (no modal verb)]; GS-23-001 says: “AI should be viewed as a tool that complements human expertise rather than a replacement for human judgment.”; GS-23-001 says: “Promote user education to ensure that individuals interacting with AI systems understand the capabilities and limitations of these technologies.” [modal as written: imperative (no modal verb)]; GS-23-001 says: “Establish mechanisms for continuous monitoring and assessment of AI systems.” [modal as written: imperative (no modal verb)]; GS-23-001 says: “Regularly evaluate system performance, ethical adherence, and the impact on outcomes, and take corrective actions as needed.” [modal as written: imperative (no modal verb)]",
      "other_ai_citations": [
       "5 Guiding Principles (no identifier), Keep Human Involvement at the Center, p.7",
       "5 Guiding Principles (no identifier), Keep Human Involvement at the Center, p.8",
       "5 Guiding Principles (no identifier), Keep Human Involvement at the Center, p.9",
-      "Artificial Intelligence Responsible Use Guidelines (GS-23-001), V. Keep Human Involvement at the Center > 3. Human Oversight and Decision-Making, p.7",
       "Artificial Intelligence Responsible Use Guidelines (GS-23-001), V. Keep Human Involvement at the Center > 5. Clear Roles and Responsibilities, p.8",
       "Artificial Intelligence Responsible Use Guidelines (GS-23-001), V. Keep Human Involvement at the Center > 6. Human-AI Collaboration, p.8",
       "Artificial Intelligence Responsible Use Guidelines (GS-23-001), V. Keep Human Involvement at the Center > 7. User Education, p.8",
       "Artificial Intelligence Responsible Use Guidelines (GS-23-001), V. Keep Human Involvement at the Center > 10. Continuous Monitoring and Improvement, p.9"
+     ]
+    },
+    {
+     "modality": "should_not",
+     "modal_as_written": [
+      "should not"
+     ],
+     "summary": "3 provision(s) recorded with modality 'should_not' and addressee unspecified; the documents state no action for the individual employee. See the provisions in stage1_inventory.json.",
+     "provision_ids": [
+      "GS-25-001-GP-V-2",
+      "5GP-V-2",
+      "GS-23-001-V.3-1"
+     ],
+     "citations": [
+      "Generative AI Guidelines for Responsible Use (GS-25-001), Guiding Principles > Keep Human Involvement at the Center, p.8",
+      "5 Guiding Principles (no identifier), Keep Human Involvement at the Center, p.8",
+      "Artificial Intelligence Responsible Use Guidelines (GS-23-001), V. Keep Human Involvement at the Center > 3. Human Oversight and Decision-Making, p.7"
+     ],
+     "other_ai_provision_ids": [
+      "5GP-V-2",
+      "GS-23-001-V.3-1"
+     ],
+     "other_ai_summary": "5 Guiding Principles says: “AI systems should not operate in isolation.”; GS-23-001 says: “AI systems should not operate in isolation.”",
+     "other_ai_citations": [
+      "5 Guiding Principles (no identifier), Keep Human Involvement at the Center, p.8",
+      "Artificial Intelligence Responsible Use Guidelines (GS-23-001), V. Keep Human Involvement at the Center > 3. Human Oversight and Decision-Making, p.7"
      ]
     }
    ],

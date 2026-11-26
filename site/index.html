@@ -87,7 +87,7 @@ header.top p{margin:0;color:var(--muted);font-size:.9rem;max-width:60ch}
 .st{display:grid;grid-template-columns:92px minmax(0,1fr);gap:4px 12px;padding:10px 0;border-top:1px solid var(--line)}
 .pill{display:inline-block;font-size:.72rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase;padding:3px 8px;border-radius:999px;align-self:start;justify-self:start;border:1px solid currentColor}
 .pill.must{color:var(--must);background:var(--must-bg)} .pill.must_not{color:var(--mustnot);background:var(--mustnot-bg)}
-.pill.should{color:var(--should);background:var(--should-bg)} .pill.may{color:var(--may);background:var(--may-bg)} .pill.informational{color:var(--info);background:var(--info-bg)}
+.pill.should,.pill.should_not{color:var(--should);background:var(--should-bg)} .pill.may{color:var(--may);background:var(--may-bg)} .pill.informational{color:var(--info);background:var(--info-bg)}
 .st p{margin:0;max-width:68ch}
 details{grid-column:2;margin-top:6px}
 summary{cursor:pointer;color:var(--accent);font-weight:600;font-size:.88rem;width:fit-content;min-height:44px;display:flex;align-items:center;gap:6px}
@@ -200,7 +200,7 @@ header.top h1{font-family:var(--quote);font-weight:500;font-size:2rem;letter-spa
 .src blockquote,.row blockquote,.stopban blockquote{position:relative;padding-left:22px;line-height:1.5}
 blockquote.qt::before{content:"\201C";position:absolute;left:-2px;top:-.28em;font-size:2.4em;line-height:1;color:var(--ctl);font-family:var(--quote)}
 .st,.row{border-left:4px solid transparent;padding-left:12px}
-.m-must{border-left-color:var(--must)!important}.m-must_not{border-left-color:var(--mustnot)!important}.m-should{border-left-color:var(--should)!important}.m-may{border-left-color:var(--may)!important}.m-informational{border-left-color:var(--info)!important}
+.m-must{border-left-color:var(--must)!important}.m-must_not{border-left-color:var(--mustnot)!important}.m-should,.m-should_not{border-left-color:var(--should)!important}.m-may{border-left-color:var(--may)!important}.m-informational{border-left-color:var(--info)!important}
 .el.step.m-must,.el.step.m-must_not,.el.step.m-should,.el.step.m-may,.el.step.m-informational{border-left-width:5px}
 cite.chips{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:8px}
 .chip{display:inline-block;background:var(--sunk);color:var(--ink);border-radius:6px;padding:2px 8px;font-size:.76rem;line-height:1.5}
@@ -292,7 +292,7 @@ details.agency .declist{margin-top:12px;box-shadow:none}
   <header class="top">
     <h1>GTA GenAI Policy Check</h1>
     <p>Answer up to seven questions about how you plan to use an AI tool. You get the Georgia Technology Authority rules that apply, each with its exact source wording.</p>
-    <p class="updated" id="updated">Last updated: loading…</p>
+    <p class="updated" id="updated">Page built: loading…</p>
   </header>
   <p id="status" class="sr" role="status" aria-live="polite"></p>
   <div class="grid">
@@ -331,7 +331,7 @@ details.agency .declist{margin-top:12px;box-shadow:none}
 (function(){
 "use strict";
 var openMore={},Q=[],EL=[],PT=[],META={},facts={},editing=null,keepV=null,showResults=false,view="topic",tab="applies",STEPS=[],STEPGAP=null,review=/(^|[#&])review\b/.test(location.hash),DEC=[],DCTX={};
-var MOD={must:"Must",must_not:"Must not",should:"Should",may:"May",informational:"Note"};
+var MOD={must:"Must",must_not:"Must not",should:"Should",should_not:"Should not",may:"May",informational:"Note"};
 var $=function(id){return document.getElementById(id)};
 function h(tag,attrs,kids){var e=document.createElement(tag);if(attrs)for(var k in attrs){if(k==="text")e.textContent=attrs[k];else if(k==="on")for(var ev in attrs.on)e.addEventListener(ev,attrs.on[ev]);else e.setAttribute(k,attrs[k]);}
   (kids||[]).forEach(function(c){if(c)e.appendChild(typeof c==="string"?document.createTextNode(c):c)});
@@ -391,6 +391,7 @@ function renderRail(){
 }
 function citeEl(p,withDt,step){
   var parts=[[p.doc,""]];if(p.docid||!step)parts.push([p.docid||"no identifier","id"]);if(withDt)parts.push([p.dt,""]);parts.push([p.sec,""],["p."+p.pg,""]);if(!step)parts.push(["Modal as written: "+p.aw,"aw"]);
+  var dd=!step&&META.docs&&META.docs[docKey(p)];if(dd){if(dd.eff)parts.push(["Effective "+dd.eff.text,"aw"]);if(dd.cap)parts.push(["Copy captured "+dd.cap.text,"aw"])}
   var c=h("cite",{class:"chips"},[]);
   parts.forEach(function(x,i){c.appendChild(h("span",{class:"chip "+x[1],text:x[0]}));c.appendChild(h("span",{class:"sr",text:i<parts.length-1?", ":". "}))});
   if(p.url)c.appendChild(h("a",{class:"srcl",href:p.url,target:"_blank",rel:"noopener"},["Open the GTA source page",h("span",{"aria-hidden":"true",text:" ↗"})]));
@@ -416,7 +417,7 @@ function elCard(e){
 function ptrCard(p){
   return h("article",{class:"el ptr"},[h("p",{class:"do",text:p.pointer}),h("div",{class:"st m-informational"},[h("span",{class:"pill informational",text:"Agency"}),h("p",{class:"aw",text:isOther()?p.o_as_written:p.as_written}),sources(isOther()?p.oprov:p.prov)]),flags(p)]);
 }
-var MODORD=["must","must_not","should","may","informational"],MODNAME={must:"Must",must_not:"Must not",should:"Should",may:"May",informational:"Note (no obligation stated)"};
+var MODORD=["must","must_not","should","should_not","may","informational"],MODNAME={must:"Must",must_not:"Must not",should:"Should",should_not:"Should not",may:"May",informational:"Note (no obligation stated)"};
 var DTORD=["Policy","Standard","Guideline","Web page"],DTNAME={Policy:"Policies",Standard:"Standards",Guideline:"Guidelines","Web page":"Web page (no policy, standard or guideline label)"};
 function rowsNow(act,base,ptrs){var r=[];
   act.concat(base).forEach(function(e){sts(e).forEach(function(s){s.prov.forEach(function(p){r.push({p:p,m:p.mod,where:"Topic: "+e.title})})})});
@@ -609,7 +610,7 @@ var opened=[];window.addEventListener("beforeprint",function(){opened=[];documen
 window.addEventListener("afterprint",function(){opened.forEach(function(d){d.open=false});opened=[]});
 $("restart").addEventListener("click",function(){facts={};editing=null;showResults=false;render()});
 fetch("data.json").then(function(r){if(!r.ok)throw new Error(r.status);return r.json()}).then(function(recs){
-  recs.forEach(function(r){if(r.k==="q")Q.push(r);else if(r.k==="el")EL.push(r);else if(r.k==="ptr")PT.push(r);else if(r.k==="meta"){META=r;if(r.updated){var u=$("updated");u.textContent="";var pl=h("span",{class:"updpill"},["Last updated: ",h("time",{datetime:r.updated.iso,text:r.updated.text}),(r.updated.basis?". "+r.updated.basis+".":"")]);u.appendChild(pl)}}else if(r.k==="step")STEPS.push(r);else if(r.k==="dec")DEC.push(r);else if(r.k==="stepgap")STEPGAP=r;else if(r.k==="factor")FACTORS.push(r);else if(r.k==="sign")SIGNS.push(r)});
+  recs.forEach(function(r){if(r.k==="q")Q.push(r);else if(r.k==="el")EL.push(r);else if(r.k==="ptr")PT.push(r);else if(r.k==="meta"){META=r;if(r.updated){var u=$("updated");u.textContent="";var pl=h("span",{class:"updpill"},["Page built: ",h("time",{datetime:r.updated.iso,text:r.updated.text}),(r.updated.basis?". "+r.updated.basis+".":"")]);u.appendChild(pl)}}else if(r.k==="step")STEPS.push(r);else if(r.k==="dec")DEC.push(r);else if(r.k==="stepgap")STEPGAP=r;else if(r.k==="factor")FACTORS.push(r);else if(r.k==="sign")SIGNS.push(r)});
   render();
 }).catch(function(e){$("main").textContent="";$("main").appendChild(h("div",{class:"err",role:"alert",text:"The policy map did not load ("+e.message+"). Reload the page to try again."}))});
 })();

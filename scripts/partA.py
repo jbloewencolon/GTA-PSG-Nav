@@ -44,7 +44,8 @@ E("U_REVIEW", "Review and verify what the AI produces", "umbrella", R(SS25, "1",
    "should": "“employees should apply careful review methods”; GS-25-001 also instructs, without a modal verb, “For any fact provided by an AI, find a reliable source that corroborates it”, “Carefully review AI-generated content for accuracy”, and “Cross-check information with reliable sources”.",
    "informational": "The reviews are “to detect inaccuracies, biases, or inappropriate content”, and review “includes cross-checking AI outputs with trusted sources, verifying the accuracy of information, and assessing for possible biases or inaccuracies”."})
 E("U_HUMAN", "Keep a human in charge and use judgment", "umbrella", R(GS25, "SAFE", [8, 24]) + R(GS25, "RUBRIC", [1, 2, 3]) + R(GS25, "GP-V", [12]) + R(GP5, "V", [12]) + R(GS23, "V.7", [2]), ALWAYS, B_EMP,
-  {"should": "AI tools “should not be the only agents involved in any decision-making” and “AI should never have autonomous decision-making capabilities”; “Employees should use common sense and exercise caution in deciding whether AI is right for a given task”; “Users should be aware of how AI contributes to outcomes and that humans remain responsible for those outcomes”; the rubric also instructs, without a modal verb, that a human review “both the inputs to and outputs from the AI”."})
+  {"should_not": "AI tools “should not be the only agents involved in any decision-making”, and “AI should never have autonomous decision-making capabilities”.",
+   "should": "“Employees should use common sense and exercise caution in deciding whether AI is right for a given task”; “Users should be aware of how AI contributes to outcomes and that humans remain responsible for those outcomes”; the rubric also instructs, without a modal verb, that a human review “both the inputs to and outputs from the AI”."})
 E("U_LABEL", "Label and cite AI-generated content", "umbrella", R(SS25, "1.2", [1]) + R(GS25, "PRIV", [3]) + R(GS25, "SAFE", [11]) + R(GS25, "CITE", [1, 2, 3]), ALWAYS, B_EMP,
   {"must": "“Any content generated or assisted by GenAI shall be clearly labeled” (SS-25-001), and “All AI-generated content – including text, images, videos, and audio – must be clearly labeled as AI-generated” (GS-25-001).",
    "should": "“Anything produced with the assistance of AI should be cited correctly”, and “AI should be cited when its content is used as a product rather than a tool”.",
@@ -106,7 +107,8 @@ E("C_TASK_TRANSLATION", "Task: translation and accessibility", "conditional", ro
 E("C_TASK_LEGAL", "Task: legal and regulatory analysis", "conditional", row(9), T("legal"), B_COND, auto=True)
 E("C_TASK_CONTENT", "Task: brainstorming, editing and other content generation", "conditional", R(GS25, "TASK-CONTENT"), T("content"), B_COND, auto=True)
 E("C_MEETINGS", "AI in virtual meetings", "conditional", R(GS25, "MEET", [1, 5, 7, 8, 9, 10]), T("meetings"), B_COND,
-  {"should": "“The use of AI note-taking tools in Microsoft Teams meetings or any other conferencing platforms is strongly discouraged for meetings held within the State”; AI recording and transcription “should be used thoughtfully”, “AI should not be used to manipulate or misrepresent the contributions of participants”, and “AI outputs should be used only to supplement, not replace, human judgment.”",
+  {"should": "“The use of AI note-taking tools in Microsoft Teams meetings or any other conferencing platforms is strongly discouraged for meetings held within the State”; AI recording and transcription “should be used thoughtfully”, and “AI outputs should be used only to supplement, not replace, human judgment.”",
+   "should_not": "“AI should not be used to manipulate or misrepresent the contributions of participants.”",
    "informational": "“Once created, meeting recordings and transcriptions become public records and are subject to retention rules.”"})
 E("C_MEETING_HOST", "If you host the meeting", "conditional", R(GS25, "MEET", [2, 3, 4, 11]), [{"F_TASK": ["meetings", "not_sure"], "F_HOST": ["host", "not_sure"]}],
   "Addressed to 'Meeting hosts' by name (GS-25-001, Be Vigilant in Virtual Meetings).",
@@ -169,7 +171,7 @@ elem_of = {i: e['id'] for e in ELEMENTS for i in e['provision_ids']}
 def cite(p):
     ident = p['doc_id'] if p['doc_id'] != '5GP' else 'no identifier'
     return f"{p['doc_title']} ({ident}), {p['section']}, p.{p['page']}"
-ORDER = ["must", "must_not", "should", "may", "informational"]
+ORDER = ["must", "must_not", "should", "should_not", "may", "informational"]
 def auto_label(p):
     aw = p['modal_as_written']
     if 'Acceptable' in aw: return "SS-25-001 table, Acceptable (Green = Approved)"
