@@ -1,7 +1,7 @@
 import os as _os; ROOT = _os.path.normpath(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)), ".."))
 import asyncio, json, sys
 from playwright.async_api import async_playwright
-O = json.load(open(_os.path.join(ROOT, "data", "stage3_triage.json")))["outcomes"]
+O = json.load(open(_os.path.join(ROOT, "data", "stage3_triage.json"), encoding='utf-8'))["outcomes"]
 
 async def adv(pg):
     """Question 2 allows several answers, so it waits for Continue."""

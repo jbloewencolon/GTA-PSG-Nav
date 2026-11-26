@@ -1,0 +1,47 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Rebuild the data (must match the committed files)
+        run: |
+          # Reuse the committed "Page built" date so the rebuild is byte for byte
+          export NAV_UPDATED=$(python3 -c "import json; print(json.load(open('site/data.json', encoding='utf-8'))[0]['updated']['iso'])")
+          python3 scripts/partA.py data/stage1_inventory.json data/stage2_map.json
+          python3 scripts/partB.py data/stage2_map.json data/stage3_triage.json 8 | tail -1
+          python3 scripts/render_md.py data/stage3_triage.json data/stage3_triage.md
+          python3 scripts/decision_rights.py data/stage1_inventory.json data/stage2_map.json data/decision_rights.json data/decision_rights.md > /dev/null
+          python3 scripts/gen_site.py data/stage1_inventory.json data/stage2_map.json data/stage3_triage.json site data/decision_rights.json
+          git diff --exit-code
+
+      - name: Check quoted excerpts against source text
+        run: python3 scripts/verify_sources.py data/stage1_inventory.json data/source_text
+
+      - name: Install test dependencies
+        run: python3 -m pip install -r requirements-dev.txt
+
+      - name: Browser tests
+        env:
+          CHROME_PATH: /usr/bin/google-chrome
+        run: |
+          python3 -m http.server 8765 --directory site > /dev/null 2>&1 &
+          sleep 1
+          for t in test_score test_decisions test_employee test_steps test_v2 test_views test_multi; do
+            echo "== $t"; python3 tests/$t.py
+          done
+
+      - name: Accessibility audit
+        run: |
+          python3 tests/a11y_audit.py report.json
+          python3 -c "import json; r = json.load(open('report.json')); bad = {k: v for k, v in r.items() if isinstance(v, dict) and (v.get('contrast') or v.get('targets') or v.get('reflow') != 'ok')}; print(json.dumps(bad, indent=1)); raise SystemExit(1 if bad else 0)"

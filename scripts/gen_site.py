@@ -75,11 +75,11 @@ STEPS = [
 for who, pid, title, quote, links, qcite, note in STEPS:
     p = P[pid]
     if quote:
-        src = _norm(p['text_excerpt']) if not qcite else _norm(open(_TXT[p['doc_id']]).read())
+        src = _norm(p['text_excerpt']) if not qcite else _norm(open(_TXT[p['doc_id']], encoding='utf-8').read())
         assert _norm(quote) in src, (pid, quote)
     for _, u in links:
         uu = u.replace('mailto:', '').replace('https://', '')
-        assert uu in (_norm(p['text_excerpt']) + ' ' + (_norm(open(_TXT[p['doc_id']]).read()) if qcite else '')), (pid, u)
+        assert uu in (_norm(p['text_excerpt']) + ' ' + (_norm(open(_TXT[p['doc_id']], encoding='utf-8').read()) if qcite else '')), (pid, u)
     recs.append(dict(k='step', who=who, pid=pid, title=title, quote=quote, links=links, qcite=qcite, note=note, prov=prov(pid)))
 
 # ---- who decides: from decision_rights.json (roles already verified against their provisions) ----

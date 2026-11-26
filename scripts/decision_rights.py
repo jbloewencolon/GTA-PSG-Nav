@@ -6,7 +6,7 @@ Every role is quoted from a provision's text; the build fails if a quote is not 
 """
 import json, re, sys, collections
 
-inv = json.load(open(sys.argv[1])); mp = json.load(open(sys.argv[2]))
+inv = json.load(open(sys.argv[1], encoding='utf-8')); mp = json.load(open(sys.argv[2], encoding='utf-8'))
 P = {p['id']: p for p in inv['provisions']}
 norm = lambda t: re.sub(r'\s+', ' ', t or '')
 EL = {i: e for e in mp['elements'] for i in e['provision_ids']}
@@ -154,7 +154,7 @@ out = collections.OrderedDict(
     counts=dict(decisions=len(RECS), **counts, employee_level=sum(r['level'] == 'employee' for r in RECS), agency_level=sum(r['level'] == 'agency' for r in RECS),
                 not_reached_by_any_question=sum(all(x['shown_today'] is None for x in r['roles']) for r in RECS)),
     decisions=RECS, excluded=EXCLUDED)
-json.dump(out, open(sys.argv[3], 'w'), indent=1, ensure_ascii=False)
+json.dump(out, open(sys.argv[3], 'w', encoding='utf-8'), indent=1, ensure_ascii=False)
 
 ST = {"named": "Named", "documents_disagree": "Documents disagree", "not_named": "Not named"}
 L = ["# Decision rights in the GTA AI documents (Phase 1 inventory, for review)", "",
@@ -173,6 +173,6 @@ for r in RECS:
     if refs: L.append(f"- See: {', '.join(refs)}")
     L.append("")
 L += ["## Left out", ""] + [f"- {e}" for e in EXCLUDED]
-open(sys.argv[4], 'w').write("\n".join(L) + "\n")
+open(sys.argv[4], 'w', encoding='utf-8').write("\n".join(L) + "\n")
 print(json.dumps(out['counts']))
 for r in RECS: print(r['id'], r['who_decides_status'], r['level'], [x['shown_today']['via'] if x['shown_today'] else None for x in r['roles']])

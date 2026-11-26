@@ -11,7 +11,7 @@ with the Part 1 expectation. Needs the site served on localhost:8765.
 import asyncio, itertools, json, random, sys
 from playwright.async_api import async_playwright
 
-D = json.load(open(sys.argv[1] if len(sys.argv) > 1 else _os.path.join(ROOT, "site", "data.json")))
+D = json.load(open(sys.argv[1] if len(sys.argv) > 1 else _os.path.join(ROOT, "site", "data.json"), encoding='utf-8'))
 META = [r for r in D if r["k"] == "meta"][0]
 Q = [r for r in D if r["k"] == "q"]
 EL = [r for r in D if r["k"] == "el"]
