@@ -333,21 +333,29 @@ Conflicts and open questions affecting this element:
 
 ### Keep a human in charge and use judgment (`U_HUMAN`)
 
-**Modality: should** (as written: imperative (no modal verb); should; should never; should not)
+**Modality: should** (as written: imperative (no modal verb); should)
 
-AI tools “should not be the only agents involved in any decision-making” and “AI should never have autonomous decision-making capabilities”; “Employees should use common sense and exercise caution in deciding whether AI is right for a given task”; “Users should be aware of how AI contributes to outcomes and that humans remain responsible for those outcomes”; the rubric also instructs, without a modal verb, that a human review “both the inputs to and outputs from the AI”.
+“Employees should use common sense and exercise caution in deciding whether AI is right for a given task”; “Users should be aware of how AI contributes to outcomes and that humans remain responsible for those outcomes”; the rubric also instructs, without a modal verb, that a human review “both the inputs to and outputs from the AI”.
 
 Citations:
-- Generative AI Guidelines for Responsible Use (GS-25-001), Guidelines > Use AI Tools Safely and Properly, p.2
 - Generative AI Guidelines for Responsible Use (GS-25-001), Guidelines > Use AI Tools Safely and Properly, p.3
 - Generative AI Guidelines for Responsible Use (GS-25-001), Mitigating the Risks of Generative AI: Rubric, p.10
 - Generative AI Guidelines for Responsible Use (GS-25-001), Guiding Principles > Keep Human Involvement at the Center, p.8
 - 5 Guiding Principles (no identifier), Keep Human Involvement at the Center, p.9
 - Artificial Intelligence Responsible Use Guidelines (GS-23-001), V. Keep Human Involvement at the Center > 7. User Education, p.8
 
+**Modality: should_not** (as written: should never; should not)
+
+AI tools “should not be the only agents involved in any decision-making”, and “AI should never have autonomous decision-making capabilities”.
+
+Citations:
+- Generative AI Guidelines for Responsible Use (GS-25-001), Guidelines > Use AI Tools Safely and Properly, p.2
+- Generative AI Guidelines for Responsible Use (GS-25-001), Mitigating the Risks of Generative AI: Rubric, p.10
+
 On the 'other AI' branch, only:
 
-- **should**: GS-25-001 says: “AI tools, including generative AI and other automated decision-making systems, should not be the only agents involved in any decision-making.”; 5 Guiding Principles says: “Users should be aware of how AI contributes to outcomes and that humans remain responsible for those outcomes.”; GS-23-001 says: “Users should be aware of how AI contributes to outcomes and that humans remain responsible for those outcomes.” (Generative AI Guidelines for Responsible Use (GS-25-001), Guidelines > Use AI Tools Safely and Properly, p.2; 5 Guiding Principles (no identifier), Keep Human Involvement at the Center, p.9; Artificial Intelligence Responsible Use Guidelines (GS-23-001), V. Keep Human Involvement at the Center > 7. User Education, p.8)
+- **should**: 5 Guiding Principles says: “Users should be aware of how AI contributes to outcomes and that humans remain responsible for those outcomes.”; GS-23-001 says: “Users should be aware of how AI contributes to outcomes and that humans remain responsible for those outcomes.” (5 Guiding Principles (no identifier), Keep Human Involvement at the Center, p.9; Artificial Intelligence Responsible Use Guidelines (GS-23-001), V. Keep Human Involvement at the Center > 7. User Education, p.8)
+- **should_not**: GS-25-001 says: “AI tools, including generative AI and other automated decision-making systems, should not be the only agents involved in any decision-making.” (Generative AI Guidelines for Responsible Use (GS-25-001), Guidelines > Use AI Tools Safely and Properly, p.2)
 
 Conflicts and open questions affecting this element:
 - Open question OQ27: Do provisions in SS-25-001 and GS-25-001 that say 'AI' rather than 'GenAI' reach non-generative AI?
@@ -1195,9 +1203,16 @@ Shown when: (F_TASK is one of: meetings, not_sure)
 
 ### AI in virtual meetings (`C_MEETINGS`)
 
-**Modality: should** (as written: imperative (no modal verb); is strongly discouraged; should; should not)
+**Modality: should** (as written: imperative (no modal verb); is strongly discouraged; should)
 
-“The use of AI note-taking tools in Microsoft Teams meetings or any other conferencing platforms is strongly discouraged for meetings held within the State”; AI recording and transcription “should be used thoughtfully”, “AI should not be used to manipulate or misrepresent the contributions of participants”, and “AI outputs should be used only to supplement, not replace, human judgment.”
+“The use of AI note-taking tools in Microsoft Teams meetings or any other conferencing platforms is strongly discouraged for meetings held within the State”; AI recording and transcription “should be used thoughtfully”, and “AI outputs should be used only to supplement, not replace, human judgment.”
+
+Citations:
+- Generative AI Guidelines for Responsible Use (GS-25-001), Guidelines > Be Vigilant in Virtual Meetings, p.3
+
+**Modality: should_not** (as written: should not)
+
+“AI should not be used to manipulate or misrepresent the contributions of participants.”
 
 Citations:
 - Generative AI Guidelines for Responsible Use (GS-25-001), Guidelines > Be Vigilant in Virtual Meetings, p.3

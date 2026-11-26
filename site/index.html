@@ -4,27 +4,25 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>GTA GenAI Policy Check</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Public+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
   /* layout: one question card on the left, a sticky guardrails panel on the right; source wording is always set in the serif */
   --bg:#eef2f1; --surface:#ffffff; --sunk:#e3e9e8; --ink:#14232b; --muted:#55666f; --line:#cfd9d8;
-  --accent:#0d5a61; --accent-ink:#ffffff; --accent-soft:#d9ecec; --ctl:#77878d; --band:#0d5a61; --band-ink:#ffffff; --band-muted:#d9eeef; --pill-bg:#083f44; --b1:#5dcaa5; --b2:#1d9e75; --b3:#0f6e56; --b4:#085041; --stop:#b3261e; --stop-bg:#fbe1de; --shadow:0 1px 2px rgba(20,35,43,.06),0 8px 20px -12px rgba(20,35,43,.18);
+  --accent:#0d5a61; --accent-ink:#ffffff; --accent-soft:#d9ecec; --ctl:#77878d; --band:#0d5a61; --band-ink:#ffffff; --band-muted:#d9eeef; --pill-bg:#083f44; --b1:#a9a497; --b2:#d9a441; --b3:#b86e00; --b4:#8a4f00; --stop:#b3261e; --stop-bg:#fbe1de; --check:#8a4f00; --check-bg:#fdf0d5; --shadow:0 1px 2px rgba(20,35,43,.06),0 8px 20px -12px rgba(20,35,43,.18);
   --must:#8f4a00; --must-bg:#fbecd3; --mustnot:#a3211a; --mustnot-bg:#fbe1de; --should:#1d5887; --should-bg:#dfecf7; --may:#2a6a3d; --may-bg:#dff0e3; --info:#55666f; --info-bg:#e6ebea;
   --notsure:#ee7a1f;
-  --display:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif; --body:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif; --quote:"Newsreader",Georgia,"Times New Roman",serif;
+  --display:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; --body:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; --quote:Georgia,"Times New Roman",serif;
   --r:10px;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){ color-scheme:dark;
     --bg:#0f181c; --surface:#17242a; --sunk:#111c21; --ink:#e7eef0; --muted:#9db0b8; --line:#2b3c44;
-    --accent:#62c6cd; --accent-ink:#06282b; --accent-soft:#163a3e; --ctl:#6b8089; --band:#12343a; --band-ink:#e7eef0; --band-muted:#c3d6db; --pill-bg:#0b2226; --b1:#1d9e75; --b2:#3fb98f; --b3:#6fd3b0; --b4:#9fe1cb; --stop:#e05a4a; --stop-bg:#421a17; --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 20px -12px rgba(0,0,0,.6);
+    --accent:#62c6cd; --accent-ink:#06282b; --accent-soft:#163a3e; --ctl:#6b8089; --band:#12343a; --band-ink:#e7eef0; --band-muted:#c3d6db; --pill-bg:#0b2226; --b1:#6d695f; --b2:#b98a2e; --b3:#e0a63a; --b4:#f5c977; --stop:#e05a4a; --stop-bg:#421a17; --check:#f0b765; --check-bg:#3a2a10; --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 20px -12px rgba(0,0,0,.6);
     --must:#f0b765; --must-bg:#3a2a10; --mustnot:#f39a92; --mustnot-bg:#421a17; --should:#8fc3ee; --should-bg:#152f45; --may:#8fd3a2; --may-bg:#16351f; --info:#9db0b8; --info-bg:#223138; }
 }
 :root[data-theme="dark"]{ color-scheme:dark;
   --bg:#0f181c; --surface:#17242a; --sunk:#111c21; --ink:#e7eef0; --muted:#9db0b8; --line:#2b3c44;
-  --accent:#62c6cd; --accent-ink:#06282b; --accent-soft:#163a3e; --ctl:#6b8089; --band:#12343a; --band-ink:#e7eef0; --band-muted:#c3d6db; --pill-bg:#0b2226; --b1:#1d9e75; --b2:#3fb98f; --b3:#6fd3b0; --b4:#9fe1cb; --stop:#e05a4a; --stop-bg:#421a17; --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 20px -12px rgba(0,0,0,.6);
+  --accent:#62c6cd; --accent-ink:#06282b; --accent-soft:#163a3e; --ctl:#6b8089; --band:#12343a; --band-ink:#e7eef0; --band-muted:#c3d6db; --pill-bg:#0b2226; --b1:#6d695f; --b2:#b98a2e; --b3:#e0a63a; --b4:#f5c977; --stop:#e05a4a; --stop-bg:#421a17; --check:#f0b765; --check-bg:#3a2a10; --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 20px -12px rgba(0,0,0,.6);
   --must:#f0b765; --must-bg:#3a2a10; --mustnot:#f39a92; --mustnot-bg:#421a17; --should:#8fc3ee; --should-bg:#152f45; --may:#8fd3a2; --may-bg:#16351f; --info:#9db0b8; --info-bg:#223138; }
 *{box-sizing:border-box}
 html,body{margin:0}
@@ -32,9 +30,9 @@ body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16p
 button{font:inherit;color:inherit}
 :focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 .wrap{max-width:1120px;margin:0 auto;padding:20px 16px 56px}
-header.top{display:flex;flex-wrap:wrap;gap:8px 20px;align-items:baseline;justify-content:space-between;padding-bottom:16px;border-bottom:2px solid var(--ink)}
-header.top h1{font-family:var(--display);font-weight:800;font-size:1.5rem;letter-spacing:-.01em;margin:0;text-wrap:balance}
-header.top p{margin:0;color:var(--muted);font-size:.9rem;max-width:60ch}
+header.top{display:flex;flex-wrap:wrap;gap:8px 20px;align-items:baseline;justify-content:space-between;padding-bottom:16px}
+header.top h1{margin:0;text-wrap:balance}
+header.top p{margin:0;font-size:.9rem;max-width:60ch}
 .grid{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:24px;margin-top:20px;align-items:start}
 .rail{position:sticky;top:16px;display:flex;flex-direction:column;gap:16px}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:20px}
@@ -44,14 +42,13 @@ header.top p{margin:0;color:var(--muted);font-size:.9rem;max-width:60ch}
 .level{font-family:var(--display);font-weight:800;font-size:1.35rem;line-height:1.1}
 .thermo{position:relative;height:30px;margin-top:14px}
 .thermo .bulb{position:absolute;left:0;top:0;width:22px;height:22px;border-radius:50%;background:var(--fc,var(--b2));border:1.5px solid var(--ctl);transition:background .4s}
-.thermo .tube{position:absolute;left:16px;right:0;top:6px;height:10px;border-radius:0 5px 5px 0;background:var(--sunk);border:1.5px solid var(--ctl);border-left:0;overflow:hidden}
-.thermo .fill{position:absolute;left:0;top:0;bottom:0;width:var(--t,0%);background:var(--fc,var(--b2));transition:width .5s cubic-bezier(.3,1.2,.5,1),background .4s}
+.thermo .tube{position:absolute;left:16px;right:0;top:6px;height:10px;border-radius:0 5px 5px 0;border:1.5px solid var(--ctl);border-left:0;overflow:hidden}
+.thermo .fill{position:absolute;left:0;top:0;bottom:0}
 .thermo .tick{position:absolute;top:18px;width:1.5px;height:6px;background:var(--muted)}
-@media (prefers-reduced-motion:reduce){.thermo .fill{transition:none}}
 .heatnote{font-size:.8rem;color:var(--muted);margin:8px 0 0}.heatnote p{margin:4px 0 0}
 .more>summary{font-size:.84rem;font-weight:600}.q .more{margin:0 0 12px}.q .more .help{margin:4px 0 4px}
 .drivers{list-style:none;margin:12px 0 0;padding:0;display:flex;flex-direction:column;gap:6px;font-size:.85rem}
-.drivers li{display:flex;justify-content:space-between;gap:10px;border-top:1px solid var(--line);padding-top:6px}
+.drivers li{justify-content:space-between;gap:10px;border-top:1px solid var(--line);padding-top:6px}
 .drivers b{font-variant-numeric:tabular-nums;white-space:nowrap}
 .rail h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:0 0 8px;font-weight:700}
 .answers{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;font-size:.88rem}
@@ -64,10 +61,10 @@ header.top p{margin:0;color:var(--muted);font-size:.9rem;max-width:60ch}
 .progress i{width:26px;height:5px;border-radius:3px;background:var(--line)}
 .progress i.done{background:var(--accent)}
 .progress i.now{background:var(--ink)}
-.q h2{font-family:var(--display);font-weight:700;font-size:1.45rem;line-height:1.25;margin:0 0 8px;text-wrap:balance;max-width:28ch}
+.q h2{margin:0 0 8px;text-wrap:balance}
 .q .help{color:var(--muted);font-size:.92rem;max-width:65ch;margin:0 0 16px}
 .opts{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:8px}
-.opt{text-align:left;background:var(--surface);border:1.5px solid var(--ctl);border-radius:8px;padding:11px 14px;cursor:pointer;min-height:48px;transition:border-color .15s,background .15s}
+.opt{text-align:left;background:var(--surface);border:1.5px solid var(--ctl);border-radius:8px;padding:11px 14px;cursor:pointer;min-height:48px}
 .opt:hover{border-color:var(--accent);background:var(--accent-soft)}
 .opt[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft);font-weight:600}
 .opt.ns{border-style:dashed}
@@ -78,8 +75,7 @@ header.top p{margin:0;color:var(--muted);font-size:.9rem;max-width:60ch}
 .confirm{margin-top:14px;padding:12px 14px;border-left:4px solid var(--notsure);background:var(--must-bg);border-radius:0 8px 8px 0;font-size:.9rem;max-width:70ch}
 .base{margin-top:20px}
 /* results */
-.sec{margin-top:28px}
-.sec>h2{font-family:var(--display);font-size:1.15rem;font-weight:800;margin:0 0 4px}
+.sec>h2{margin:0 0 4px}
 .sec>p{margin:0 0 12px;color:var(--muted);font-size:.9rem;max-width:65ch}
 .els{display:flex;flex-direction:column;gap:12px}
 .el{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px}
@@ -87,7 +83,7 @@ header.top p{margin:0;color:var(--muted);font-size:.9rem;max-width:60ch}
 .st{display:grid;grid-template-columns:92px minmax(0,1fr);gap:4px 12px;padding:10px 0;border-top:1px solid var(--line)}
 .pill{display:inline-block;font-size:.72rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase;padding:3px 8px;border-radius:999px;align-self:start;justify-self:start;border:1px solid currentColor}
 .pill.must{color:var(--must);background:var(--must-bg)} .pill.must_not{color:var(--mustnot);background:var(--mustnot-bg)}
-.pill.should{color:var(--should);background:var(--should-bg)} .pill.may{color:var(--may);background:var(--may-bg)} .pill.informational{color:var(--info);background:var(--info-bg)}
+.pill.should,.pill.should_not{color:var(--should);background:var(--should-bg)} .pill.may{color:var(--may);background:var(--may-bg)} .pill.informational{color:var(--info);background:var(--info-bg)}
 .st p{margin:0;max-width:68ch}
 details{grid-column:2;margin-top:6px}
 summary{cursor:pointer;color:var(--accent);font-weight:600;font-size:.88rem;width:fit-content;min-height:44px;display:flex;align-items:center;gap:6px}
@@ -119,17 +115,17 @@ summary::before{content:"\25B8";display:inline-block;transition:transform .15s}d
 @media (max-width:820px){.row{grid-template-columns:minmax(0,1fr)}}
 .tabs{display:flex;gap:4px;margin-top:16px;border-bottom:2px solid var(--line)}
 .tabs button{background:none;border:0;border-bottom:3px solid transparent;margin-bottom:-2px;padding:8px 14px;min-height:44px;font-weight:700;cursor:pointer;color:var(--muted)}
-.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+.tabs button[aria-selected="true"]{color:var(--ink)}
 .step h3{margin:0 0 6px}
 .step .where{margin:6px 0 0;font-size:.92rem}
 .step .where a{color:var(--accent);font-weight:600;margin-right:10px}
-.step .roles{margin:8px 0 0;padding-left:18px;font-size:.92rem}
+.step .roles{margin:8px 0 0;font-size:.92rem}
 .step .roles li{margin:3px 0}
 .step .snote{margin:6px 0 0;font-size:.85rem;color:var(--muted)}
 .step .mw{font-size:.8rem;color:var(--muted);margin-left:8px}
 .closing{margin-top:28px;padding:16px 18px;border:2px solid var(--ink);border-radius:var(--r);max-width:75ch}
 .sr{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
-.updated{margin:4px 0 0;font-size:.85rem;color:var(--muted)}
+.updated{margin:4px 0 0;color:var(--muted)}
 .err{padding:16px;border:2px solid var(--mustnot);border-radius:var(--r)}
 @media (max-width:820px){
   .grid{grid-template-columns:minmax(0,1fr)}
@@ -137,9 +133,7 @@ summary::before{content:"\25B8";display:inline-block;transition:transform .15s}d
   .rail .ans{order:3}
   .gbox{height:76px}
   .heat{grid-template-columns:60px 1fr}
-  .drivers{display:none}
   .st{grid-template-columns:minmax(0,1fr)} details{grid-column:1}
-  .q h2{font-size:1.25rem}
 }
 
 /* 1 header band */
@@ -184,18 +178,24 @@ header.top h1{font-family:var(--quote);font-weight:500;font-size:2rem;letter-spa
 .stopban .sreason{margin:12px 0 0}.stopban .sreason b{display:block}.stopban .qt{margin:6px 0;padding-left:22px;font-family:var(--quote);font-size:1.02rem;line-height:1.5}.stopban small{display:block;color:var(--muted)}
 @media (prefers-reduced-motion:reduce){.g-lane{animation:none}.g-post,.g-beam,.g-scene,.g-stop,.gbox{transition:none}}
 /* 4b band bar */
-.thermo .tube{background:linear-gradient(90deg,color-mix(in srgb,var(--b1) 22%,var(--sunk)) 0 16.67%,color-mix(in srgb,var(--b2) 22%,var(--sunk)) 16.67% 43.33%,color-mix(in srgb,var(--b3) 22%,var(--sunk)) 43.33% 83.33%,color-mix(in srgb,var(--b4) 22%,var(--sunk)) 83.33%)}
-.thermo .fill{width:100%;background:linear-gradient(90deg,var(--b1) 0 16.67%,var(--b2) 16.67% 43.33%,var(--b3) 43.33% 83.33%,var(--b4) 83.33%);clip-path:inset(0 calc(100% - var(--t,0%)) 0 0);transition:clip-path .5s cubic-bezier(.3,1.2,.5,1)}
-.bands{display:grid;grid-template-columns:10fr 16fr 24fr 10fr;margin:2px 0 0 16px;font-size:.68rem;color:var(--muted);font-weight:600}
+.thermo .tube{background:linear-gradient(90deg,color-mix(in srgb,var(--b1) 22%,var(--sunk)) 0 12.5%,color-mix(in srgb,var(--b2) 22%,var(--sunk)) 12.5% 37.5%,color-mix(in srgb,var(--b3) 22%,var(--sunk)) 37.5% 62.5%,color-mix(in srgb,var(--b4) 22%,var(--sunk)) 62.5%)}
+.thermo .fill{width:100%;background:linear-gradient(90deg,var(--b1) 0 12.5%,var(--b2) 12.5% 37.5%,var(--b3) 37.5% 62.5%,var(--b4) 62.5%);clip-path:inset(0 calc(100% - var(--t,0%)) 0 0);transition:clip-path .5s cubic-bezier(.3,1.2,.5,1)}
+.bands{display:grid;grid-template-columns:1fr 2fr 2fr 3fr;margin:2px 0 0 16px;font-size:.68rem;color:var(--muted);font-weight:600}
 .bands span{padding-left:2px}
 .drivers li{display:grid;grid-template-columns:minmax(0,1fr) auto;row-gap:4px}
-.drivers .bar{grid-column:1/-1;height:4px;border-radius:2px;background:var(--sunk);overflow:hidden}
-.drivers .bar i{display:block;height:100%;width:var(--w);background:var(--b2);border-radius:2px}
+.drivers small{display:block;color:var(--muted);font-size:.76rem}
+/* amber "Check first": a review or authorization is required first */
+.g-chk{transform-box:fill-box;transform-origin:50% 50%;transform:scale(0) rotate(45deg);transition:transform .5s cubic-bezier(.3,1.5,.5,1)}
+.gbox.check .g-chk{transform:scale(1) rotate(0)}.gbox.check .g-scene{opacity:.18}.gbox.check .g-lane{animation-play-state:paused}
+.g-dia{fill:#f2b01e}.g-dring{fill:none;stroke:#1a1a1a;stroke-width:2.5}.g-ctxt{fill:#1a1a1a;font:800 12px var(--display);letter-spacing:.04em}
+.level.check{color:var(--check)}
+.stopwhy.check,.stopban.check{border-left-color:var(--check);background:var(--check-bg)}
+@media (prefers-reduced-motion:reduce){.g-chk{transition:none}}
 /* 5 provenance */
 .src blockquote,.row blockquote,.stopban blockquote{position:relative;padding-left:22px;line-height:1.5}
 blockquote.qt::before{content:"\201C";position:absolute;left:-2px;top:-.28em;font-size:2.4em;line-height:1;color:var(--ctl);font-family:var(--quote)}
 .st,.row{border-left:4px solid transparent;padding-left:12px}
-.m-must{border-left-color:var(--must)!important}.m-must_not{border-left-color:var(--mustnot)!important}.m-should{border-left-color:var(--should)!important}.m-may{border-left-color:var(--may)!important}.m-informational{border-left-color:var(--info)!important}
+.m-must{border-left-color:var(--must)!important}.m-must_not{border-left-color:var(--mustnot)!important}.m-should,.m-should_not{border-left-color:var(--should)!important}.m-may{border-left-color:var(--may)!important}.m-informational{border-left-color:var(--info)!important}
 .el.step.m-must,.el.step.m-must_not,.el.step.m-should,.el.step.m-may,.el.step.m-informational{border-left-width:5px}
 cite.chips{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:8px}
 .chip{display:inline-block;background:var(--sunk);color:var(--ink);border-radius:6px;padding:2px 8px;font-size:.76rem;line-height:1.5}
@@ -250,7 +250,7 @@ a.go:hover{background:var(--accent-soft)}
 .ico{display:inline-flex;line-height:0}
 .who{display:flex;gap:8px;align-items:flex-start;margin:8px 0 0;font-size:.92rem}
 .who .sico{flex-shrink:0;display:grid;place-items:center;width:20px;height:20px;border-radius:50%;font-weight:800;font-size:.75rem;margin-top:1px}
-.who.s-named .sico{background:var(--may-bg);color:var(--may)}.who.s-documents_disagree .sico{background:var(--must-bg);color:var(--must)}.who.s-not_named{color:var(--muted)}.who.s-not_named .sico{background:var(--sunk);color:var(--muted)}
+.who.s-named .sico{background:var(--may-bg);color:var(--may)}.who.s-documents_disagree .sico{background:var(--must-bg);color:var(--must)}.who.s-not_named .sico{background:var(--sunk);color:var(--muted)}
 .declist{padding:4px 16px}
 .decrow{border-bottom:1px solid var(--line)}
 .decrow:last-child{border-bottom:0}
@@ -287,7 +287,7 @@ details.agency .declist{margin-top:12px;box-shadow:none}
   <header class="top">
     <h1>GTA GenAI Policy Check</h1>
     <p>Answer up to seven questions about how you plan to use an AI tool. You get the Georgia Technology Authority rules that apply, each with its exact source wording.</p>
-    <p class="updated" id="updated">Last updated: loading…</p>
+    <p class="updated" id="updated">Page built: loading…</p>
   </header>
   <p id="status" class="sr" role="status" aria-live="polite"></p>
   <div class="grid">
@@ -297,22 +297,22 @@ details.agency .declist{margin-top:12px;box-shadow:none}
         <div class="heat">
           <div class="gbox" id="gbox" aria-hidden="true">
             <svg id="gr" viewBox="0 0 100 110" preserveAspectRatio="xMidYMax meet"><g class="g-scene"><path class="g-road" d="M44 6 L56 6 L84 110 L16 110 Z"/><path class="g-edge" d="M44 6 L16 110 M56 6 L84 110"/><path class="g-lane" d="M50 8 L50 110"/><g id="gposts"></g></g>
-            <g class="g-stop"><path class="g-oct" d="M37 25 L63 25 L81 43 L81 69 L63 87 L37 87 L19 69 L19 43 Z"/><path class="g-ring" d="M38.5 29 L61.5 29 L77 44.5 L77 67.5 L61.5 83 L38.5 83 L23 67.5 L23 44.5 Z"/><text class="g-txt" x="50" y="61.5" text-anchor="middle">STOP</text></g></svg>
+            <g class="g-stop"><path class="g-oct" d="M37 25 L63 25 L81 43 L81 69 L63 87 L37 87 L19 69 L19 43 Z"/><path class="g-ring" d="M38.5 29 L61.5 29 L77 44.5 L77 67.5 L61.5 83 L38.5 83 L23 67.5 L23 44.5 Z"/><text class="g-txt" x="50" y="61.5" text-anchor="middle">STOP</text></g>
+            <g class="g-chk"><path class="g-dia" d="M50 20 L86 56 L50 92 L14 56 Z"/><path class="g-dring" d="M50 26 L80 56 L50 86 L20 56 Z"/><text class="g-ctxt" x="50" y="60.5" text-anchor="middle">CHECK</text></g></svg>
           </div>
           <div>
             <h2 id="guardh">Guardrails</h2>
-            <div class="level" id="level">Baseline</div>
-            
+            <div class="level" id="level">Baseline rules only · 0 posts</div>
           </div>
         </div>
-        <div class="thermo" id="thermo" role="meter" aria-label="Guardrail count" aria-valuemin="0" aria-valuemax="60" aria-valuenow="0">
+        <div class="thermo" id="thermo" role="meter" aria-label="Guardrail posts" aria-valuemin="0" aria-valuemax="8" aria-valuenow="0">
               <div class="tube"><div class="fill"></div></div><div class="bulb"></div>
-              <i class="tick" style="left:calc(16px + (100% - 16px)*10/60)"></i><i class="tick" style="left:calc(16px + (100% - 16px)*26/60)"></i><i class="tick" style="left:calc(16px + (100% - 16px)*50/60)"></i>
+              <i class="tick" style="left:calc(16px + (100% - 16px)*1/8)"></i><i class="tick" style="left:calc(16px + (100% - 16px)*3/8)"></i><i class="tick" style="left:calc(16px + (100% - 16px)*5/8)"></i>
             </div>
-            <div class="bands" aria-hidden="true"><span>Light</span><span>Standard</span><span>Extra</span><span>Full</span></div>
+            <div class="bands" aria-hidden="true"><span></span><span>Light</span><span>Standard</span><span>Extra</span></div>
         <ul class="stopwhy" id="stopwhy" hidden></ul>
         <ul class="drivers" id="drivers"></ul>
-        <details class="heatnote more"><summary>How this count works</summary><p id="heatnote">The guardrails rise as your answers trigger more rules. Each rule counts once. Rules for the tasks you chose count 1 point (2 for a prohibition); other rules count 2 (4); rules on personal or sensitive information and on decisions about people count 4 (8). These weights are this tool’s, not GTA’s. The ticks mark Light, Standard and Extra; the top is Full. This count is not a GTA rating. A stop sign replaces the guardrails when the documents require GTA approval for something you described (personal or regulated data, or buying a GenAI tool), or list it as prohibited (decisions about people). A Not sure answer to those questions also shows it.</p></details>
+        <details class="heatnote more"><summary>How this count works</summary><p id="heatnote">The guardrails rise with what you described, not with how many rules apply. Each of these adds posts once: personal or sensitive information (2), a decision about a person (2), something the public sees or interacts with (1), buying or building an AI tool (1), AI content in an official document (1), legal analysis or AI note-taking in meetings (1). A Not sure answer counts as yes. 0 posts is Baseline rules only, 1–2 Light, 3–4 Standard, 5 or more Extra. These values are this tool’s, not GTA’s, and the count is not a GTA rating. A red stop sign appears when the documents require GTA approval for something you described, or may prohibit it. An amber Check first sign appears when they require a review or authorization first.</p></details>
       </section>
       <section class="card ans">
         <h3>Your answers</h3>
@@ -326,7 +326,7 @@ details.agency .declist{margin-top:12px;box-shadow:none}
 (function(){
 "use strict";
 var openMore={},Q=[],EL=[],PT=[],META={},facts={},editing=null,keepV=null,showResults=false,view="topic",tab="applies",STEPS=[],STEPGAP=null,review=/(^|[#&])review\b/.test(location.hash),DEC=[],DCTX={};
-var MOD={must:"Must",must_not:"Must not",should:"Should",may:"May",informational:"Note"};
+var MOD={must:"Must",must_not:"Must not",should:"Should",should_not:"Should not",may:"May",informational:"Note"};
 var $=function(id){return document.getElementById(id)};
 function h(tag,attrs,kids){var e=document.createElement(tag);if(attrs)for(var k in attrs){if(k==="text")e.textContent=attrs[k];else if(k==="on")for(var ev in attrs.on)e.addEventListener(ev,attrs.on[ev]);else e.setAttribute(k,attrs[k]);}
   (kids||[]).forEach(function(c){if(c)e.appendChild(typeof c==="string"?document.createTextNode(c):c)});
@@ -344,18 +344,15 @@ function sts(e){return isOther()?e.other:e.statements}
 function active(){if(gated())return[];return EL.filter(function(e){return e.tier==="conditional"&&match(e.when,facts)&&sts(e).length})}
 function baseEls(){if(gated())return[];return EL.filter(function(e){return e.tier==="umbrella"&&sts(e).length})}
 function ptrsNow(){if(gated())return[];return PT.filter(function(p){return match(p.when,facts)&&(!isOther()||p.o_as_written)})}
-var HEAVY={C_DATA:1,C_DECISIONS:1};
-function taskOnly(e){return e.when!=="always"&&e.when.every(function(a){return Object.keys(a).every(function(k){return k==="F_TASK"||k==="F_HOST"})})}
-function weight(e){return taskOnly(e)?1:HEAVY[e.id]?4:2}
-function points(e){var n=0;sts(e).forEach(function(s){if(s.m==="must")n+=s.prov.length;if(s.m==="must_not")n+=2*s.prov.length});return n*weight(e)}
+// Guardrails and signs come from data.json ('factor' and 'sign' records, built and checked by gen_site.py).
+var FACTORS=[],SIGNS=[],LV=["Baseline rules only","Light","Standard","Extra"],PMAX=8;
+function nsIn(when){return when.some(function(a){return Object.keys(a).some(function(k){return sel({fact:k}).indexOf("not_sure")>=0})})}
+function factorsNow(){if(gated())return[];var oth=isOther(),out=[];
+  FACTORS.forEach(function(f){for(var i=0;i<f.variants.length;i++){var v=f.variants[i],p=oth?v.oprov:v.prov;if(p&&match(v.when,facts)){out.push({f:f,v:v,p:p,ns:nsIn(v.when)});break}}});return out}
+function signsNow(){if(gated())return[];return SIGNS.filter(function(s){return (s.branch==="other")===isOther()&&match(s.when,facts)}).map(function(s){return{s:s,ns:nsIn(s.when)}})}
+function levelOf(n){return n===0?0:n<=2?1:n<=4?2:3}
 function optLabel(q){var s=sel(q);return q.options.filter(function(o){return s.indexOf(o.value)>=0}).map(function(o){return q.multi?o.label.replace(/\s*\([^)]*\)\s*$/,""):o.label}).join("; ")}
 
-var STOPS=[{f:"F_DATA",v:["yes","not_sure"],pid:"SS-25-001-1.3-2",t:"GTA approval needed: personal or regulated data"},
-  {f:"F_ROLE",v:["procure","both","not_sure"],pid:"SS-25-001-1.5-1",t:"GTA approval needed: buying a GenAI product or service"},
-  {f:"F_DECISION",v:["yes","not_sure"],pid:"SS-25-001-3.0-TABLE-15",t:"Listed as prohibited: decisions about people",
-   n:"The documents disagree here: GS-25-001 gives this example: “an HR department may consult with AI platforms in making hiring decisions” (open question OQ13)."}];
-var PROV={};function provById(id){if(!PROV.ready){EL.forEach(function(e){e.statements.forEach(function(s){s.prov.forEach(function(p){PROV[p.id]=p})})});PROV.ready=1}return PROV[id]}
-function stopsNow(){if(gated()||isOther())return[];return STOPS.filter(function(x){return x.v.indexOf(facts[x.f])>=0&&provById(x.pid)})}
 function cite(p){return (p.docid?p.docid+", ":"")+p.sec+", p."+p.pg}
 var GPOSTS=[],GBEAMS=[];
 function buildGuard(){var g=$("gposts"),NS="http://www.w3.org/2000/svg",ys=[104,84,66,50,36];
@@ -364,27 +361,24 @@ function buildGuard(){var g=$("gposts"),NS="http://www.w3.org/2000/svg",ys=[104,
   pos.forEach(function(q,i){[q.l,q.r].forEach(function(x){var r=el("rect",{x:x.toFixed(1),y:(q.y-q.hh).toFixed(1),width:q.w.toFixed(1),height:q.hh.toFixed(1),rx:.8,"class":"g-post"});g.appendChild(r);GPOSTS.push([i,r])})});
   for(var i=0;i<4;i++){var a=pos[i],b=pos[i+1];
     [[a.l+a.w/2,b.l+b.w/2],[a.r+a.w/2,b.r+b.w/2]].forEach(function(xs){var l=el("path",{d:"M"+xs[0].toFixed(1)+" "+(a.y-a.hh*.7).toFixed(1)+" L"+xs[1].toFixed(1)+" "+(b.y-b.hh*.7).toFixed(1),"class":"g-beam"});g.appendChild(l);GBEAMS.push([i,l])})}}
-function renderRail(){var gb0;
-  var act=active(),total=0,rows=[];
-  act.forEach(function(e){var p=points(e);total+=p;if(p)rows.push([e.title,p])});
-  rows.sort(function(a,b){return b[1]-a[1]});
-  var lv=total===0?0:total<10?1:total<26?2:total<50?3:4;
-  var names=["No extra","Light","Standard","Extra","Full"],stops=stopsNow(),stop=stops.length>0;
+function renderRail(){
+  var fs=factorsNow(),total=0;fs.forEach(function(x){total+=x.f.posts});
+  var lv=levelOf(total),sg=signsNow(),mode=sg.some(function(x){return x.s.level==="stop"})?"stop":sg.length?"check":"";
   if(!GPOSTS.length)buildGuard();
-  var n=[0,1,3,4,5][lv];GPOSTS.forEach(function(p){p[1].classList.toggle("on",p[0]<n)});GBEAMS.forEach(function(b){b[1].classList.toggle("on",b[0]<n-1)});
-  var tints=["var(--sunk)","color-mix(in srgb,var(--b1) 16%,var(--sunk))","color-mix(in srgb,var(--b2) 16%,var(--sunk))","color-mix(in srgb,var(--b3) 16%,var(--sunk))","color-mix(in srgb,var(--b4) 20%,var(--sunk))"];
-  var BC=["var(--b1)","var(--b1)","var(--b2)","var(--b3)","var(--b4)"];gb0=$("gbox");gb0.closest(".card").style.setProperty("--fc",stop?"var(--stop)":BC[lv]);
-  var gb=$("gbox");gb.style.setProperty("--fbg",stop?"var(--stop-bg)":tints[lv]);gb.classList.toggle("stop",stop);
-  var lvl=$("level");lvl.textContent=stop?"Stop and check first":names[lv]+" · "+total;lvl.classList.toggle("stop",stop);
-  var sw=$("stopwhy");sw.textContent="";sw.hidden=!stop;
-  stops.forEach(function(x){var p=provById(x.pid);sw.appendChild(h("li",null,[x.t,h("small",{text:cite(p)+(facts[x.f]==="not_sure"?" · you answered Not sure":"")})]))});
-  var said=stop?"Stop and check first: "+stops.map(function(x){return x.t}).join("; "):names[lv]+" guardrails, "+total+" points";
-  if(renderRail.last!==undefined&&renderRail.last!==said)$("status").textContent=stop?said+".":"Guardrails now "+said+".";renderRail.last=said;
-  var th=$("thermo");th.style.setProperty("--t",(Math.min(1,total/60)*100).toFixed(1)+"%");th.setAttribute("aria-valuenow",String(Math.min(total,60)));th.setAttribute("aria-valuetext",names[lv]+" guardrails, "+total+" points");
+  var n=Math.min(total,5);GPOSTS.forEach(function(p){p[1].classList.toggle("on",p[0]<n)});GBEAMS.forEach(function(b){b[1].classList.toggle("on",b[0]<n-1)});
+  var tints=["var(--sunk)","color-mix(in srgb,var(--b2) 14%,var(--sunk))","color-mix(in srgb,var(--b3) 16%,var(--sunk))","color-mix(in srgb,var(--b4) 18%,var(--sunk))"];
+  var BC=["var(--b1)","var(--b2)","var(--b3)","var(--b4)"];
+  $("gbox").closest(".card").style.setProperty("--fc",mode?"var(--"+mode+")":BC[lv]);
+  var gb=$("gbox");gb.style.setProperty("--fbg",mode?"var(--"+mode+"-bg)":tints[lv]);gb.classList.toggle("stop",mode==="stop");gb.classList.toggle("check",mode==="check");
+  var said=LV[lv]+" · "+total+(total===1?" post":" posts"),head=mode==="stop"?"Stop and check first":mode==="check"?"Check first":"";
+  var lvl=$("level");lvl.textContent=head||said;lvl.className="level"+(mode?" "+mode:"");
+  var sw=$("stopwhy");sw.textContent="";sw.hidden=!mode;sw.className="stopwhy"+(mode==="check"?" check":"");
+  sg.forEach(function(x){sw.appendChild(h("li",null,[x.s.title,h("small",{text:cite(x.s.prov)+(x.ns?" · you answered Not sure":"")})]))});
+  var news=(head?head+": "+sg.map(function(x){return x.s.title}).join("; ")+". ":"")+"Guardrails now "+said+".";
+  if(renderRail.last!==undefined&&renderRail.last!==news)$("status").textContent=news;renderRail.last=news;
+  var th=$("thermo");th.style.setProperty("--t",(Math.min(1,total/PMAX)*100).toFixed(1)+"%");th.setAttribute("aria-valuenow",String(Math.min(total,PMAX)));th.setAttribute("aria-valuetext",LV[lv]+" guardrails, "+total+(total===1?" post":" posts"));
   var d=$("drivers");d.textContent="";
-  var mx=rows.length?rows[0][1]:1;
-  rows.slice(0,5).forEach(function(r){var bar=h("span",{class:"bar","aria-hidden":"true"},[h("i",null,[])]);bar.firstChild.style.setProperty("--w",(r[1]/mx*100).toFixed(0)+"%");d.appendChild(h("li",null,[h("span",{text:r[0]}),h("b",{text:"+"+r[1]}),bar]))});
-  if(rows.length>5)d.appendChild(h("li",null,[h("span",{text:(rows.length-5)+" more"}),h("b",{text:""})]));
+  fs.forEach(function(x){d.appendChild(h("li",null,[h("span",null,[x.v.reason,h("small",{text:cite(x.p)+(x.ns?" · you answered Not sure":"")})]),h("b",{text:"+"+x.f.posts})]))});
   var a=$("answers");a.textContent="";var any=false;
   applicable().forEach(function(q){if(!(q.fact in facts))return;any=true;
     a.appendChild(h("li",null,[h("span",null,[h("small",{text:q.text}),optLabel(q)]),h("button",{class:"link",type:"button","aria-label":"Change answer: "+q.text,on:{click:function(){editing=q.id;showResults=false;render()}}},["Change"])]))});
@@ -392,6 +386,7 @@ function renderRail(){var gb0;
 }
 function citeEl(p,withDt,step){
   var parts=[[p.doc,""]];if(p.docid||!step)parts.push([p.docid||"no identifier","id"]);if(withDt)parts.push([p.dt,""]);parts.push([p.sec,""],["p."+p.pg,""]);if(!step)parts.push(["Modal as written: "+p.aw,"aw"]);
+  var dd=!step&&META.docs&&META.docs[docKey(p)];if(dd){if(dd.eff)parts.push(["Effective "+dd.eff.text,"aw"]);if(dd.cap)parts.push(["Copy captured "+dd.cap.text,"aw"])}
   var c=h("cite",{class:"chips"},[]);
   parts.forEach(function(x,i){c.appendChild(h("span",{class:"chip "+x[1],text:x[0]}));c.appendChild(h("span",{class:"sr",text:i<parts.length-1?", ":". "}))});
   if(p.url)c.appendChild(h("a",{class:"srcl",href:p.url,target:"_blank",rel:"noopener"},["Open the GTA source page",h("span",{"aria-hidden":"true",text:" ↗"})]));
@@ -417,7 +412,7 @@ function elCard(e){
 function ptrCard(p){
   return h("article",{class:"el ptr"},[h("p",{class:"do",text:p.pointer}),h("div",{class:"st m-informational"},[h("span",{class:"pill informational",text:"Agency"}),h("p",{class:"aw",text:isOther()?p.o_as_written:p.as_written}),sources(isOther()?p.oprov:p.prov)]),flags(p)]);
 }
-var MODORD=["must","must_not","should","may","informational"],MODNAME={must:"Must",must_not:"Must not",should:"Should",may:"May",informational:"Note (no obligation stated)"};
+var MODORD=["must","must_not","should","should_not","may","informational"],MODNAME={must:"Must",must_not:"Must not",should:"Should",should_not:"Should not",may:"May",informational:"Note (no obligation stated)"};
 var DTORD=["Policy","Standard","Guideline","Web page"],DTNAME={Policy:"Policies",Standard:"Standards",Guideline:"Guidelines","Web page":"Web page (no policy, standard or guideline label)"};
 function rowsNow(act,base,ptrs){var r=[];
   act.concat(base).forEach(function(e){sts(e).forEach(function(s){s.prov.forEach(function(p){r.push({p:p,m:p.mod,where:"Topic: "+e.title})})})});
@@ -565,12 +560,14 @@ function placeInd(){var tl=document.querySelector(".tabs"),b=tl&&tl.querySelecto
   var to=[b.offsetLeft+"px",b.offsetWidth+"px"],fr=placeInd.last||to;tl.style.setProperty("--il",fr[0]);tl.style.setProperty("--iw",fr[1]);
   requestAnimationFrame(function(){requestAnimationFrame(function(){tl.style.setProperty("--il",to[0]);tl.style.setProperty("--iw",to[1])})});placeInd.last=to}
 function stagger(){var els=document.querySelectorAll("#main .el");for(var i=0;i<els.length&&i<14;i++)els[i].style.setProperty("--i",String(i))}
-function stopBanner(){var st=stopsNow();if(!st.length)return null;
+function signBanner(level){var st=signsNow().filter(function(x){return x.s.level===level});if(!st.length)return null;
+  var stop=level==="stop",id=level+"h";
   var ic=document.createElementNS("http://www.w3.org/2000/svg","svg");ic.setAttribute("viewBox","0 0 24 24");ic.setAttribute("width","22");ic.setAttribute("height","22");ic.setAttribute("aria-hidden","true");
-  ic.innerHTML='<path d="M8 2h8l6 6v8l-6 6H8l-6-6V8z" fill="var(--stop)"/><path d="M8 12h8" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/>';
-  return h("div",{class:"stopban",role:"note","aria-labelledby":"stoph"},[h("h3",{id:"stoph"},[ic,"Stop and check first"]),
-    h("p",{class:"help",text:"The documents say this needs GTA approval or is prohibited. The wording is below."})].concat(st.map(function(x){var p=provById(x.pid);
-    return h("div",{class:"sreason"},[h("b",{text:x.t}),p.lead?h("p",{class:"lead",text:p.lead}):null,quote(p),h("small",{text:p.doc+" ("+cite(p)+"). Modal as written: "+p.aw+(facts[x.f]==="not_sure"?". Shown because you answered Not sure.":".")}),x.n?h("small",{text:x.n}):null])})))}
+  ic.innerHTML=stop?'<path d="M8 2h8l6 6v8l-6 6H8l-6-6V8z" fill="var(--stop)"/><path d="M8 12h8" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/>'
+    :'<path d="M12 1.5 22.5 12 12 22.5 1.5 12z" fill="#f2b01e" stroke="#1a1a1a" stroke-width="1.2"/><path d="M12 7v6" stroke="#1a1a1a" stroke-width="2.4" stroke-linecap="round"/><circle cx="12" cy="16.8" r="1.4" fill="#1a1a1a"/>';
+  return h("div",{class:"stopban"+(stop?"":" check"),role:"note","aria-labelledby":id},[h("h3",{id:id},[ic,stop?"Stop and check first":"Check first"]),
+    h("p",{class:"help",text:stop?"The documents say this needs GTA approval or may be prohibited. The wording is below.":"The documents say this needs a review or authorization first. The wording is below."})].concat(st.map(function(x){var p=x.s.prov;
+    return h("div",{class:"sreason"},[h("b",{text:x.s.title}),p.lead?h("p",{class:"lead",text:p.lead}):null,quote(p),h("small",{text:p.doc+" ("+cite(p)+"). Modal as written: "+p.aw+(x.ns?". Shown because you answered Not sure.":".")}),x.s.note?h("small",{text:x.s.note}):null])})))}
 function renderResults(){
   var main=$("main");main.textContent="";
   if(gated()){var g=META.gate;
@@ -582,7 +579,7 @@ function renderResults(){
   main.appendChild(h("div",{class:"card q"},[h("h2",{text:"What applies to this use",tabindex:"-1",id:"qh"}),
     h("div",{class:"tiles","aria-hidden":"true"},[[act.length,"because of your answers"],[base.length,"apply to every use"],[ptrs.length,"point you to your agency"]].map(function(t){return h("div",{class:"tile"},[h("b",{text:String(t[0])}),h("span",{text:t[1]})])})),
     h("p",{class:"help",text:act.length+" topics apply because of your answers, "+base.length+" apply to every use, and "+ptrs.length+" point you to your agency. Open “Exact wording” under any line to read the source text and where it comes from."})]
-    .concat([stopBanner()]).concat(ns.map(function(q){var o=q.options.filter(function(o){return o.not_sure})[0];return h("p",{class:"confirm",text:"You answered Not sure to “"+q.text+"” "+o.confirm})})).concat([tabBar(stepsNow(act,base,ptrs).length)]).concat(tab==="applies"?[viewBar()]:[])));
+    .concat([signBanner("stop"),signBanner("check")]).concat(ns.map(function(q){var o=q.options.filter(function(o){return o.not_sure})[0];return h("p",{class:"confirm",text:"You answered Not sure to “"+q.text+"” "+o.confirm})})).concat([tabBar(stepsNow(act,base,ptrs).length)]).concat(tab==="applies"?[viewBar()]:[])));
   placeInd();
   var pn=h("div",{role:"tabpanel",id:"tabpanel","aria-labelledby":"tab-"+tab});main.appendChild(pn);main=pn;
   if(tab==="steps"){stepsView(stepsNow(act,base,ptrs),decsNow(act,base,ptrs)).forEach(function(n){main.appendChild(n)});main.appendChild(h("p",{class:"closing",text:META.closing}));return;}
@@ -608,7 +605,7 @@ var opened=[];window.addEventListener("beforeprint",function(){opened=[];documen
 window.addEventListener("afterprint",function(){opened.forEach(function(d){d.open=false});opened=[]});
 $("restart").addEventListener("click",function(){facts={};editing=null;showResults=false;render()});
 fetch("data.json").then(function(r){if(!r.ok)throw new Error(r.status);return r.json()}).then(function(recs){
-  recs.forEach(function(r){if(r.k==="q")Q.push(r);else if(r.k==="el")EL.push(r);else if(r.k==="ptr")PT.push(r);else if(r.k==="meta"){META=r;if(r.updated){var u=$("updated");u.textContent="";var pl=h("span",{class:"updpill"},["Last updated: ",h("time",{datetime:r.updated.iso,text:r.updated.text}),(r.updated.basis?". "+r.updated.basis+".":"")]);u.appendChild(pl)}}else if(r.k==="step")STEPS.push(r);else if(r.k==="dec")DEC.push(r);else if(r.k==="stepgap")STEPGAP=r});
+  recs.forEach(function(r){if(r.k==="q")Q.push(r);else if(r.k==="el")EL.push(r);else if(r.k==="ptr")PT.push(r);else if(r.k==="meta"){META=r;if(r.updated){var u=$("updated");u.textContent="";var pl=h("span",{class:"updpill"},["Page built: ",h("time",{datetime:r.updated.iso,text:r.updated.text}),(r.updated.basis?". "+r.updated.basis+".":"")]);u.appendChild(pl)}}else if(r.k==="step")STEPS.push(r);else if(r.k==="dec")DEC.push(r);else if(r.k==="stepgap")STEPGAP=r;else if(r.k==="factor")FACTORS.push(r);else if(r.k==="sign")SIGNS.push(r)});
   render();
 }).catch(function(e){$("main").textContent="";$("main").appendChild(h("div",{class:"err",role:"alert",text:"The policy map did not load ("+e.message+"). Reload the page to try again."}))});
 })();

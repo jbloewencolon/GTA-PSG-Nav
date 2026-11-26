@@ -42,14 +42,15 @@ The page is meant to be used for compliance, so content changes follow these rul
 - **Outside references:** if a document refers to something not in the source set, record it as an unresolved reference. Don't describe it.
 - **Insufficient evidence:** where the evidence doesn't settle a question, add an open question rather than choosing an answer.
 
-## Changing the guardrail count or the stop sign
+## Changing the guardrails or the signs
 
-Both live in `site/index.html`, not in the pipeline:
-- **Weights:** `weight()` gives task-only topics 1, topics in `HEAVY` (personal or sensitive information, decisions about people) 4, and every other topic 2. A requirement counts once and a prohibition twice. Each rule counts once, however many answers trigger it.
-- **Levels:** the cut-offs (10, 26 and 50) appear in `renderRail()`, in the tick marks and band colours of the bar, and in `tests/test_score.py`.
-- **Stop sign:** `STOPS` lists each trigger with the answer values that set it off and the provision it quotes. Only add a trigger where a provision says GTA approval is required or the use is prohibited, and cite that provision by its ID.
+The rules live in `scripts/gen_site.py` (`FACTORS` and `SIGNS`) and reach the page as `factor` and `sign` records in `site/data.json`:
+- **Factors:** each adds posts once, from what the user described, not from how many provisions match. Each variant names the answers that set it off, the reason shown, and the provision it quotes on the generative and the other-AI branch (`None` if it does not apply there). Count a Not sure answer as yes.
+- **Levels:** the cut-offs (1, 3 and 5 posts; the bar's top is 8) appear in `levelOf()` and `PMAX` in `site/index.html`, in the tick marks and band colours of the bar, in the "How this count works" note, and in `tests/test_score.py`.
+- **Red stop:** add one only where a provision says GTA approval is required or the use is prohibited, and cite it by ID. If another document disagrees, say so in the title and the note.
+- **Amber Check first:** add one only where a provision requires a review or an authorization before the use, and cite it by ID.
 
-After a change, update `band()`, `weight()` or `stops()` in `tests/test_score.py` to match, and run it.
+After a change, update `expected()` in `tests/test_score.py` to match, and run it. It checks every route, and fails if a factor or sign quotes a provision the page does not show on that route.
 
 ## Pull requests
 

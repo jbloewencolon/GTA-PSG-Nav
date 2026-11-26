@@ -2,7 +2,7 @@ import os as _os; ROOT = _os.path.normpath(_os.path.join(_os.path.dirname(_os.pa
 import asyncio, json, sys
 from playwright.async_api import async_playwright
 
-TRI = json.load(open(_os.path.join(ROOT, "data", "stage3_triage.json")))
+TRI = json.load(open(_os.path.join(ROOT, "data", "stage3_triage.json"), encoding='utf-8'))
 O = TRI["outcomes"]
 
 

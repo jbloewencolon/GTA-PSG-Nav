@@ -23,8 +23,8 @@ Answer a few questions and see which Georgia Technology Authority (GTA) AI polic
   - decisions with no step card, as one-line rows;
   - items written for agencies, in one closed "For your agency" panel.
 - **Review details switch:** at the bottom of Next steps (or open the page with `#review`). It restores the full view for policy staff: the modal verb as written, analyst notes, unresolved references and the panels on where the documents disagree.
-- **Guardrails:** a road picture whose guardrail posts rise as your answers trigger more rules (No extra, Light 1-9, Standard 10-25, Extra 26-49, Full 50 or more). Each rule counts once. Rules for the chosen tasks count 1 point (2 for a prohibition), other rules 2 (4), and rules on personal or sensitive information and on decisions about people 4 (8). The weights are this tool's, not GTA's.
-- **Stop sign:** replaces the guardrails, with the source wording at the top of the results, when the documents require GTA approval for what you described (personal or regulated data, SS-25-001 1.3; buying a GenAI product or service, SS-25-001 1.5) or list it as prohibited (decisions about people, SS-25-001 3.0 table). A Not sure answer to those questions also shows it.
+- **Guardrails:** a road picture whose guardrail posts rise with what you described, not with how many rules apply. Each of these adds posts once: personal or sensitive information 2, a decision about a person 2, something the public sees or interacts with 1, buying or building an AI tool 1, AI content in an official document 1, legal analysis or AI note-taking in meetings 1. A Not sure answer counts as yes. Levels: Baseline rules only (0), Light (1-2), Standard (3-4), Extra (5 or more). The panel lists each reason with the provision it rests on. The values are this tool's, not GTA's.
+- **Stop and Check first signs:** replace the guardrails, with the source wording at the top of the results. A red stop sign shows when the documents require GTA approval for what you described with generative AI (personal or regulated data, SS-25-001 1.3; buying a GenAI product or service, SS-25-001 1.5) or may prohibit it (decisions about people, SS-25-001 3.0 table; GS-25-001 disagrees, OQ13). An amber Check first sign shows when a review or authorization is required first for other AI (buying, PS-23-001; personal or sensitive data, SS-23-002 6). A Not sure answer to those questions also shows them.
 - **Explanations on request:** each question's help text, the note on how the count works and the longer result notes are collapsed under links such as "About this question".
 - **Display:** light and dark themes, reduced-motion support, and a print style sheet that expands every source quotation.
 
@@ -33,9 +33,9 @@ Answer a few questions and see which Georgia Technology Authority (GTA) AI polic
 - `partB.py` builds the question tree (`data/stage3_triage.json`). It checks every answer path against the map and reports mismatches, redundant questions and bad skips.
 - `render_md.py` renders the tree as Markdown (`data/stage3_triage.md`).
 - `decision_rights.py` lists who decides what (`data/decision_rights.json`, `data/decision_rights.md`).
-- `gen_site.py` assembles `site/data.json`. It checks that each step's quoted contact and link appear in the source text.
+- `gen_site.py` assembles `site/data.json`. It checks that each step's quoted contact and link appear in the source text, and holds the guardrail factors and the stop and Check first signs.
 
-**Browser tests** (`tests/`) click through routes with Playwright. They check results, groupings, next steps, decisions, multi-task answers, the guardrail count and the stop sign against the data files, and run an automated accessibility check.
+**Browser tests** (`tests/`) click through routes with Playwright. They check results, groupings, next steps, decisions, multi-task answers, the guardrails and the signs against the data files, and run an automated accessibility check.
 
 ## Requirements
 
@@ -104,7 +104,7 @@ First line of output: `{"decisions": 19, "documents_disagree": 2, "named": 12, "
 ```bash
 NAV_UPDATED=2026-11-25 python3 scripts/gen_site.py data/stage1_inventory.json data/stage2_map.json data/stage3_triage.json site data/decision_rights.json
 ```
-Output: `93 records 298209 bytes`
+Output: `104 records 309932 bytes`
 
 `NAV_UPDATED` sets the "Last updated" date shown on the page. Without it, the script uses today's date, and the byte count changes with the length of the date.
 
@@ -124,7 +124,7 @@ build_legal: decisions 12 expected 12 | who-decides lines 6/6 | steps 9/9 | PASS
 
 The other test scripts work the same way. Each exits with status 1 if any check fails.
 - `tests/test_employee.py`: 7 routes. Checks the employee view of Next steps, and that review-only items stay hidden.
-- `tests/test_score.py`: 9 routes. Checks the guardrail count, level and stop sign on the page against an independent calculation.
+- `tests/test_score.py`: checks the guardrail rules in the data against an independent calculation over 53,656 answer routes, and that every quoted provision is shown on that route. Then clicks 11 routes in the page, and ends with `ALL PASS`.
 - `tests/test_steps.py`: 3 routes.
 - `tests/test_v2.py`: 5 routes.
 - `tests/test_views.py`: 6 checks.

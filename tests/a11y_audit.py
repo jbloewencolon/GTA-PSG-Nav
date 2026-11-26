@@ -75,5 +75,5 @@ async def main():
         res["tabs_arrow"]=await pg.evaluate("()=>document.activeElement.id+'|selected '+document.activeElement.getAttribute('aria-selected')+'|panel '+(document.getElementById('tabpanel')||{}).getAttribute?.('aria-labelledby')")
         res["updated"]=await pg.inner_text("#updated")
         await b.close()
-    json.dump(res, open(sys.argv[1],"w"), indent=1)
+    json.dump(res, open(sys.argv[1],"w", encoding='utf-8'), indent=1)
 asyncio.run(main())
