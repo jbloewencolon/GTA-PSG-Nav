@@ -52,6 +52,9 @@ async def main():
             pg.on("pageerror", lambda e: errs.append(str(e)))
             await pg.goto("http://localhost:8765/index.html"); await pg.fill("#agency", "Test agency"); await pg.click("#start"); await pg.wait_for_selector(".opt")
             facts, trail, bad, totals = {}, [], [], []
+            if await pg.inner_text("#obltotal") != "0" or await pg.locator("#obllegend li").count():
+                bad.append("count is not 0 before the first answer")
+            prev = 0
             for fact, value, click in steps:
                 if isinstance(click, list):
                     for t in click: await pg.locator(".opts.multi .opt", has_text=t).first.click()
@@ -63,18 +66,34 @@ async def main():
                 c, added = expected(facts)
                 total = sum(c[m] for m in OBL)
                 got = int(await pg.inner_text("#obltotal"))
-                legend = dict(zip([t.strip() for t in await pg.locator("#obllegend span").all_inner_texts()],
+                legend = dict(zip([t.strip() for t in await pg.locator("#obllegend button span:first-child").all_inner_texts()],
                                   [int(t) for t in await pg.locator("#obllegend b").all_inner_texts()]))
                 want_legend = {NAME[m]: c[m] for m in OBL if c[m]}
                 delta = await pg.inner_text("#obldelta")
-                want_delta = f"+{added} from your answers" if added else ""
+                d = total - prev; prev = total
+                want_delta = f"+{d} from your last answer" if d > 0 else f"−{-d} from your last answer" if d < 0 else "No new rules from your last answer"
                 if got != total or legend != want_legend or delta != want_delta:
                     bad.append(dict(after=fact, got=(got, legend, delta), want=(total, want_legend, want_delta)))
                 totals.append(got)
+            # each legend row opens the results grouped by obligation, at a section whose count matches the panel
+            rows = await pg.locator("#obllegend button").count()
+            for i in range(rows):
+                label = (await pg.locator("#obllegend button span:first-child").nth(i).inner_text()).strip()
+                n = (await pg.locator("#obllegend b").nth(i).inner_text()).strip()
+                await pg.locator("#obllegend button").nth(i).click(); await pg.wait_for_timeout(60)
+                head = await pg.evaluate("document.activeElement.textContent")
+                if head != f"{label} ({n})": bad.append(dict(legend=(label, n), landed_on=head))
+            # every result page ends with Start over, which returns to the first question with the count at 0
+            if rows or name == "no AI":
+                if name != "no AI": await pg.get_by_role("tab", name="What applies").click()
+                await pg.locator("#main button", has_text="Start over").click(); await pg.wait_for_timeout(60)
+                if await pg.inner_text("#qh") != "What kind of AI is it?" or await pg.inner_text("#obltotal") != "0":
+                    bad.append("Start over did not return to the first question with 0 rules")
             status = await pg.inner_text("#status")
             note = await pg.inner_text("#oblnote")
             moved = len(set(totals)) > 1 or name == "no AI"
-            good = not bad and moved and not errs and ("rules apply to you" in status)
+            good = not bad and moved and not errs and ("rules apply to you" in status or not any(totals))  # an unchanged 0 is not re-announced
+            if not good: print("   debug:", dict(moved=moved, status=status))
             ok &= good
             print(f"{name}: totals {' → '.join(map(str, totals))} | note: {note!r} | {'PASS' if good else 'FAIL'} {bad[:2]} {errs}")
             await pg.close()

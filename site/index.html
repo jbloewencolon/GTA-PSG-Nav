@@ -308,11 +308,15 @@ body.intro header.top{align-items:center}
 .oblbar .must,.obllegend .must::before{background:var(--must)}.oblbar .must_not,.obllegend .must_not::before{background:var(--mustnot)}
 .oblbar .should,.obllegend .should::before{background:var(--should)}.oblbar .may,.obllegend .may::before{background:var(--may)}
 .oblbar .should_not,.obllegend .should_not::before{background:repeating-linear-gradient(135deg,var(--should) 0 2px,var(--surface) 2px 4px)}
-.obllegend{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr auto;gap:4px 10px;font-size:.88rem}
-.obllegend li{display:contents}
+.obllegend{list-style:none;margin:0;padding:0;font-size:.88rem}
+.obllegend button{display:grid;grid-template-columns:1fr auto auto;gap:8px;align-items:center;width:100%;min-height:44px;padding:0 4px;background:none;border:0;border-top:1px solid var(--line);cursor:pointer;text-align:left}
+.obllegend li:first-child button{border-top:0}
+.obllegend button:hover{background:var(--accent-soft)}
 .obllegend span{display:flex;align-items:center;gap:8px}
 .obllegend span::before{content:"";width:12px;height:12px;border-radius:3px;flex-shrink:0}
 .obllegend b{font-variant-numeric:tabular-nums;text-align:right}
+.obllegend .go{color:var(--accent);font-weight:700}
+.endnav{margin-top:20px}
 .oblnote{margin:10px 0 0;font-size:.8rem;color:var(--muted)}
 .oblgo{min-height:44px;padding:0}
 @media (prefers-reduced-motion:reduce){.oblnum b.bump{animation:none}}
@@ -337,7 +341,7 @@ body.intro header.top{align-items:center}
         <div class="oblbar" id="oblbar" aria-hidden="true"></div>
         <ul class="obllegend" id="obllegend"></ul>
         <p class="oblnote" id="oblnote"></p>
-        <button class="link oblgo" id="oblgo" type="button" hidden>See them grouped by obligation</button>
+        <button class="link oblgo" id="oblgo" type="button" hidden>See your rules by obligation</button>
       </section>
       <section class="card" aria-labelledby="guardh">
         <div class="heat">
@@ -421,21 +425,24 @@ function answersList(){var a=h("ul",{class:"answers"},[]),any=false;
 var OBL=[["must","Must"],["must_not","Must not"],["should","Should"],["should_not","Should not"],["may","May"]];
 // Rules that apply to the person: provisions in the topics shown to them (always-shown + triggered), by modality.
 // Agency pointers are agency duties, and Notes carry no obligation, so both are reported but not counted.
+function answered(){return Object.keys(facts).length>0}
 function rulesNow(){var c={must:0,must_not:0,should:0,should_not:0,may:0,informational:0},added=0,agency=0;
-  if(!gated()){baseEls().concat(active()).forEach(function(e){sts(e).forEach(function(s){c[s.m]+=s.prov.length;if(e.tier==="conditional"&&s.m!=="informational")added+=s.prov.length})});
+  if(answered()&&!gated()){baseEls().concat(active()).forEach(function(e){sts(e).forEach(function(s){c[s.m]+=s.prov.length;if(e.tier==="conditional"&&s.m!=="informational")added+=s.prov.length})});
     ptrsNow().forEach(function(p){agency+=(isOther()?p.oprov:p.prov).length})}
   var total=0;OBL.forEach(function(o){total+=c[o[0]]});return{c:c,total:total,added:added,agency:agency}}
-function renderRules(){var r=rulesNow(),tb=$("obltotal"),prev=renderRules.last;
+// The label reports what the latest change of answers did, so every answer gets visible feedback.
+var RS={key:"{}",total:0,delta:null};
+function renderRules(){var r=rulesNow(),tb=$("obltotal"),key=JSON.stringify(facts);
+  if(key!==RS.key){RS.delta=answered()?r.total-RS.total:null;RS.key=key;RS.total=r.total;
+    if(RS.delta){tb.classList.remove("bump");void tb.offsetWidth;tb.classList.add("bump")}}
   tb.textContent=String(r.total);
-  $("obldelta").textContent=r.added?"+"+r.added+" from your answers":"";
-  if(prev!==undefined&&prev!==r.total){tb.classList.remove("bump");void tb.offsetWidth;tb.classList.add("bump")}
-  renderRules.last=r.total;
+  $("obldelta").textContent=RS.delta===null?"":RS.delta>0?"+"+RS.delta+" from your last answer":RS.delta<0?"−"+(-RS.delta)+" from your last answer":"No new rules from your last answer";
   var bar=$("oblbar"),lg=$("obllegend");bar.textContent="";lg.textContent="";
   OBL.forEach(function(o){var n=r.c[o[0]];if(!n)return;var seg=h("i",{class:o[0]});seg.style.flexGrow=String(n);bar.appendChild(seg);
-    lg.appendChild(h("li",null,[h("span",{class:o[0],text:o[1]}),h("b",{text:String(n)})]))});
+    lg.appendChild(h("li",null,[h("button",{type:"button","aria-label":o[1]+": "+n+(n===1?" rule":" rules")+". Show them",on:{click:function(){goObl(o[0])}}},[h("span",{class:o[0],text:o[1]}),h("b",{text:String(n)}),h("span",{class:"go","aria-hidden":"true",text:"›"})])]))});
   var notes=[];if(r.c.informational)notes.push(r.c.informational+" notes with no obligation");if(r.agency)notes.push(r.agency+" rules written for your agency");
-  $("oblnote").textContent=notes.length?"Also shown, not counted: "+notes.join("; ")+".":"";
-  $("oblgo").hidden=!(showResults&&started&&r.total);
+  $("oblnote").textContent=!answered()?"Answer the first question to see the rules that apply to you.":notes.length?"Also shown, not counted: "+notes.join("; ")+".":"";
+  $("oblgo").hidden=!(started&&r.total);
   return r}
 function renderRail(){
   var rr=renderRules();
@@ -491,7 +498,7 @@ var MODORD=["must","must_not","should","should_not","may","informational"],MODNA
 var DTORD=["Policy","Standard","Guideline","Web page"],DTNAME={Policy:"Policies",Standard:"Standards",Guideline:"Guidelines","Web page":"Web page (no policy, standard or guideline label)"};
 function rowsNow(act,base,ptrs){var r=[];
   act.concat(base).forEach(function(e){sts(e).forEach(function(s){s.prov.forEach(function(p){r.push({p:p,m:p.mod,where:"Topic: "+e.title})})})});
-  ptrs.forEach(function(q){(isOther()?q.oprov:q.prov).forEach(function(p){r.push({p:p,m:p.mod,where:"Written for agencies: "+q.pointer})})});
+  ptrs.forEach(function(q){(isOther()?q.oprov:q.prov).forEach(function(p){r.push({p:p,m:p.mod,agency:true,where:"Written for agencies: "+q.pointer})})});
   return r}
 function docKey(p){return p.docid||"5GP"}
 function rowEl(x){var p=x.p;
@@ -507,9 +514,13 @@ function grouped(rows){
     order=Object.keys(docs).sort(function(a,b){var d=DTORD.indexOf(docs[a].dt)-DTORD.indexOf(docs[b].dt);return d||a.localeCompare(b)});
     name=function(k){var p=docs[k];return p.doc+(p.docid?" ("+p.docid+")":" (no identifier)")+" · "+p.dt}}
   var cmp=function(a,b){return (MODORD.indexOf(a.m)-MODORD.indexOf(b.m))||docKey(a.p).localeCompare(docKey(b.p))||(a.p.pg-b.p.pg)||a.p.id.localeCompare(b.p.id)};
-  return order.map(function(k){var g=rows.filter(function(x){return key(x)===k}).sort(cmp);if(!g.length)return null;
-    var notes={};g.forEach(function(x){if(x.p.dtn)notes[x.p.dtn]=1});
-    return h("section",{class:"sec"},[h("h2",{text:name(k)+" ("+g.length+")"})].concat(Object.keys(notes).map(function(n){return h("p",{class:"gnote",text:n})})).concat([h("div",{class:"el"},g.map(rowEl))]))}).filter(Boolean);
+  // Grouped by obligation, rules written for agencies get their own section, so the counts match "Rules that apply to you".
+  var agencyRows=view==="mod"?rows.filter(function(x){return x.agency}):[];if(view==="mod")rows=rows.filter(function(x){return !x.agency});
+  function sec(id,title,g,extra){var notes={};g.forEach(function(x){if(x.p.dtn)notes[x.p.dtn]=1});
+    return h("section",{class:"sec",id:id},[h("h2",{text:title+" ("+g.length+")",tabindex:"-1"})].concat((extra?[extra]:[]).concat(Object.keys(notes)).map(function(n){return h("p",{class:"gnote",text:n})})).concat([h("div",{class:"el"},g.sort(cmp).map(rowEl))]))}
+  var out=order.map(function(k){var g=rows.filter(function(x){return key(x)===k});return g.length?sec("grp-"+k,name(k),g):null}).filter(Boolean);
+  if(agencyRows.length)out.push(sec("grp-agency","Written for your agency",agencyRows,"Not counted in “Rules that apply to you”: these are duties the documents give to agencies. Ask your agency whether they affect your project."));
+  return out;
 }
 function viewBar(){var opts=[["topic","Topic"],["mod","Must / Should / May"],["dt","Policy, standard or guideline"],["doc","Document"]];
   return h("div",{class:"views",role:"group","aria-label":"Group results by"},[h("span",{text:"Group by"})].concat(opts.map(function(o){
@@ -643,30 +654,35 @@ function signBanner(level){var st=signsNow().filter(function(x){return x.s.level
   return h("div",{class:"stopban"+(stop?"":" check"),role:"note","aria-labelledby":id},[h("h3",{id:id},[ic,stop?"Stop and check first":"Check first"]),
     h("p",{class:"help",text:stop?"The documents say this needs GTA approval or may be prohibited. The wording is below.":"The documents say this needs a review or authorization first. The wording is below."})].concat(st.map(function(x){var p=x.s.prov;
     return h("div",{class:"sreason"},[h("b",{text:x.s.title}),p.lead?h("p",{class:"lead",text:p.lead}):null,quote(p),h("small",{text:p.doc+" ("+cite(p)+"). Modal as written: "+p.aw+(x.ns?". Shown because you answered Not sure.":".")}),x.s.note?h("small",{text:x.s.note}):null])})))}
+function closeOut(main){main.appendChild(h("p",{class:"closing",text:META.closing}));
+  main.appendChild(h("div",{class:"nav endnav"},[h("button",{class:"btn ghost",type:"button",on:{click:startOver}},["Start over"])]))}
 function renderResults(){
   var main=$("main");main.textContent="";
   if(gated()){var g=META.gate;
     main.appendChild(h("div",{class:"card q"},[h("h2",{text:"No results for technology without AI",tabindex:"-1",id:"qh"}),h("p",{class:"help",text:g.text}),
       moreBox("gate","More about this result",[h("p",{class:"help",text:g.note}),h("ul",{class:"src"},g.cites.map(function(c){return h("li",{text:c})}))])]));
-    main.appendChild(h("p",{class:"closing",text:META.closing}));return;}
+    closeOut(main);return;}
   var act=active(),ptrs=ptrsNow(),base=baseEls();
+  var left=applicable().filter(function(q){return !(q.fact in facts)}).length;
+  var partial=left?h("div",{class:"confirm"},[h("p",{style:"margin:0 0 8px",text:"These are the rules for your answers so far. "+left+(left===1?" question is":" questions are")+" left, and they may add more."}),
+    h("button",{class:"btn",type:"button",on:{click:function(){showResults=false;editing=null;render()}}},["Continue the questions"])]):null;
   var ns=applicable().filter(function(q){var s=sel(q);return q.options.some(function(o){return o.not_sure&&s.indexOf(o.value)>=0})});
-  main.appendChild(h("div",{class:"card q"},[h("h2",{text:"What applies to this use",tabindex:"-1",id:"qh"}),
+  main.appendChild(h("div",{class:"card q"},[h("h2",{text:"What applies to this use",tabindex:"-1",id:"qh"}),partial,
     moreBox("mobans","Your answers ("+applicable().filter(function(q){return q.fact in facts}).length+")",[answersList()],"mobans"),
     h("div",{class:"tiles"},[[act.length,"because of your answers"],[base.length,"apply to every use"],[ptrs.length,"point you to your agency"]].map(function(t){return h("div",{class:"tile"},[h("b",{text:String(t[0])}),h("span",{text:t[1]})])})),
     h("p",{class:"help",text:"Open “Exact wording” under any line to read the source text and where it comes from."})]
     .concat([signBanner("stop"),signBanner("check")]).concat(ns.map(function(q){var o=q.options.filter(function(o){return o.not_sure})[0];return h("p",{class:"confirm",text:"You answered Not sure to “"+q.text+"” "+o.confirm})})).concat([tabBar(stepsNow(act,base,ptrs).length)]).concat(tab==="applies"?[viewBar()]:[])));
   placeInd();
   var pn=h("div",{role:"tabpanel",id:"tabpanel","aria-labelledby":"tab-"+tab});main.appendChild(pn);main=pn;
-  if(tab==="steps"){stepsView(stepsNow(act,base,ptrs),decsNow(act,base,ptrs)).forEach(function(n){main.appendChild(n)});main.appendChild(h("p",{class:"closing",text:META.closing}));return;}
+  if(tab==="steps"){stepsView(stepsNow(act,base,ptrs),decsNow(act,base,ptrs)).forEach(function(n){main.appendChild(n)});closeOut(main);return;}
   (META.notes||[]).filter(function(n){return match(n.when,facts)}).forEach(function(n){
     main.appendChild(h("article",{class:"el ptr"},[h("p",{class:"do",text:"About other AI and AI agents"}),
       moreBox("note-"+n.id,"Read the note",[h("p",{text:n.text}),h("details",null,[h("summary",{text:"Sources ("+n.cites.length+")"}),h("ul",{class:"src"},n.cites.map(function(c){return h("li",{text:c})}))])])]))});
-  if(view!=="topic"){grouped(rowsNow(act,base,ptrs)).forEach(function(n){main.appendChild(n)});main.appendChild(h("p",{class:"closing",text:META.closing}));return;}
+  if(view!=="topic"){grouped(rowsNow(act,base,ptrs)).forEach(function(n){main.appendChild(n)});closeOut(main);return;}
   if(act.length)main.appendChild(section("Because of your answers","These apply only in the situation you described.",act.map(elCard)));
   main.appendChild(section("Check with your agency","These rules are written for agencies. The documents do not name the office to ask, so the pointer stops at your agency.",ptrs.map(ptrCard)));
   main.appendChild(section("Applies to every use","These apply to every use of the kind of AI you described.",base.map(elCard)));
-  main.appendChild(h("p",{class:"closing",text:META.closing}));
+  closeOut(main);
 }
 function setErr(inp,el,msg){el.textContent=msg;el.hidden=!msg;inp.setAttribute("aria-invalid",msg?"true":"false")}
 function field(id,label,hint,attrs){var inp=h("input",Object.assign({id:id,name:id,"aria-describedby":(hint?id+"-hint ":"")+id+"-err"},attrs)),err=h("p",{id:id+"-err",class:"ferr",hidden:""});
@@ -702,8 +718,12 @@ function render(){
 }
 var opened=[];window.addEventListener("beforeprint",function(){opened=[];document.querySelectorAll("details:not([open])").forEach(function(d){d.open=true;opened.push(d)})});
 window.addEventListener("afterprint",function(){opened.forEach(function(d){d.open=false});opened=[]});
-$("oblgo").addEventListener("click",function(){view="mod";tab="applies";renderResults();var v=document.querySelector(".views");if(v){v.scrollIntoView({block:"start"});var b=v.querySelector('[aria-pressed="true"]');if(b)b.focus({preventScroll:true})}renderRail()});
-$("restart").addEventListener("click",function(){facts={};editing=null;showResults=false;started=false;render()});
+function goObl(m){editing=null;showResults=true;view="mod";tab="applies";render();
+  var t=(m&&$("grp-"+m))||document.querySelector(".views");if(!t)return;
+  t.scrollIntoView({block:"start"});var f=t.querySelector("h2")||t.querySelector('[aria-pressed="true"]');if(f)f.focus({preventScroll:true})}
+$("oblgo").addEventListener("click",function(){goObl(null)});
+function startOver(){facts={};editing=null;showResults=false;view="topic";tab="applies";render()}
+$("restart").addEventListener("click",startOver);
 fetch("data.json").then(function(r){if(!r.ok)throw new Error(r.status);return r.json()}).then(function(recs){
   recs.forEach(function(r){if(r.k==="q")Q.push(r);else if(r.k==="el")EL.push(r);else if(r.k==="ptr")PT.push(r);else if(r.k==="meta"){META=r;if(r.updated){var u=$("updated");u.textContent="";var pl=h("span",{class:"updpill"},["Page built: ",h("time",{datetime:r.updated.iso,text:r.updated.text}),(r.updated.basis?". "+r.updated.basis+".":"")]);u.appendChild(pl)}}else if(r.k==="step")STEPS.push(r);else if(r.k==="dec")DEC.push(r);else if(r.k==="stepgap")STEPGAP=r;else if(r.k==="factor")FACTORS.push(r);else if(r.k==="sign")SIGNS.push(r)});
   render();

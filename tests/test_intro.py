@@ -1,5 +1,5 @@
 """Title screen: proof-of-concept notice, agency (required) and email (optional), kept in this
-browser only. Checks validation and focus, pre-filling, "Forget my details", "Start over", that
+browser only. Checks validation and focus, pre-filling, "Forget my details", Start over (back to the first question), that
 nothing is sent off the page's own origin, and that the page still works when storage is blocked.
 Needs the site served on localhost:8765.
 """
@@ -60,7 +60,10 @@ async def main():
         await pg.fill("#agency", "Department of Example"); await pg.fill("#email", "person@example.gov"); await pg.click("#start")
         await pg.wait_for_selector(".opt"); await pg.locator(".opt").first.click()
         await pg.get_by_role("button", name="Start over").click()
-        check("start over returns to title screen", await pg.locator("#agency").count() == 1 and await pg.input_value("#email") == "person@example.gov")
+        check("start over returns to the first question, agency kept", await pg.locator("#agency").count() == 0
+              and await pg.inner_text("#qh") == "What kind of AI is it?" and "Department of Example" in await pg.locator("#answers").inner_text())
+        await pg.get_by_role("button", name="Change your agency").click()
+        check("changing the agency returns to the title screen, pre-filled", await pg.input_value("#email") == "person@example.gov")
 
         off = [u for _, u in requests if not u.startswith("http://localhost:8765/")]
         posts = [u for m, u in requests if m != "GET"]
