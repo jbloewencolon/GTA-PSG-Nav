@@ -230,3 +230,60 @@ body = f'''<div class="top"><div><div class="tag">Architecture · planned</div><
 {note("Needs sign-off: notice, agency list, retention", "#8a4f00", "#fdf0d5")}</div>'''
 page('15-architecture-azure', body, 'Plan: docs/backend_plan.md')
 print('built')
+
+
+# ---------------------------------------------------------------- 16 tech stack, simplified (non-expert audience)
+import re as _re
+ICONS = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'icons')
+BRAND = {'python': '3776AB', 'github': '181717', 'githubactions': '2088FF', 'html5': 'E34F26', 'css': '663399', 'javascript': 'F7DF1E'}
+
+
+def logo(slug, size=64):
+    """A Simple Icons logo, filled with its brand colour, labelled for screen readers."""
+    svg = open(os.path.join(ICONS, slug + '.svg'), encoding='utf-8').read()
+    title = _re.search(r'<title>(.*?)</title>', svg).group(1)
+    path = _re.search(r'<path d="([^"]+)"', svg).group(1)
+    return (f'<svg role="img" aria-label="{E(title)}" viewBox="0 0 24 24" width="{size}" height="{size}">'
+            f'<path d="{path}" fill="#{BRAND[slug]}"/></svg>')
+
+
+def glyph(kind, size=64, color="#0d5a61"):
+    """Generic line pictures for things without a logo (documents, tests, cloud, chart)."""
+    d = {'doc': '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6M9 9h2"/>',
+         'check': '<path d="M12 3l7 3v5c0 4.5-3 8.5-7 10-4-1.5-7-5.5-7-10V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/>',
+         'cloud': '<path d="M7 18a4.5 4.5 0 0 1-.5-9 6 6 0 0 1 11.4 1.6A3.8 3.8 0 0 1 17.5 18z"/>',
+         'chart': '<path d="M4 20h16M7 16v-5M12 16V6M17 16v-8"/>',
+         'lock': '<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>'}[kind]
+    return f'<svg aria-hidden="true" viewBox="0 0 24 24" width="{size}" height="{size}" fill="none" stroke="{color}" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">{d}</svg>'
+
+
+def stepcard(n, title, art, names, text):
+    return (f'<div class="card" style="flex:1 1 0;min-width:0;padding:26px 22px 24px;text-align:center;display:flex;flex-direction:column;align-items:center">'
+            f'<div style="width:34px;height:34px;border-radius:50%;background:#0d5a61;color:#fff;font-weight:800;display:grid;place-items:center;font-size:17px">{n}</div>'
+            f'<div style="font:500 27px/1.15 Georgia,serif;margin:14px 0 18px">{E(title)}</div>'
+            f'<div style="display:flex;gap:14px;align-items:center;justify-content:center;height:72px">{art}</div>'
+            f'<div style="font-size:14px;font-weight:700;color:#55666f;margin:12px 0 10px;letter-spacing:.02em">{E(names)}</div>'
+            f'<div style="font-size:18px;line-height:1.4">{E(text)}</div></div>')
+
+
+ar = '<div class="arrow" style="width:44px">' + ARR.replace('width="44"', 'width="34"') + '</div>'
+cards = ar.join([
+    stepcard(1, "The rules", glyph('doc', 64), "7 GTA documents (PDF)", f"Georgia’s official AI policies, standards and guidelines."),
+    stepcard(2, "Turned into data", logo('python', 64), "Python", f"A small program breaks the rules into {n_prov} exact quotes, each with its source."),
+    stepcard(3, "The website", logo('html5', 56) + logo('css', 56) + logo('javascript', 56), "HTML · CSS · JavaScript", "One simple page. Works on phones. No sign-in, no app to install."),
+    stepcard(4, "Checked every time", logo('githubactions', 64) + glyph('check', 64, '#1f6b3a'), "GitHub Actions", "Every change is tested automatically: the quotes, every answer path, accessibility."),
+    stepcard(5, "Published for free", logo('github', 64), "GitHub · GitHub Pages", "The code and the live site are hosted on GitHub at no cost."),
+])
+body = f'''<div class="top"><div><div class="tag">How it’s built</div><h1>Simple, free, and checked at every step</h1>
+<p class="sub" style="font-size:20px">From GTA’s documents to a web page anyone can use, with no servers and no accounts.</p></div></div>
+<div style="display:flex;align-items:stretch">{cards}</div>
+<div style="display:grid;grid-template-columns:1.3fr 1fr;gap:18px;margin-top:22px">
+<div class="card" style="padding:18px 22px;display:flex;align-items:center;gap:18px;background:#fdf0d5;border-color:#e0c48f">
+  <span style="font-size:12px;font-weight:800;color:#8a4f00;border:1.5px solid #b86e00;border-radius:999px;padding:3px 10px;white-space:nowrap">COMING NEXT</span>
+  {glyph('cloud', 44, '#8a4f00')}<span style="font-size:17px"><b>Microsoft Azure</b> to collect anonymous usage</span>
+  {glyph('chart', 44, '#8a4f00')}<span style="font-size:17px"><b>Power BI</b> dashboards of trends by agency</span></div>
+<div class="card" style="padding:18px 22px;display:flex;align-items:center;gap:16px;background:#dff0e3;border-color:#b9dcc3">
+  {glyph('lock', 40, '#1f6b3a')}<span style="font-size:17px;color:#14432a"><b>Private by design:</b> nothing a visitor types leaves their browser.</span></div>
+</div>'''
+page('16-tech-stack-simple', body, 'Logos: Simple Icons (CC0); trademarks of their owners. Azure and Power BI shown without logos.')
+print('built simple stack')
