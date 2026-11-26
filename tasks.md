@@ -3,7 +3,6 @@
 From [AUDIT.md](AUDIT.md) (2026-11-26). Phases 1–5 are done; see [completed_tasks.md](completed_tasks.md). Items marked 🔏 need GTA policy-owner sign-off. They are collected in [docs/questions_for_gta.md](docs/questions_for_gta.md).
 
 ## Waiting on you
-- [ ] Upload the source PDFs for SS-25-001, GS-25-001, GS-25-002, PS-23-001, GS-23-001 and the 5 Guiding Principles page (for example to `data/source_pdfs/`). Then: extract them with `pdftotext -layout` into `data/source_text/<doc_id>.txt`, run `scripts/verify_sources.py`, and fix or report any excerpt that does not match.
 - [ ] Push the branch to GitHub and confirm the CI workflow passes on a GitHub runner (it was simulated locally, not run on GitHub).
 
 ## Waiting on GTA (🔏, see docs/questions_for_gta.md)

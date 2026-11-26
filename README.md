@@ -138,7 +138,7 @@ The other test scripts work the same way. Each exits with status 1 if any check 
 python3 scripts/verify_sources.py data/stage1_inventory.json data/source_text
 ```
 
-Checks that every quoted excerpt and lead-in appears word for word in `data/source_text/<doc_id>.txt`. It ignores only browser print headers and footers, line breaks, and line breaks after a hyphen. It exits with status 1 if an excerpt is missing, and lists documents that have no source text yet. To add a document, extract its text with `pdftotext -layout <file>.pdf data/source_text/<doc_id>.txt` (poppler-utils).
+Checks that every quoted excerpt and lead-in appears word for word in `data/source_text/<doc_id>.txt`. It ignores only browser print headers and footers, line breaks, and line breaks after a hyphen. It exits with status 1 if an excerpt is missing, and lists documents that have no source text yet. The source PDFs are in `data/Instruments_GTA Policies/`. To add or refresh a document, extract its text with `pdftotext -layout <file>.pdf data/source_text/<doc_id>.txt` (poppler-utils). A document may also have other extractions of the same PDF, named `<doc_id>.<mode>.txt`: `SS-25-001.raw.txt` comes from `pdftotext -raw`, which keeps the use-case table's cells whole where `-layout` interleaves its columns. An excerpt passes if it appears in any extraction of its document. All 537 provisions in the 7 documents currently pass.
 
 ### Continuous integration
 
@@ -163,8 +163,9 @@ GTA-PSG-Nav/
 │   ├── stage3_triage.md          tree rendered as Markdown
 │   ├── decision_rights.json      who decides what
 │   ├── decision_rights.md
+│   ├── Instruments_GTA Policies/ the 7 source PDFs
 │   └── source_text/
-│       └── <doc_id>.txt          source text, checked by verify_sources.py
+│       └── <doc_id>[.raw].txt    text extracted from the PDFs, checked by verify_sources.py
 ├── docs/
 │   └── questions_for_gta.md      readings that need GTA confirmation
 ├── scripts/
@@ -196,4 +197,4 @@ See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
 
-The code is released under the MIT License; see [LICENSE](LICENSE). The policy text quoted in `data/`, `site/data.json` and `data/source_text/` comes from GTA documents. Check the terms of those documents before reusing the quoted text.
+The code is released under the MIT License; see [LICENSE](LICENSE). The policy text quoted in `data/`, `site/data.json` and `data/source_text/`, and the PDFs in `data/Instruments_GTA Policies/`, come from GTA documents. Check the terms of those documents before reusing the quoted text.

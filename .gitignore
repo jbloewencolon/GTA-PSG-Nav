@@ -15,3 +15,6 @@ report.json
 .idea/
 .DS_Store
 Thumbs.db
+
+# Windows / Google Drive folder settings
+desktop.ini

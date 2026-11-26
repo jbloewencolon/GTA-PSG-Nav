@@ -1,0 +1,128 @@
+7/21/26, 6:13 PM                      Enterprise Artificial Intelligence Responsible Use (PS-23-001) | Enterprise Policies, Standards, and Guidelines
+
+
+
+
+                   Enterprise Artificial Intelligence Responsible
+                   Use (PS-23-001)
+                   Topics:
+                   procurement (/topics?field_psg_topics_target_id=15586),
+                   artificial intelligence (/topics?
+                   field_psg_topics_target_id=15911), security (/topics?
+                   field_psg_topics_target_id=15916)
+
+                   Issue Date 10/5/2023
+
+                   Effective Date: 10/5/2023
+
+                   Review Date: 01/15/2025
+
+
+
+                   Purpose
+                   As Artificial Intelligence (AI) technology continues to
+                   advance and become an integral part of everyday business
+                   operations, it is increasingly important for the state to
+                   establish clear AI usage policies. This policy is designed to
+                   promote the acceptable use of AI tools, while also
+                   minimizing the potential for intentional or unintentional
+                   misuse, unethical outcomes, potential biases, use of
+                   sensitive data, and information security breaches. The AI-
+                   acceptable use policy addresses the use of artificial
+                   intelligence tools in government operations, especially as it
+
+
+
+
+https://gta-psg.georgia.gov/psg/enterprise-artificial-intelligence-responsible-use-ps-23-001                                                            1/4
+7/21/26, 6:13 PM                      Enterprise Artificial Intelligence Responsible Use (PS-23-001) | Enterprise Policies, Standards, and Guidelines
+
+
+
+
+                   pertains to using sensitive data and state information within
+                   these tools.
+
+
+
+                   Scope and Authority
+                       O.C.G.A 50-25-4(a)(8), State Government, Georgia
+                       Technology, General Powers
+                       O.C.G.A 50-25-4(a)(20), State Government, Georgia
+                       Technology, General Powers
+                       O.C.G.A 50-25-4(a)(28), State Government, Georgia
+                       Technology, General Powers
+                       PM-04-001, Information Technology Policies, Standards
+                       and Guidelines
+                       PS-08-005, Enterprise Information Security Policy
+
+
+
+                   Terms and Definitions
+                   Agency: every state department, agency, board, bureau,
+                   commission, and authority but shall not include any agency
+                   within the judicial or legislative branch of state government,
+                   the Georgia Department of Defense, departments headed
+                   by elected constitutional officers of the state, or the
+                   University System of Georgia and shall also not include any
+                   authority statutorily required to effectuate the provisions of
+                   Part 4 of Article 9 of Title 11.
+
+                   Artificial Intelligence: tools or systems used to create
+                   models that can generate new and original content, such as
+
+
+
+https://gta-psg.georgia.gov/psg/enterprise-artificial-intelligence-responsible-use-ps-23-001                                                            2/4
+7/21/26, 6:13 PM                      Enterprise Artificial Intelligence Responsible Use (PS-23-001) | Enterprise Policies, Standards, and Guidelines
+
+
+
+
+                   images, music, or text, based on patterns and examples
+                   from existing data.
+
+                   Technology Resources: means hardware, software, and
+                   communications equipment, including, but not limited to,
+                   personal computers, mainframes, wide and local area
+                   networks, servers, mobile or portable computers, peripheral
+                   equipment, telephones, wireless communications, public
+                   safety radio services, facsimile machines, technology
+                   facilities including, but not limited to, data centers,
+                   dedicated training facilities, and switching facilities, and
+                   other relevant hardware and software items as well as
+                   personnel tasked with the planning, implementation, and
+                   support of technology.
+
+
+
+                   Policy
+                   Agencies shall submit all software, applications, tools, and
+                   services utilizing AI for business operations to GTA for review
+                   prior to procurement. All agencies shall follow established
+                   State policies and standards to implement technology
+                   resources using AI.
+
+
+
+                   Related Enterprise Policies, Standards, and
+                   Guidelines
+                       Artificial Intelligence Responsible Use - SS-23-001
+
+
+
+
+https://gta-psg.georgia.gov/psg/enterprise-artificial-intelligence-responsible-use-ps-23-001                                                            3/4
+7/21/26, 6:13 PM                      Enterprise Artificial Intelligence Responsible Use (PS-23-001) | Enterprise Policies, Standards, and Guidelines
+
+
+
+
+                       Artificial Intelligence Responsible Use Guidelines GS-23-
+                       001
+
+
+
+
+https://gta-psg.georgia.gov/psg/enterprise-artificial-intelligence-responsible-use-ps-23-001                                                            4/4
+

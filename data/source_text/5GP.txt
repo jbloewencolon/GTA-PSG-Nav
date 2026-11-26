@@ -1,0 +1,342 @@
+7/21/26, 6:10 PM                                                    5 Guiding Principles | Office of Artificial Intelligence
+
+
+
+
+                   5 Guiding Principles
+
+                   To safeguard the welfare of and enhance the services
+                   provided to Georgians, GTA has established five guiding
+                   principles governing the design, implementation, and
+                   utilization of automated systems. Informed by industry
+                   research and experts, these principles are intended to guide
+                   state agencies as they integrate protective measures into
+                   their policies and operational procedures. These principles
+                   serve as a framework whenever automated systems have
+                   significant implications on the rights of Georgians or their
+                   access to essential services.
+
+                   Implement Responsible Systems
+
+                       User-centered Design and Development
+
+                       State agencies should prioritize user research as an
+                       integral component in the procurement or
+                       development of automated systems. It's important to
+                       maintain the human element during the design of any
+                       service. Seek input and insights from user groups,
+                       diverse stakeholders, and domain experts to identify
+                       concerns, risks, and potential impacts associated with
+                       the system.
+
+
+
+https://ai.georgia.gov/guidance/guidelines-state-organizations/5-guiding-principles                                            1/9
+7/21/26, 6:10 PM                                                    5 Guiding Principles | Office of Artificial Intelligence
+
+
+
+
+                       Comprehensive Testing
+
+                       Automated systems must undergo pre-deployment
+                       user testing to identify potential risks and assess their
+                       intended functionality. Implement risk identification
+                       and mitigation strategies to ensure system safety and
+                       effectiveness, including addressing unintended
+                       consequences.
+
+
+                       Ongoing Monitoring and Improvement
+
+                       It's essential to confirm that the system continues to
+                       operate as intended; deviations should be addressed
+                       promptly. Adhere to domain-specific standards to
+                       ensure compliance and compatibility with industry
+                       best practices. Regularly evaluate system performance,
+                       ethical adherence, and the impact on outcomes and
+                       take corrective actions as needed.
+
+
+                       Consideration for Non-deployment
+
+                       State agencies should be prepared to halt the
+                       deployment of an automated system or remove it from
+                       use if it fails to meet safety or effectiveness standards.
+
+
+                       Data Protection
+
+
+
+
+https://ai.georgia.gov/guidance/guidelines-state-organizations/5-guiding-principles                                            2/9
+7/21/26, 6:10 PM                                                    5 Guiding Principles | Office of Artificial Intelligence
+
+
+
+
+                       Ensure that the design, development, and deployment
+                       of automated systems protect against inappropriate or
+                       irrelevant data use. Mitigate the risks associated with
+                       the reuse of data, preventing compounded harm.
+
+
+                       Independent Evaluation
+
+                       GTA reserves the right to conduct an independent
+                       evaluation and report to confirm the safety and
+                       effectiveness of automated systems, including
+                       mitigation of potential harm. GTA will make evaluation
+                       results publicly available whenever appropriate,
+                       promoting transparency and accountability.
+
+
+
+                   Ensure Ethical and Fair Use of Automated Decisions
+
+                       Fairness, Transparency, Accountability, and Privacy
+
+                       State agencies should adopt a set of ethical AI
+                       principles that prioritize fairness, transparency,
+                       accountability, and privacy in the design and
+                       deployment of AI systems for state services. Develop a
+                       set of ethical guidelines for AI system design and
+                       deployment. Users should be able to understand why a
+                       particular decision was made, building trust in the
+                       system. Assign specific individuals or teams to be
+                       responsible for monitoring AI systems for bias and
+
+https://ai.georgia.gov/guidance/guidelines-state-organizations/5-guiding-principles                                            3/9
+7/21/26, 6:10 PM                                                    5 Guiding Principles | Office of Artificial Intelligence
+
+
+
+
+                       corrective actions. Clearly defined accountability
+                       ensures that bias-related issues are addressed
+                       promptly.
+
+
+                       Algorithmic Bias Awareness and Mitigation
+
+                       Provide training and educational programs for agency
+                       staff about the concept of algorithmic bias and its
+                       potential impacts on decision-making processes within
+                       state services. Awareness is the first step in addressing
+                       bias effectively. Develop and implement strategies to
+                       address and mitigate algorithmic bias whenever
+                       detected, such as refining algorithms, adjusting data
+                       inputs, or retraining models. Regularly assess how AI
+                       systems affect different user groups. Understand any
+                       disparities or unintended consequences that may arise
+                       and take action to rectify them.
+
+
+                       Data Quality and Diversity
+
+                       Carefully curate and vet the data used to train AI
+                       algorithms. Make sure the data is diverse and
+                       representative of all relevant demographic groups. This
+                       helps prevent biased outcomes caused by skewed
+                       data.
+
+
+                       Regular Assessments
+
+
+
+
+https://ai.georgia.gov/guidance/guidelines-state-organizations/5-guiding-principles                                            4/9
+7/21/26, 6:10 PM                                                    5 Guiding Principles | Office of Artificial Intelligence
+
+
+
+
+                       Continuously monitor AI systems to detect and rectify
+                       biases where they emerge. Regular assessments are
+                       essential to maintaining fairness and effectiveness over
+                       time.
+
+
+
+                   Maintain Data Quality and Privacy
+
+                       Data Governance Framework
+
+                       Establish clear guidelines for data governance to
+                       maintain integrity and privacy.
+
+
+                       Security and Data Handling
+
+                       Prioritize robust security measures and transparent
+                       data handling practices.
+
+
+                       Accuracy and Retention
+
+                       Ensure data accuracy, minimize storage, and dispose of
+                       obsolete data.
+
+
+                       Compliance and Accountability
+
+                       Maintain compliance with data protection laws,
+                       conduct regular audits, and involve the public in the
+
+
+https://ai.georgia.gov/guidance/guidelines-state-organizations/5-guiding-principles                                            5/9
+7/21/26, 6:10 PM                                                    5 Guiding Principles | Office of Artificial Intelligence
+
+
+
+
+                       decision-making process.
+
+
+
+                   Keep AI Usage Transparent
+
+                       System Use
+
+                       Ensure that individuals are informed about the use of
+                       automated systems and understand how these
+                       systems contribute to outcomes that can affect them.
+
+
+                       Accessible Documentation
+
+                       Encourage designers, developers, and deployers of
+                       automated systems to provide plain language
+                       documentation that is easily accessible to the public.
+                       This documentation should include clear descriptions
+                       of system functionality and ownership, the role of
+                       automation, and explanations of outcomes.
+
+
+                       Up-to-date Notices
+
+                       Require that notice regarding the use of automated
+                       systems is kept current, and individuals impacted by
+                       the system should be notified of significant use cases
+                       or key functionality changes.
+
+
+
+
+https://ai.georgia.gov/guidance/guidelines-state-organizations/5-guiding-principles                                            6/9
+7/21/26, 6:10 PM                                                    5 Guiding Principles | Office of Artificial Intelligence
+
+
+
+
+                       Technically Valid and Accessible Explanations
+
+                       Ensure that individuals have access to information
+                       explaining how and why outcomes that affect them
+                       were determined by the automated systems, even
+                       when these systems are not the sole contributors to
+                       the outcome. Mandate that automated systems
+                       provide technically valid, meaningful, and useful
+                       explanations to affected individuals, as well as
+                       operators and stakeholders who need to understand
+                       the system. The level of detail in these explanations
+                       should align with the level of risk involved.
+
+
+                       Public Reporting
+
+                       Promote the publication of summary information
+                       about automated systems in plain language.
+                       Assessments of the clarity and quality of notice and
+                       explanations should also be made public whenever
+                       possible to enhance transparency and public trust.
+
+
+
+                   Keep Human Involvement at the Center
+
+                       Human Responsibility and Ownership
+
+                       State agencies should establish and adhere to policies
+                       that emphasize human responsibility and ownership of
+
+
+https://ai.georgia.gov/guidance/guidelines-state-organizations/5-guiding-principles                                            7/9
+7/21/26, 6:10 PM                                                    5 Guiding Principles | Office of Artificial Intelligence
+
+
+
+
+                       the outcomes produced by AI systems used in state
+                       services. AI systems should not operate in isolation.
+                       State agencies should ensure that humans retain
+                       control over the operation of AI systems and that
+                       human decision-makers remain responsible for the
+                       final decisions made with the support of AI.
+
+
+                       Ethical and Transparent Design and Use
+
+                       State agencies should prioritize transparency and
+                       accountability in the deployment of AI systems.
+                       Agencies should retain clear records of AI system use,
+                       their objectives, and the roles of individuals overseeing
+                       and interacting with these systems. Agencies should
+                       mandate that AI systems be designed and used in
+                       accordance with ethical principles that prioritize
+                       fairness, transparency, accountability, and privacy.
+                       Ethical considerations should be an integral part of AI
+                       system development and use.
+
+
+                       Clear Roles and Responsibilities
+
+                       Clearly define roles and responsibilities for individuals
+                       involved in AI system implementation. This includes
+                       specifying the duties of AI system operators, data
+                       stewards, and decision-makers.
+
+
+                       Human-AI Collaboration
+
+
+https://ai.georgia.gov/guidance/guidelines-state-organizations/5-guiding-principles                                            8/9
+7/21/26, 6:10 PM                                                    5 Guiding Principles | Office of Artificial Intelligence
+
+
+
+
+                       Encourage collaboration between humans and AI
+                       systems to enhance decision-making processes. AI
+                       should be viewed as a tool that complements human
+                       expertise rather than a replacement for human
+                       judgment.
+
+
+                       User Training and Education
+
+                       Promote user education to ensure that individuals
+                       interacting with AI systems understand the capabilities
+                       and limitations of these technologies. Users should be
+                       aware of how AI contributes to outcomes and that
+                       humans remain responsible for those outcomes.
+                       Agencies should invest in training and development
+                       programs to equip their staff with the skills and
+                       knowledge necessary to effectively use AI systems and
+                       make informed decisions.
+
+
+                       Ownership of Data and Models
+
+                       State agencies should retain ownership and control
+                       over the data used to train AI models and the models
+                       themselves. This ownership ensures that AI systems
+                       serve the agency's mission and values.
+
+
+
+
+https://ai.georgia.gov/guidance/guidelines-state-organizations/5-guiding-principles                                            9/9
+

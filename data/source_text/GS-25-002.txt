@@ -1,0 +1,222 @@
+                                 Georgia Technology Authority
+
+                          Procurement of AI tools Guidelines for
+                 Title:
+                          Responsible Use
+        PSG Number: GS-25-002
+       Effective Date: 7/1/2025                Review Date:
+            Synopsis:     Guidelines for state entities when procuring AI tools
+
+
+PURPOSE
+Artificial Intelligence (AI) tools offer significant benefits to state agencies by
+enhancing efficiency, decision-making, and service delivery. However, AI also
+presents unique risks related to fairness, data security, transparency, and
+accountability. These guidelines outline best practices for state agencies when
+preparing and evaluating Requests for Proposals (RFPs) or other procurements for
+AI tools or solutions that include AI features.
+
+SCOPE and AUTHORITY
+O.C.G.A 50-25-4(a)(10) – State Government, Georgia Technology, General Powers
+O.C.G.A 50-25-4(a)(21) - State Government, Georgia Technology, General Powers
+PM-04-001 – Information Technology Policies, Standards and Guidelines
+PS-08-005 – Enterprise Information Security Policy
+
+GUIDELINES
+
+Key Principles
+
+   •   Data-Driven: Prioritize data assessment and governance before
+       procurement. Ensure data quality, address biases, and define data sharing
+       protocols with vendors.
+   •   Benefit & Risk Assessment: Clearly define the public benefit goal and
+       conduct thorough AI impact assessments, iteratively reviewed throughout
+       the project lifecycle.
+   •   Challenge-Focused: Emphasize the problem, not a specific solution.
+       Encourage innovative proposals from vendors.
+   •   Governance & Assurance: Establish robust oversight mechanisms, adhering
+       to relevant ethical guidelines and regulations. Maximize transparency in AI
+       decision-making.
+   •   Explainability & Openness: Prioritize explainability and interpretability to
+       mitigate the risk of black-box algorithms and prevent vendor lock-in .
+   •   Lifecycle Management: Plan for ongoing evaluation, maintenance, training,
+      and knowledge transfer throughout the AI system's lifecycle.
+
+Guidelines for Preparing the RFP
+
+   1. Define Objectives and Scope
+         o Specify the problem the software/AI solution should address, focusing
+            on desired outcomes and challenges, allowing vendors to propose
+            solutions.
+         o Define the problem clearly, explaining the relevance of AI and
+            remaining open to alternatives.
+         o Define IP ownership and usage rights.
+         o Identify key stakeholders and affected populations.
+   2. Ethical and Fairness Considerations
+         o Require bidders to document how the AI system mitigates bias and
+            ensures fairness.
+         o Specify adherence to existing ethical AI guidelines and relevant state
+            and federal regulations [https://ai.georgia.gov/guidance/ethics-
+            framework].
+         o Include provisions for fairness testing and reporting on bias detection.
+         o Require evidence and results of third-party audits or certifications on
+            AI fairness.
+   3. Transparency and Explainability
+         o Require vendors to disclose AI model functionality, decision-making
+            processes, and limitations. For example:
+                            i.     What input data were used in learning?
+                            ii.    What learning methods were used?
+                            iii.   How      thresholds    for    decisions    were
+                                   established/adjusted?
+         o Include a requirement for explainability and user interpretability
+            where applicable.
+         o Define auditability requirements, including access to decision logs and
+            justifications.
+   4. Data Privacy and Security
+         o Mandate compliance with federal and state data protection standards
+            [https://gta-psg.georgia.gov/psgs-introduction].
+         o Require vendors to outline their data collection, storage, and usage
+            policies.
+         o Require a detailed risk management plan addressing potential
+            breaches or misuse.
+      o  Require a security assessment framework, covering encryption, access
+         control, and breach notification procedures.
+5. Performance and Accountability
+      o Define measurable performance benchmarks and key performance
+         indicators (KPIs).
+      o Require vendors to provide ongoing performance monitoring and
+         error mitigation strategies.
+      o Specify accountability mechanisms, such as audit rights and
+         remediation procedures.
+6. Open Standards and Interoperability
+      o Encourage the use of open standards to avoid vendor lock-in.
+      o Ensure compatibility with existing state IT infrastructure.
+      o Require documentation on how the AI system integrates with other
+         tools as necessary.
+7. Workforce Change Management and Training
+      o Require a detailed plan for workforce change management, including
+         specific skills inventory covered in the plan and strategies for
+         addressing employee concerns and facilitating smooth transitions.
+      o Mandate comprehensive training programs for agency staff on the
+         use, maintenance, and oversight of the AI system.
+      o Require detailed documentation of the training process.
+      o Require vendors to provide change management support and training
+         documentation to ensure successful adoption of AI tools.
+      o Specify that vendor provided training must be provided on a regular
+         schedule, and at each update of the AI tool.
+8. Continuous Monitoring and Feedback Loops
+      o Emphasize the importance of ongoing monitoring and improvement
+         of AI systems post-deployment.
+      o Require vendors to propose a system for continuous monitoring of AI
+         performance and fairness, including methods for detecting and
+         addressing biases.
+      o Require vendors to provide a feedback loop system that allows end
+         users to provide feedback on the AI systems’ performance.
+9. Ethical AI Governance
+      o Require vendors to demonstrate their commitment to ethical AI
+         practices through established governance structures and processes.
+      o Request examples of ethical AI policies and the date of their
+         establishment.
+      o Require vendors to demonstrate compliance with all relevant ethical
+           AI regulations.
+  10.Algorithmic Impact Assessment
+        o Require that vendors conduct and share results of an Algorithmic
+           Impact Assessment (AIA) for their AI solution. The vendor should be
+           specific about the methods employed, and contexts in which the
+           assessments were conducted. Provide the bidder the context in which
+           the tool will be used, so that the AIA is performed in as similar a
+           context as possible. The assessment should describe the low, medium,
+           and high-risk aspects of the AI application.
+        o Specify that the AIA must include an assessment of potential biases,
+           fairness, transparency, and accountability.
+        o If possible, provide a standard for the AIA, or refer to existing AIA
+           frameworks from entities like California or Massachusetts.
+  11.Collaboration and Knowledge Sharing
+        o Encourage vendors to participate in cross-agency knowledge sharing
+           and collaborative improvement of AI systems.
+        o Request vendors' willingness to participate in state-wide AI working
+           groups or forums, potentially led by a state AI Office.
+  12.Referrals and Production-Facing Examples of Work
+        o Request bidder to provide examples of similar work that are
+           production-facing. Request to see the tools or speak to a reference
+           from the client.
+        o Request case studies of similar production-facing work including
+           descriptions of the full project lifecycle.
+
+Guidelines for Evaluating RFP Responses
+
+  1. Fair and Objective Evaluation Process
+        o Establish a diverse evaluation committee with expertise in AI, ethics,
+            and procurement.
+        o Utilize a standardized scoring rubric for AI-related risks, benefits, and
+            compliance.
+        o Ensure transparency in vendor selection with clear documentation of
+            decision criteria.
+  2. Assessing Bias Mitigation Strategies
+        o Evaluate vendor claims of fairness and bias mitigation through review
+            of test reports and vetting of reported bias mitigation strategies.
+        o Consider real-world performance across diverse demographics.
+  3. Examining Transparency and Explainability
+      o  Assess whether the AI tool provides clear, interpretable decisions.
+      o Review the documentation provided on AI logic and model
+         transparency.
+4. Reviewing Data Security and Privacy Protections
+      o Validate that data handling practices comply with relevant legal and
+         regulatory requirements.
+      o Assess the sufficiency of encryption, anonymization, and security
+         measures.
+      o Review and score vendor’s risk management plan addressing potential
+         breaches or misuse for completeness and appropriateness in the
+         agency environment.
+5. Evaluating Performance and Accountability Measures
+      o Ensure that proposed KPIs align with agency goals and expectations.
+      o Assess the vendor’s track record in AI tool deployment and ongoing
+         support.
+      o Review mechanisms for continuous monitoring, error correction, and
+         vendor accountability.
+6. Ensuring Compliance with Ethical and Legal Standards
+      o Verify alignment with state and federal AI policies and guidelines.
+      o Assess adherence to accessibility and anti-discrimination laws.
+7. Evaluating Workforce Change Management and Training Plans
+      o Score the completeness of the training documentation, and the
+         change management plan. Ensure that the bidder will provide enough
+         information for your team to understand what was done, how, and
+         how to maintain it. Both training and technical documentation should
+         be provided.
+      o Evaluate the vendor's history of successfully training and managing
+         change with other customers.
+8. Evaluating Continuous Monitoring and Feedback Loops
+      o Score the vendors proposed monitoring system for thoroughness.
+      o Score the vendors proposed feedback loop system for thoroughness.
+9. Evaluating Ethical AI Governance
+      o Score the vendors ethical policies, and the date of establishment.
+      o Verify the vendor's compliance with ethical AI regulations.
+10.Evaluating Algorithmic Impact Assessments.
+      o Score the thoroughness of the submitted AIA.
+      o Verify that the AIA was performed in a similar context to which the
+         tool will be used.
+      o Verify the AIA follows the provided AIA standard.
+   11.Evaluating Collaboration and Knowledge Sharing.
+         o Score the vendors willingness to participate in knowledge sharing.
+   12.Evaluating Referrals or Similar Work Product
+         o If links or access to production-facing tools is provided, visit the
+            product and assess its similarity to the project at hand. Assess its
+            quality, performance, user experience.
+         o If references are provided, call and discuss the bidder’s work and the
+            full experience of working with the bidder from the client’s POV.
+            Consider whether the feedback aligns with your team’s current desires
+            and capacity.
+   13.Conducting a Pilot or Trial Implementation
+         o Where feasible, require a pilot phase before full deployment.
+         o Monitor real-world effectiveness and risks before agency-wide
+            adoption.
+         o Collect stakeholder and user feedback to inform final procurement
+            decisions.
+
+RELATED ENTERPRISE POLICIES, STANDARDS AND GUIDELINES
+Generative AI Responsible Use SS-25-001
+Generative AI Guidelines for Responsible Use GS-25-001
+Enterprise Artificial Responsible Use (PS-23-001)
+Artificial Intelligence Responsible Use Guidelines (GS-23-001)
+Artificial Intelligence Responsible Use (SS-23-002)
+

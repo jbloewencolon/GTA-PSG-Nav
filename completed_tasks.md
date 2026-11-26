@@ -52,3 +52,9 @@ Decisions: keep the 10 "Conditional" cells as Must and the 2 "Do not" commands a
 - [x] Quotations: the decorative opening mark is silent to screen readers, and the unbalanced closing mark is gone from the text
 - [x] Stop / Check first announcement: already announced by the polite live region whenever it appears (no change needed)
 - [x] Full suite and accessibility audit pass
+
+## 2026-11-26: Source PDFs verified
+- [x] Extracted the 7 uploaded PDFs (`data/Instruments_GTA Policies/`) into `data/source_text/`; the re-extracted SS-23-002 is identical to the existing text file
+- [x] `verify_sources.py`: also searches other extractions of the same PDF (`SS-25-001.raw.txt`, which keeps table cells whole) and rejoins em dashes at line breaks
+- [x] All 537 provisions in all 7 documents match their source word for word; a mutation test (one changed modal verb, one dropped comma) fails as expected
+- [x] Removed `desktop.ini` (Google Drive folder settings) and ignored it
