@@ -44,6 +44,7 @@ More diagrams: [what the data contains](docs/images/11-data-at-a-glance.png), [a
   - decisions with no step card, as one-line rows;
   - items written for agencies, in one closed "For your agency" panel.
 - **Review details switch:** at the bottom of Next steps (or open the page with `#review`). It restores the full view for policy staff: the modal verb as written, analyst notes, unresolved references and the panels on where the documents disagree.
+- **Rules that apply to you:** a live count, at the top of the side panel, of every rule that applies to what you described. It rises with each answer that adds one, and shows "+N from your answers". A bar and legend split it into Must, Must not, Should, Should not and May. Notes with no obligation, and rules written for your agency, are listed but not counted. On the results page, a link opens them grouped by obligation.
 - **Guardrails:** a road picture whose guardrail posts rise with what you described, not with how many rules apply. Each of these adds posts once: personal or sensitive information 2, a decision about a person 2, something the public sees or interacts with 1, buying or building an AI tool 1, AI content in an official document 1, legal analysis or AI note-taking in meetings 1. A Not sure answer counts as yes. Levels: Baseline rules only (0), Light (1-2), Standard (3-4), Extra (5 or more). The panel lists each reason with the provision it rests on. The values are this tool's, not GTA's.
 - **Stop and Check first signs:** replace the guardrails, with the source wording at the top of the results. A red stop sign shows when the documents require GTA approval for what you described with generative AI (personal or regulated data, SS-25-001 1.3; buying a GenAI product or service, SS-25-001 1.5) or may prohibit it (decisions about people, SS-25-001 3.0 table; GS-25-001 disagrees, OQ13). An amber Check first sign shows when a review or authorization is required first for other AI (buying, PS-23-001; personal or sensitive data, SS-23-002 6). A Not sure answer to those questions also shows them.
 - **Explanations on request:** each question's help text, the note on how the count works and the longer result notes are collapsed under links such as "About this question".
@@ -147,6 +148,7 @@ The other test scripts work the same way. Each exits with status 1 if any check 
 - `tests/test_employee.py`: 7 routes. Checks the employee view of Next steps, and that review-only items stay hidden.
 - `tests/test_score.py`: checks the guardrail rules in the data against an independent calculation over 53,656 answer routes, and that every quoted provision is shown on that route. Then clicks 11 routes in the page, and ends with `ALL PASS`.
 - `tests/test_intro.py`: the title screen. Checks validation and focus, saving and "Forget my details", Start over, blocked browser storage, and that no request leaves the page's origin.
+- `tests/test_obligations.py`: recalculates the "Rules that apply to you" count and breakdown from the data after every answer on 4 routes, and checks it moves.
 - `tests/test_steps.py`: 3 routes.
 - `tests/test_v2.py`: 5 routes.
 - `tests/test_views.py`: 6 checks.
@@ -212,6 +214,7 @@ GTA-PSG-Nav/
     ├── test_employee.py
     ├── test_intro.py
     ├── test_multi.py
+    ├── test_obligations.py
     ├── test_score.py
     ├── test_steps.py
     ├── test_v2.py

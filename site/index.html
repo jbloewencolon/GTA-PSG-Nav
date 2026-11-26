@@ -290,6 +290,26 @@ details.agency .declist{margin-top:12px;box-shadow:none}
 .ferr{margin:0;color:var(--mustnot);font-size:.88rem;font-weight:600}
 .privacy{margin:0 0 16px;color:var(--muted);font-size:.85rem;max-width:65ch}
 .pocpill{display:inline-block;margin:0;padding:3px 10px;border-radius:999px;border:1px solid var(--band-muted);color:var(--band-ink);font-size:.75rem;font-weight:700;letter-spacing:.03em}
+/* rules that apply: count + obligation mix */
+.railh{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:0 0 4px;font-weight:700}
+.oblnum{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.oblnum b{font:500 2.4rem/1.05 var(--quote);font-variant-numeric:tabular-nums;display:inline-block}
+.oblnum b.bump{animation:oblbump .6s ease}
+@keyframes oblbump{0%{transform:scale(1)}30%{transform:scale(1.18);color:var(--accent)}100%{transform:scale(1)}}
+.obldelta{font-size:.85rem;font-weight:700;color:var(--accent)}
+.oblbar{display:flex;gap:2px;height:12px;margin:10px 0 10px;border-radius:4px;overflow:hidden;background:var(--sunk)}
+.oblbar i{display:block;min-width:3px}
+.oblbar .must,.obllegend .must::before{background:var(--must)}.oblbar .must_not,.obllegend .must_not::before{background:var(--mustnot)}
+.oblbar .should,.obllegend .should::before{background:var(--should)}.oblbar .may,.obllegend .may::before{background:var(--may)}
+.oblbar .should_not,.obllegend .should_not::before{background:repeating-linear-gradient(135deg,var(--should) 0 2px,var(--surface) 2px 4px)}
+.obllegend{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr auto;gap:4px 10px;font-size:.88rem}
+.obllegend li{display:contents}
+.obllegend span{display:flex;align-items:center;gap:8px}
+.obllegend span::before{content:"";width:12px;height:12px;border-radius:3px;flex-shrink:0}
+.obllegend b{font-variant-numeric:tabular-nums;text-align:right}
+.oblnote{margin:10px 0 0;font-size:.8rem;color:var(--muted)}
+.oblgo{min-height:44px;padding:0}
+@media (prefers-reduced-motion:reduce){.oblnum b.bump{animation:none}}
 .rowsrc{margin-top:4px}.rowsrc>summary{font-size:.82rem}.rowsrc cite.chips{margin-top:2px}
 </style>
 </head>
@@ -304,7 +324,15 @@ details.agency .declist{margin-top:12px;box-shadow:none}
   <p id="status" class="sr" role="status" aria-live="polite"></p>
   <div class="grid">
     <main id="main"><div class="card">Loading the policy map…</div></main>
-    <aside class="rail" aria-label="Guardrails and your answers">
+    <aside class="rail" aria-label="Your rules, guardrails and answers">
+      <section class="card obl" aria-labelledby="oblh">
+        <h2 id="oblh" class="railh">Rules that apply to you</h2>
+        <div class="oblnum"><b id="obltotal">0</b><span class="obldelta" id="obldelta"></span></div>
+        <div class="oblbar" id="oblbar" aria-hidden="true"></div>
+        <ul class="obllegend" id="obllegend"></ul>
+        <p class="oblnote" id="oblnote"></p>
+        <button class="link oblgo" id="oblgo" type="button" hidden>See them grouped by obligation</button>
+      </section>
       <section class="card" aria-labelledby="guardh">
         <div class="heat">
           <div class="gbox" id="gbox" aria-hidden="true">
@@ -384,7 +412,27 @@ function answersList(){var a=h("ul",{class:"answers"},[]),any=false;
   applicable().forEach(function(q){if(!(q.fact in facts))return;any=true;
     a.appendChild(h("li",null,[h("span",null,[h("small",{text:q.text}),optLabel(q)]),h("button",{class:"link",type:"button","aria-label":"Change answer: "+q.text,on:{click:function(){editing=q.id;showResults=false;render()}}},["Change"])]))});
   if(!any)a.appendChild(h("li",null,[h("span",null,[h("small",{text:"None yet"})])]));return a}
+var OBL=[["must","Must"],["must_not","Must not"],["should","Should"],["should_not","Should not"],["may","May"]];
+// Rules that apply to the person: provisions in the topics shown to them (always-shown + triggered), by modality.
+// Agency pointers are agency duties, and Notes carry no obligation, so both are reported but not counted.
+function rulesNow(){var c={must:0,must_not:0,should:0,should_not:0,may:0,informational:0},added=0,agency=0;
+  if(!gated()){baseEls().concat(active()).forEach(function(e){sts(e).forEach(function(s){c[s.m]+=s.prov.length;if(e.tier==="conditional"&&s.m!=="informational")added+=s.prov.length})});
+    ptrsNow().forEach(function(p){agency+=(isOther()?p.oprov:p.prov).length})}
+  var total=0;OBL.forEach(function(o){total+=c[o[0]]});return{c:c,total:total,added:added,agency:agency}}
+function renderRules(){var r=rulesNow(),tb=$("obltotal"),prev=renderRules.last;
+  tb.textContent=String(r.total);
+  $("obldelta").textContent=r.added?"+"+r.added+" from your answers":"";
+  if(prev!==undefined&&prev!==r.total){tb.classList.remove("bump");void tb.offsetWidth;tb.classList.add("bump")}
+  renderRules.last=r.total;
+  var bar=$("oblbar"),lg=$("obllegend");bar.textContent="";lg.textContent="";
+  OBL.forEach(function(o){var n=r.c[o[0]];if(!n)return;var seg=h("i",{class:o[0]});seg.style.flexGrow=String(n);bar.appendChild(seg);
+    lg.appendChild(h("li",null,[h("span",{class:o[0],text:o[1]}),h("b",{text:String(n)})]))});
+  var notes=[];if(r.c.informational)notes.push(r.c.informational+" notes with no obligation");if(r.agency)notes.push(r.agency+" rules written for your agency");
+  $("oblnote").textContent=notes.length?"Also shown, not counted: "+notes.join("; ")+".":"";
+  $("oblgo").hidden=!(showResults&&started&&r.total);
+  return r}
 function renderRail(){
+  var rr=renderRules();
   var fs=factorsNow(),total=0;fs.forEach(function(x){total+=x.f.posts});
   var lv=levelOf(total),sg=signsNow(),mode=sg.some(function(x){return x.s.level==="stop"})?"stop":sg.length?"check":"";
   if(!GPOSTS.length)buildGuard();
@@ -397,7 +445,7 @@ function renderRail(){
   var lvl=$("level");lvl.textContent=head||said;lvl.className="level"+(mode?" "+mode:"");
   var sw=$("stopwhy");sw.textContent="";sw.hidden=!mode;sw.className="stopwhy"+(mode==="check"?" check":"");
   sg.forEach(function(x){sw.appendChild(h("li",null,[x.s.title,h("small",{text:cite(x.s.prov)+(x.ns?" · you answered Not sure":"")})]))});
-  var news=(head?head+": "+sg.map(function(x){return x.s.title}).join("; ")+". ":"")+"Guardrails now "+said+".";
+  var news=(head?head+": "+sg.map(function(x){return x.s.title}).join("; ")+". ":"")+rr.total+" rules apply to you ("+rr.c.must+" must, "+rr.c.must_not+" must not). Guardrails now "+said+".";
   if(renderRail.last!==undefined&&renderRail.last!==news)$("status").textContent=news;renderRail.last=news;
   var th=$("thermo");th.style.setProperty("--t",(Math.min(1,total/PMAX)*100).toFixed(1)+"%");th.setAttribute("aria-valuenow",String(Math.min(total,PMAX)));th.setAttribute("aria-valuetext",LV[lv]+" guardrails, "+total+(total===1?" post":" posts"));
   var d=$("drivers");d.textContent="";
@@ -648,6 +696,7 @@ function render(){
 }
 var opened=[];window.addEventListener("beforeprint",function(){opened=[];document.querySelectorAll("details:not([open])").forEach(function(d){d.open=true;opened.push(d)})});
 window.addEventListener("afterprint",function(){opened.forEach(function(d){d.open=false});opened=[]});
+$("oblgo").addEventListener("click",function(){view="mod";tab="applies";renderResults();var v=document.querySelector(".views");if(v){v.scrollIntoView({block:"start"});var b=v.querySelector('[aria-pressed="true"]');if(b)b.focus({preventScroll:true})}renderRail()});
 $("restart").addEventListener("click",function(){facts={};editing=null;showResults=false;started=false;render()});
 fetch("data.json").then(function(r){if(!r.ok)throw new Error(r.status);return r.json()}).then(function(recs){
   recs.forEach(function(r){if(r.k==="q")Q.push(r);else if(r.k==="el")EL.push(r);else if(r.k==="ptr")PT.push(r);else if(r.k==="meta"){META=r;if(r.updated){var u=$("updated");u.textContent="";var pl=h("span",{class:"updpill"},["Page built: ",h("time",{datetime:r.updated.iso,text:r.updated.text}),(r.updated.basis?". "+r.updated.basis+".":"")]);u.appendChild(pl)}}else if(r.k==="step")STEPS.push(r);else if(r.k==="dec")DEC.push(r);else if(r.k==="stepgap")STEPGAP=r;else if(r.k==="factor")FACTORS.push(r);else if(r.k==="sign")SIGNS.push(r)});
