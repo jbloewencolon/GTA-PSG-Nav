@@ -103,6 +103,41 @@ for r in recs:
     if r['k'] == 'step': r['dec'] = STEPDEC.get(r['pid'])
 
 recs.append(dict(k='stepgap', text="No document tells an individual employee whom to notify about an incident or suspected misuse. The reporting duties are written for agencies (open question OQ19)."))
+
+# ---- guardrails: risk factors and signs (see AUDIT.md §3-4; tests/test_score.py checks every path) ----
+# The post values are this tool's, not GTA's. A factor raises posts once, using the first variant whose
+# 'when' matches; each variant quotes one provision per AI branch (None = not on that branch).
+NS = 'not_sure'
+FACTORS = [
+ ('data', 2, [([{'F_DATA': ['yes', NS]}], 'You will enter personal or sensitive information', 'SS-25-001-1.3-2', 'SS-23-002-6-2')]),
+ ('decision', 2, [([{'F_DECISION': ['yes', NS]}], 'The output feeds a decision about a person', 'SS-25-001-3.0-TABLE-15', None)]),
+ ('public', 1, [([{'F_TASK': ['chatbot_public']}], 'Members of the public interact with it', 'SS-25-001-3.0-TABLE-5', None),
+                ([{'F_TASK': ['public_comms', NS]}], 'The public will see what it produces', 'SS-25-001-3.0-TABLE-6', None)]),
+ ('role', 1, [([{'F_ROLE': ['procure', 'both', NS]}], 'You are helping to buy an AI tool', 'SS-25-001-1.5-1', 'PS-23-001-POLICY-1'),
+              ([{'F_ROLE': ['build']}], 'You are helping to build an AI tool', 'SS-23-002-9-7', 'SS-23-002-9-7')]),
+ ('official', 1, [([{'F_PRODUCT': ['official', NS]}], 'AI content will appear in an official document', 'GS-25-001-CITE-7', None)]),
+ ('oversight', 1, [([{'F_TASK': ['legal', NS]}], 'Legal or regulatory analysis needs legal staff oversight', 'SS-25-001-3.0-TABLE-29', None),
+                   ([{'F_TASK': ['meetings']}], 'AI note-taking in meetings is strongly discouraged', 'GS-25-001-MEET-1', None)]),
+]
+HR = 'an HR department may consult with AI platforms in making hiring decisions'
+assert HR in P['GS-25-001-SAFE-9']['text_excerpt']
+# 'stop': a provision requires GTA approval or lists the use as prohibited. 'check': a provision requires a review
+# or authorization first. Branch 'gen' is shown unless the answers take the other-AI branch; 'other' only on it.
+SIGNS = [
+ ('stop', 'gen', [{'F_DATA': ['yes', NS]}], 'SS-25-001-1.3-2', 'GTA approval needed: personal or regulated data', None),
+ ('stop', 'gen', [{'F_ROLE': ['procure', 'both', NS]}], 'SS-25-001-1.5-1', 'GTA approval needed: buying a GenAI product or service', None),
+ ('stop', 'gen', [{'F_DECISION': ['yes', NS]}], 'SS-25-001-3.0-TABLE-15', 'May be prohibited: decisions about people (the documents disagree)',
+  f'SS-25-001 lists this under Prohibited in its use-case table, but GS-25-001 gives this example: “{HR}” (open question OQ13).'),
+ ('check', 'other', [{'F_ROLE': ['procure', 'both', NS]}], 'PS-23-001-POLICY-1', 'GTA review needed before buying an AI tool', None),
+ ('check', 'other', [{'F_DATA': ['yes', NS]}], 'SS-23-002-6-2', 'Authorization needed: personal or sensitive data',
+  'The documents do not say who the “appropriate agency authority” is.'),
+]
+for fid, posts, variants in FACTORS:
+    recs.append(dict(k='factor', id=fid, posts=posts, variants=[dict(when=w, reason=r, prov=prov(g), oprov=prov(o) if o else None) for w, r, g, o in variants]))
+for level, branch, when, pid, title, note in SIGNS:
+    assert level in ('stop', 'check') and branch in ('gen', 'other')
+    assert (P[pid]['doc_id'] in mp['ai_type_rule']['generative_only_documents']) <= (branch == 'gen'), pid
+    recs.append(dict(k='sign', level=level, branch=branch, when=when, pid=pid, title=title, note=note, prov=prov(pid)))
 os.makedirs(OUTDIR, exist_ok=True)
 with open(os.path.join(OUTDIR, 'data.json'), 'w', encoding='utf-8') as f:
     f.write('[\n' + ',\n'.join(json.dumps(r, ensure_ascii=False) for r in recs) + '\n]\n')

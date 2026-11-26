@@ -58,6 +58,8 @@ The serious problems are not in the build. They are in **two layers added on top
 
 ## 3. The guardrail score (highest-impact finding)
 
+> **Status 2026-11-26:** addressed in Phase 1. The score is replaced by fact-based guardrail posts (see `completed_tasks.md`). GTA sign-off is still pending.
+
 The score is `Σ (must + 2×must_not provisions) × weight` over active conditional elements. Weights: task = 1, HEAVY = 4, other = 2. I computed it for every single task, holding the other answers at the lowest-risk value (generative AI, use only, no data, no decision, no AI content in the product):
 
 | Task | Score | Band |
@@ -85,6 +87,8 @@ The score is `Σ (must + 2×must_not provisions) × weight` over active conditio
 3. At minimum, change the labels so they cannot be read as permission ("No extra" → "Baseline rules only"), and switch the scale to neutral colours.
 
 ## 4. Stop sign
+
+> **Status 2026-11-26:** addressed in Phase 1. The decisions trigger is reworded, and an amber Check first sign covers other-AI buying and personal data. `SIGNS` now lives in `gen_site.py`.
 
 | Trigger | Assessment |
 |---|---|

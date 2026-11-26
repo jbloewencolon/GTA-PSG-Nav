@@ -2,13 +2,9 @@
 
 From [AUDIT.md](AUDIT.md) (2026-11-26). Phases are in priority order. Items marked 🔏 change what employees are told and need GTA policy-owner sign-off.
 
-## Phase 1: Scoring and stop sign (high impact)
-- [ ] 🔏 Decide: remove the numeric guardrail score, or redefine it as a fact-based risk rubric (AUDIT §3)
-- [ ] If kept: score agency pointers so that other AI + personal data does not show "No extra · 0"
-- [ ] Relabel bands so they cannot be read as permission ("No extra" → "Baseline rules only"); use neutral colours instead of green
-- [ ] 🔏 Relabel the `F_DECISION` stop trigger: "May be prohibited: the documents disagree" (TABLE-15 vs GS-25-001-SAFE-9)
-- [ ] 🔏 Add a "Check first" state for other-AI procurement (PS-23-001 POLICY-1) and other-AI data (SS-23-002-6-2)
-- [ ] Move `STOPS` (and `HEAVY`, if kept) from `site/index.html` into `gen_site.py` so quote verification covers them; update `tests/test_score.py`
+## Phase 1: Scoring and stop sign — done 2026-11-26 (see completed_tasks.md)
+- [ ] 🔏 Get GTA policy-owner sign-off on the post values, level cut-offs and sign wording (currently marked as the tool's own values)
+- [ ] Consider showing the post count in the rail while a stop or Check first sign is showing (it is currently only in the reasons list and the meter's screen-reader text)
 
 ## Phase 2: Provenance and currency
 - [ ] Add `data/source_text/` for all 7 documents

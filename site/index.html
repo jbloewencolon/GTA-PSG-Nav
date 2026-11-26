@@ -10,7 +10,7 @@
 :root{
   /* layout: one question card on the left, a sticky guardrails panel on the right; source wording is always set in the serif */
   --bg:#eef2f1; --surface:#ffffff; --sunk:#e3e9e8; --ink:#14232b; --muted:#55666f; --line:#cfd9d8;
-  --accent:#0d5a61; --accent-ink:#ffffff; --accent-soft:#d9ecec; --ctl:#77878d; --band:#0d5a61; --band-ink:#ffffff; --band-muted:#d9eeef; --pill-bg:#083f44; --b1:#5dcaa5; --b2:#1d9e75; --b3:#0f6e56; --b4:#085041; --stop:#b3261e; --stop-bg:#fbe1de; --shadow:0 1px 2px rgba(20,35,43,.06),0 8px 20px -12px rgba(20,35,43,.18);
+  --accent:#0d5a61; --accent-ink:#ffffff; --accent-soft:#d9ecec; --ctl:#77878d; --band:#0d5a61; --band-ink:#ffffff; --band-muted:#d9eeef; --pill-bg:#083f44; --b1:#a9a497; --b2:#d9a441; --b3:#b86e00; --b4:#8a4f00; --stop:#b3261e; --stop-bg:#fbe1de; --check:#8a4f00; --check-bg:#fdf0d5; --shadow:0 1px 2px rgba(20,35,43,.06),0 8px 20px -12px rgba(20,35,43,.18);
   --must:#8f4a00; --must-bg:#fbecd3; --mustnot:#a3211a; --mustnot-bg:#fbe1de; --should:#1d5887; --should-bg:#dfecf7; --may:#2a6a3d; --may-bg:#dff0e3; --info:#55666f; --info-bg:#e6ebea;
   --notsure:#ee7a1f;
   --display:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif; --body:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif; --quote:"Newsreader",Georgia,"Times New Roman",serif;
@@ -19,12 +19,12 @@
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){ color-scheme:dark;
     --bg:#0f181c; --surface:#17242a; --sunk:#111c21; --ink:#e7eef0; --muted:#9db0b8; --line:#2b3c44;
-    --accent:#62c6cd; --accent-ink:#06282b; --accent-soft:#163a3e; --ctl:#6b8089; --band:#12343a; --band-ink:#e7eef0; --band-muted:#c3d6db; --pill-bg:#0b2226; --b1:#1d9e75; --b2:#3fb98f; --b3:#6fd3b0; --b4:#9fe1cb; --stop:#e05a4a; --stop-bg:#421a17; --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 20px -12px rgba(0,0,0,.6);
+    --accent:#62c6cd; --accent-ink:#06282b; --accent-soft:#163a3e; --ctl:#6b8089; --band:#12343a; --band-ink:#e7eef0; --band-muted:#c3d6db; --pill-bg:#0b2226; --b1:#6d695f; --b2:#b98a2e; --b3:#e0a63a; --b4:#f5c977; --stop:#e05a4a; --stop-bg:#421a17; --check:#f0b765; --check-bg:#3a2a10; --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 20px -12px rgba(0,0,0,.6);
     --must:#f0b765; --must-bg:#3a2a10; --mustnot:#f39a92; --mustnot-bg:#421a17; --should:#8fc3ee; --should-bg:#152f45; --may:#8fd3a2; --may-bg:#16351f; --info:#9db0b8; --info-bg:#223138; }
 }
 :root[data-theme="dark"]{ color-scheme:dark;
   --bg:#0f181c; --surface:#17242a; --sunk:#111c21; --ink:#e7eef0; --muted:#9db0b8; --line:#2b3c44;
-  --accent:#62c6cd; --accent-ink:#06282b; --accent-soft:#163a3e; --ctl:#6b8089; --band:#12343a; --band-ink:#e7eef0; --band-muted:#c3d6db; --pill-bg:#0b2226; --b1:#1d9e75; --b2:#3fb98f; --b3:#6fd3b0; --b4:#9fe1cb; --stop:#e05a4a; --stop-bg:#421a17; --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 20px -12px rgba(0,0,0,.6);
+  --accent:#62c6cd; --accent-ink:#06282b; --accent-soft:#163a3e; --ctl:#6b8089; --band:#12343a; --band-ink:#e7eef0; --band-muted:#c3d6db; --pill-bg:#0b2226; --b1:#6d695f; --b2:#b98a2e; --b3:#e0a63a; --b4:#f5c977; --stop:#e05a4a; --stop-bg:#421a17; --check:#f0b765; --check-bg:#3a2a10; --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 20px -12px rgba(0,0,0,.6);
   --must:#f0b765; --must-bg:#3a2a10; --mustnot:#f39a92; --mustnot-bg:#421a17; --should:#8fc3ee; --should-bg:#152f45; --may:#8fd3a2; --may-bg:#16351f; --info:#9db0b8; --info-bg:#223138; }
 *{box-sizing:border-box}
 html,body{margin:0}
@@ -137,7 +137,6 @@ summary::before{content:"\25B8";display:inline-block;transition:transform .15s}d
   .rail .ans{order:3}
   .gbox{height:76px}
   .heat{grid-template-columns:60px 1fr}
-  .drivers{display:none}
   .st{grid-template-columns:minmax(0,1fr)} details{grid-column:1}
   .q h2{font-size:1.25rem}
 }
@@ -184,13 +183,19 @@ header.top h1{font-family:var(--quote);font-weight:500;font-size:2rem;letter-spa
 .stopban .sreason{margin:12px 0 0}.stopban .sreason b{display:block}.stopban .qt{margin:6px 0;padding-left:22px;font-family:var(--quote);font-size:1.02rem;line-height:1.5}.stopban small{display:block;color:var(--muted)}
 @media (prefers-reduced-motion:reduce){.g-lane{animation:none}.g-post,.g-beam,.g-scene,.g-stop,.gbox{transition:none}}
 /* 4b band bar */
-.thermo .tube{background:linear-gradient(90deg,color-mix(in srgb,var(--b1) 22%,var(--sunk)) 0 16.67%,color-mix(in srgb,var(--b2) 22%,var(--sunk)) 16.67% 43.33%,color-mix(in srgb,var(--b3) 22%,var(--sunk)) 43.33% 83.33%,color-mix(in srgb,var(--b4) 22%,var(--sunk)) 83.33%)}
-.thermo .fill{width:100%;background:linear-gradient(90deg,var(--b1) 0 16.67%,var(--b2) 16.67% 43.33%,var(--b3) 43.33% 83.33%,var(--b4) 83.33%);clip-path:inset(0 calc(100% - var(--t,0%)) 0 0);transition:clip-path .5s cubic-bezier(.3,1.2,.5,1)}
-.bands{display:grid;grid-template-columns:10fr 16fr 24fr 10fr;margin:2px 0 0 16px;font-size:.68rem;color:var(--muted);font-weight:600}
+.thermo .tube{background:linear-gradient(90deg,color-mix(in srgb,var(--b1) 22%,var(--sunk)) 0 12.5%,color-mix(in srgb,var(--b2) 22%,var(--sunk)) 12.5% 37.5%,color-mix(in srgb,var(--b3) 22%,var(--sunk)) 37.5% 62.5%,color-mix(in srgb,var(--b4) 22%,var(--sunk)) 62.5%)}
+.thermo .fill{width:100%;background:linear-gradient(90deg,var(--b1) 0 12.5%,var(--b2) 12.5% 37.5%,var(--b3) 37.5% 62.5%,var(--b4) 62.5%);clip-path:inset(0 calc(100% - var(--t,0%)) 0 0);transition:clip-path .5s cubic-bezier(.3,1.2,.5,1)}
+.bands{display:grid;grid-template-columns:1fr 2fr 2fr 3fr;margin:2px 0 0 16px;font-size:.68rem;color:var(--muted);font-weight:600}
 .bands span{padding-left:2px}
 .drivers li{display:grid;grid-template-columns:minmax(0,1fr) auto;row-gap:4px}
-.drivers .bar{grid-column:1/-1;height:4px;border-radius:2px;background:var(--sunk);overflow:hidden}
-.drivers .bar i{display:block;height:100%;width:var(--w);background:var(--b2);border-radius:2px}
+.drivers small{display:block;color:var(--muted);font-size:.76rem}
+/* amber "Check first": a review or authorization is required first */
+.g-chk{transform-box:fill-box;transform-origin:50% 50%;transform:scale(0) rotate(45deg);transition:transform .5s cubic-bezier(.3,1.5,.5,1)}
+.gbox.check .g-chk{transform:scale(1) rotate(0)}.gbox.check .g-scene{opacity:.18}.gbox.check .g-lane{animation-play-state:paused}
+.g-dia{fill:#f2b01e}.g-dring{fill:none;stroke:#1a1a1a;stroke-width:2.5}.g-ctxt{fill:#1a1a1a;font:800 12px var(--display);letter-spacing:.04em}
+.level.check{color:var(--check)}
+.stopwhy.check,.stopban.check{border-left-color:var(--check);background:var(--check-bg)}
+@media (prefers-reduced-motion:reduce){.g-chk{transition:none}}
 /* 5 provenance */
 .src blockquote,.row blockquote,.stopban blockquote{position:relative;padding-left:22px;line-height:1.5}
 blockquote.qt::before{content:"\201C";position:absolute;left:-2px;top:-.28em;font-size:2.4em;line-height:1;color:var(--ctl);font-family:var(--quote)}
@@ -297,22 +302,22 @@ details.agency .declist{margin-top:12px;box-shadow:none}
         <div class="heat">
           <div class="gbox" id="gbox" aria-hidden="true">
             <svg id="gr" viewBox="0 0 100 110" preserveAspectRatio="xMidYMax meet"><g class="g-scene"><path class="g-road" d="M44 6 L56 6 L84 110 L16 110 Z"/><path class="g-edge" d="M44 6 L16 110 M56 6 L84 110"/><path class="g-lane" d="M50 8 L50 110"/><g id="gposts"></g></g>
-            <g class="g-stop"><path class="g-oct" d="M37 25 L63 25 L81 43 L81 69 L63 87 L37 87 L19 69 L19 43 Z"/><path class="g-ring" d="M38.5 29 L61.5 29 L77 44.5 L77 67.5 L61.5 83 L38.5 83 L23 67.5 L23 44.5 Z"/><text class="g-txt" x="50" y="61.5" text-anchor="middle">STOP</text></g></svg>
+            <g class="g-stop"><path class="g-oct" d="M37 25 L63 25 L81 43 L81 69 L63 87 L37 87 L19 69 L19 43 Z"/><path class="g-ring" d="M38.5 29 L61.5 29 L77 44.5 L77 67.5 L61.5 83 L38.5 83 L23 67.5 L23 44.5 Z"/><text class="g-txt" x="50" y="61.5" text-anchor="middle">STOP</text></g>
+            <g class="g-chk"><path class="g-dia" d="M50 20 L86 56 L50 92 L14 56 Z"/><path class="g-dring" d="M50 26 L80 56 L50 86 L20 56 Z"/><text class="g-ctxt" x="50" y="60.5" text-anchor="middle">CHECK</text></g></svg>
           </div>
           <div>
             <h2 id="guardh">Guardrails</h2>
-            <div class="level" id="level">Baseline</div>
-            
+            <div class="level" id="level">Baseline rules only · 0 posts</div>
           </div>
         </div>
-        <div class="thermo" id="thermo" role="meter" aria-label="Guardrail count" aria-valuemin="0" aria-valuemax="60" aria-valuenow="0">
+        <div class="thermo" id="thermo" role="meter" aria-label="Guardrail posts" aria-valuemin="0" aria-valuemax="8" aria-valuenow="0">
               <div class="tube"><div class="fill"></div></div><div class="bulb"></div>
-              <i class="tick" style="left:calc(16px + (100% - 16px)*10/60)"></i><i class="tick" style="left:calc(16px + (100% - 16px)*26/60)"></i><i class="tick" style="left:calc(16px + (100% - 16px)*50/60)"></i>
+              <i class="tick" style="left:calc(16px + (100% - 16px)*1/8)"></i><i class="tick" style="left:calc(16px + (100% - 16px)*3/8)"></i><i class="tick" style="left:calc(16px + (100% - 16px)*5/8)"></i>
             </div>
-            <div class="bands" aria-hidden="true"><span>Light</span><span>Standard</span><span>Extra</span><span>Full</span></div>
+            <div class="bands" aria-hidden="true"><span></span><span>Light</span><span>Standard</span><span>Extra</span></div>
         <ul class="stopwhy" id="stopwhy" hidden></ul>
         <ul class="drivers" id="drivers"></ul>
-        <details class="heatnote more"><summary>How this count works</summary><p id="heatnote">The guardrails rise as your answers trigger more rules. Each rule counts once. Rules for the tasks you chose count 1 point (2 for a prohibition); other rules count 2 (4); rules on personal or sensitive information and on decisions about people count 4 (8). These weights are this tool’s, not GTA’s. The ticks mark Light, Standard and Extra; the top is Full. This count is not a GTA rating. A stop sign replaces the guardrails when the documents require GTA approval for something you described (personal or regulated data, or buying a GenAI tool), or list it as prohibited (decisions about people). A Not sure answer to those questions also shows it.</p></details>
+        <details class="heatnote more"><summary>How this count works</summary><p id="heatnote">The guardrails rise with what you described, not with how many rules apply. Each of these adds posts once: personal or sensitive information (2), a decision about a person (2), something the public sees or interacts with (1), buying or building an AI tool (1), AI content in an official document (1), legal analysis or AI note-taking in meetings (1). A Not sure answer counts as yes. 0 posts is Baseline rules only, 1–2 Light, 3–4 Standard, 5 or more Extra. These values are this tool’s, not GTA’s, and the count is not a GTA rating. A red stop sign appears when the documents require GTA approval for something you described, or may prohibit it. An amber Check first sign appears when they require a review or authorization first.</p></details>
       </section>
       <section class="card ans">
         <h3>Your answers</h3>
@@ -344,18 +349,15 @@ function sts(e){return isOther()?e.other:e.statements}
 function active(){if(gated())return[];return EL.filter(function(e){return e.tier==="conditional"&&match(e.when,facts)&&sts(e).length})}
 function baseEls(){if(gated())return[];return EL.filter(function(e){return e.tier==="umbrella"&&sts(e).length})}
 function ptrsNow(){if(gated())return[];return PT.filter(function(p){return match(p.when,facts)&&(!isOther()||p.o_as_written)})}
-var HEAVY={C_DATA:1,C_DECISIONS:1};
-function taskOnly(e){return e.when!=="always"&&e.when.every(function(a){return Object.keys(a).every(function(k){return k==="F_TASK"||k==="F_HOST"})})}
-function weight(e){return taskOnly(e)?1:HEAVY[e.id]?4:2}
-function points(e){var n=0;sts(e).forEach(function(s){if(s.m==="must")n+=s.prov.length;if(s.m==="must_not")n+=2*s.prov.length});return n*weight(e)}
+// Guardrails and signs come from data.json ('factor' and 'sign' records, built and checked by gen_site.py).
+var FACTORS=[],SIGNS=[],LV=["Baseline rules only","Light","Standard","Extra"],PMAX=8;
+function nsIn(when){return when.some(function(a){return Object.keys(a).some(function(k){return sel({fact:k}).indexOf("not_sure")>=0})})}
+function factorsNow(){if(gated())return[];var oth=isOther(),out=[];
+  FACTORS.forEach(function(f){for(var i=0;i<f.variants.length;i++){var v=f.variants[i],p=oth?v.oprov:v.prov;if(p&&match(v.when,facts)){out.push({f:f,v:v,p:p,ns:nsIn(v.when)});break}}});return out}
+function signsNow(){if(gated())return[];return SIGNS.filter(function(s){return (s.branch==="other")===isOther()&&match(s.when,facts)}).map(function(s){return{s:s,ns:nsIn(s.when)}})}
+function levelOf(n){return n===0?0:n<=2?1:n<=4?2:3}
 function optLabel(q){var s=sel(q);return q.options.filter(function(o){return s.indexOf(o.value)>=0}).map(function(o){return q.multi?o.label.replace(/\s*\([^)]*\)\s*$/,""):o.label}).join("; ")}
 
-var STOPS=[{f:"F_DATA",v:["yes","not_sure"],pid:"SS-25-001-1.3-2",t:"GTA approval needed: personal or regulated data"},
-  {f:"F_ROLE",v:["procure","both","not_sure"],pid:"SS-25-001-1.5-1",t:"GTA approval needed: buying a GenAI product or service"},
-  {f:"F_DECISION",v:["yes","not_sure"],pid:"SS-25-001-3.0-TABLE-15",t:"Listed as prohibited: decisions about people",
-   n:"The documents disagree here: GS-25-001 gives this example: “an HR department may consult with AI platforms in making hiring decisions” (open question OQ13)."}];
-var PROV={};function provById(id){if(!PROV.ready){EL.forEach(function(e){e.statements.forEach(function(s){s.prov.forEach(function(p){PROV[p.id]=p})})});PROV.ready=1}return PROV[id]}
-function stopsNow(){if(gated()||isOther())return[];return STOPS.filter(function(x){return x.v.indexOf(facts[x.f])>=0&&provById(x.pid)})}
 function cite(p){return (p.docid?p.docid+", ":"")+p.sec+", p."+p.pg}
 var GPOSTS=[],GBEAMS=[];
 function buildGuard(){var g=$("gposts"),NS="http://www.w3.org/2000/svg",ys=[104,84,66,50,36];
@@ -364,27 +366,24 @@ function buildGuard(){var g=$("gposts"),NS="http://www.w3.org/2000/svg",ys=[104,
   pos.forEach(function(q,i){[q.l,q.r].forEach(function(x){var r=el("rect",{x:x.toFixed(1),y:(q.y-q.hh).toFixed(1),width:q.w.toFixed(1),height:q.hh.toFixed(1),rx:.8,"class":"g-post"});g.appendChild(r);GPOSTS.push([i,r])})});
   for(var i=0;i<4;i++){var a=pos[i],b=pos[i+1];
     [[a.l+a.w/2,b.l+b.w/2],[a.r+a.w/2,b.r+b.w/2]].forEach(function(xs){var l=el("path",{d:"M"+xs[0].toFixed(1)+" "+(a.y-a.hh*.7).toFixed(1)+" L"+xs[1].toFixed(1)+" "+(b.y-b.hh*.7).toFixed(1),"class":"g-beam"});g.appendChild(l);GBEAMS.push([i,l])})}}
-function renderRail(){var gb0;
-  var act=active(),total=0,rows=[];
-  act.forEach(function(e){var p=points(e);total+=p;if(p)rows.push([e.title,p])});
-  rows.sort(function(a,b){return b[1]-a[1]});
-  var lv=total===0?0:total<10?1:total<26?2:total<50?3:4;
-  var names=["No extra","Light","Standard","Extra","Full"],stops=stopsNow(),stop=stops.length>0;
+function renderRail(){
+  var fs=factorsNow(),total=0;fs.forEach(function(x){total+=x.f.posts});
+  var lv=levelOf(total),sg=signsNow(),mode=sg.some(function(x){return x.s.level==="stop"})?"stop":sg.length?"check":"";
   if(!GPOSTS.length)buildGuard();
-  var n=[0,1,3,4,5][lv];GPOSTS.forEach(function(p){p[1].classList.toggle("on",p[0]<n)});GBEAMS.forEach(function(b){b[1].classList.toggle("on",b[0]<n-1)});
-  var tints=["var(--sunk)","color-mix(in srgb,var(--b1) 16%,var(--sunk))","color-mix(in srgb,var(--b2) 16%,var(--sunk))","color-mix(in srgb,var(--b3) 16%,var(--sunk))","color-mix(in srgb,var(--b4) 20%,var(--sunk))"];
-  var BC=["var(--b1)","var(--b1)","var(--b2)","var(--b3)","var(--b4)"];gb0=$("gbox");gb0.closest(".card").style.setProperty("--fc",stop?"var(--stop)":BC[lv]);
-  var gb=$("gbox");gb.style.setProperty("--fbg",stop?"var(--stop-bg)":tints[lv]);gb.classList.toggle("stop",stop);
-  var lvl=$("level");lvl.textContent=stop?"Stop and check first":names[lv]+" · "+total;lvl.classList.toggle("stop",stop);
-  var sw=$("stopwhy");sw.textContent="";sw.hidden=!stop;
-  stops.forEach(function(x){var p=provById(x.pid);sw.appendChild(h("li",null,[x.t,h("small",{text:cite(p)+(facts[x.f]==="not_sure"?" · you answered Not sure":"")})]))});
-  var said=stop?"Stop and check first: "+stops.map(function(x){return x.t}).join("; "):names[lv]+" guardrails, "+total+" points";
-  if(renderRail.last!==undefined&&renderRail.last!==said)$("status").textContent=stop?said+".":"Guardrails now "+said+".";renderRail.last=said;
-  var th=$("thermo");th.style.setProperty("--t",(Math.min(1,total/60)*100).toFixed(1)+"%");th.setAttribute("aria-valuenow",String(Math.min(total,60)));th.setAttribute("aria-valuetext",names[lv]+" guardrails, "+total+" points");
+  var n=Math.min(total,5);GPOSTS.forEach(function(p){p[1].classList.toggle("on",p[0]<n)});GBEAMS.forEach(function(b){b[1].classList.toggle("on",b[0]<n-1)});
+  var tints=["var(--sunk)","color-mix(in srgb,var(--b2) 14%,var(--sunk))","color-mix(in srgb,var(--b3) 16%,var(--sunk))","color-mix(in srgb,var(--b4) 18%,var(--sunk))"];
+  var BC=["var(--b1)","var(--b2)","var(--b3)","var(--b4)"];
+  $("gbox").closest(".card").style.setProperty("--fc",mode?"var(--"+mode+")":BC[lv]);
+  var gb=$("gbox");gb.style.setProperty("--fbg",mode?"var(--"+mode+"-bg)":tints[lv]);gb.classList.toggle("stop",mode==="stop");gb.classList.toggle("check",mode==="check");
+  var said=LV[lv]+" · "+total+(total===1?" post":" posts"),head=mode==="stop"?"Stop and check first":mode==="check"?"Check first":"";
+  var lvl=$("level");lvl.textContent=head||said;lvl.className="level"+(mode?" "+mode:"");
+  var sw=$("stopwhy");sw.textContent="";sw.hidden=!mode;sw.className="stopwhy"+(mode==="check"?" check":"");
+  sg.forEach(function(x){sw.appendChild(h("li",null,[x.s.title,h("small",{text:cite(x.s.prov)+(x.ns?" · you answered Not sure":"")})]))});
+  var news=(head?head+": "+sg.map(function(x){return x.s.title}).join("; ")+". ":"")+"Guardrails now "+said+".";
+  if(renderRail.last!==undefined&&renderRail.last!==news)$("status").textContent=news;renderRail.last=news;
+  var th=$("thermo");th.style.setProperty("--t",(Math.min(1,total/PMAX)*100).toFixed(1)+"%");th.setAttribute("aria-valuenow",String(Math.min(total,PMAX)));th.setAttribute("aria-valuetext",LV[lv]+" guardrails, "+total+(total===1?" post":" posts"));
   var d=$("drivers");d.textContent="";
-  var mx=rows.length?rows[0][1]:1;
-  rows.slice(0,5).forEach(function(r){var bar=h("span",{class:"bar","aria-hidden":"true"},[h("i",null,[])]);bar.firstChild.style.setProperty("--w",(r[1]/mx*100).toFixed(0)+"%");d.appendChild(h("li",null,[h("span",{text:r[0]}),h("b",{text:"+"+r[1]}),bar]))});
-  if(rows.length>5)d.appendChild(h("li",null,[h("span",{text:(rows.length-5)+" more"}),h("b",{text:""})]));
+  fs.forEach(function(x){d.appendChild(h("li",null,[h("span",null,[x.v.reason,h("small",{text:cite(x.p)+(x.ns?" · you answered Not sure":"")})]),h("b",{text:"+"+x.f.posts})]))});
   var a=$("answers");a.textContent="";var any=false;
   applicable().forEach(function(q){if(!(q.fact in facts))return;any=true;
     a.appendChild(h("li",null,[h("span",null,[h("small",{text:q.text}),optLabel(q)]),h("button",{class:"link",type:"button","aria-label":"Change answer: "+q.text,on:{click:function(){editing=q.id;showResults=false;render()}}},["Change"])]))});
@@ -565,12 +564,14 @@ function placeInd(){var tl=document.querySelector(".tabs"),b=tl&&tl.querySelecto
   var to=[b.offsetLeft+"px",b.offsetWidth+"px"],fr=placeInd.last||to;tl.style.setProperty("--il",fr[0]);tl.style.setProperty("--iw",fr[1]);
   requestAnimationFrame(function(){requestAnimationFrame(function(){tl.style.setProperty("--il",to[0]);tl.style.setProperty("--iw",to[1])})});placeInd.last=to}
 function stagger(){var els=document.querySelectorAll("#main .el");for(var i=0;i<els.length&&i<14;i++)els[i].style.setProperty("--i",String(i))}
-function stopBanner(){var st=stopsNow();if(!st.length)return null;
+function signBanner(level){var st=signsNow().filter(function(x){return x.s.level===level});if(!st.length)return null;
+  var stop=level==="stop",id=level+"h";
   var ic=document.createElementNS("http://www.w3.org/2000/svg","svg");ic.setAttribute("viewBox","0 0 24 24");ic.setAttribute("width","22");ic.setAttribute("height","22");ic.setAttribute("aria-hidden","true");
-  ic.innerHTML='<path d="M8 2h8l6 6v8l-6 6H8l-6-6V8z" fill="var(--stop)"/><path d="M8 12h8" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/>';
-  return h("div",{class:"stopban",role:"note","aria-labelledby":"stoph"},[h("h3",{id:"stoph"},[ic,"Stop and check first"]),
-    h("p",{class:"help",text:"The documents say this needs GTA approval or is prohibited. The wording is below."})].concat(st.map(function(x){var p=provById(x.pid);
-    return h("div",{class:"sreason"},[h("b",{text:x.t}),p.lead?h("p",{class:"lead",text:p.lead}):null,quote(p),h("small",{text:p.doc+" ("+cite(p)+"). Modal as written: "+p.aw+(facts[x.f]==="not_sure"?". Shown because you answered Not sure.":".")}),x.n?h("small",{text:x.n}):null])})))}
+  ic.innerHTML=stop?'<path d="M8 2h8l6 6v8l-6 6H8l-6-6V8z" fill="var(--stop)"/><path d="M8 12h8" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/>'
+    :'<path d="M12 1.5 22.5 12 12 22.5 1.5 12z" fill="#f2b01e" stroke="#1a1a1a" stroke-width="1.2"/><path d="M12 7v6" stroke="#1a1a1a" stroke-width="2.4" stroke-linecap="round"/><circle cx="12" cy="16.8" r="1.4" fill="#1a1a1a"/>';
+  return h("div",{class:"stopban"+(stop?"":" check"),role:"note","aria-labelledby":id},[h("h3",{id:id},[ic,stop?"Stop and check first":"Check first"]),
+    h("p",{class:"help",text:stop?"The documents say this needs GTA approval or may be prohibited. The wording is below.":"The documents say this needs a review or authorization first. The wording is below."})].concat(st.map(function(x){var p=x.s.prov;
+    return h("div",{class:"sreason"},[h("b",{text:x.s.title}),p.lead?h("p",{class:"lead",text:p.lead}):null,quote(p),h("small",{text:p.doc+" ("+cite(p)+"). Modal as written: "+p.aw+(x.ns?". Shown because you answered Not sure.":".")}),x.s.note?h("small",{text:x.s.note}):null])})))}
 function renderResults(){
   var main=$("main");main.textContent="";
   if(gated()){var g=META.gate;
@@ -582,7 +583,7 @@ function renderResults(){
   main.appendChild(h("div",{class:"card q"},[h("h2",{text:"What applies to this use",tabindex:"-1",id:"qh"}),
     h("div",{class:"tiles","aria-hidden":"true"},[[act.length,"because of your answers"],[base.length,"apply to every use"],[ptrs.length,"point you to your agency"]].map(function(t){return h("div",{class:"tile"},[h("b",{text:String(t[0])}),h("span",{text:t[1]})])})),
     h("p",{class:"help",text:act.length+" topics apply because of your answers, "+base.length+" apply to every use, and "+ptrs.length+" point you to your agency. Open “Exact wording” under any line to read the source text and where it comes from."})]
-    .concat([stopBanner()]).concat(ns.map(function(q){var o=q.options.filter(function(o){return o.not_sure})[0];return h("p",{class:"confirm",text:"You answered Not sure to “"+q.text+"” "+o.confirm})})).concat([tabBar(stepsNow(act,base,ptrs).length)]).concat(tab==="applies"?[viewBar()]:[])));
+    .concat([signBanner("stop"),signBanner("check")]).concat(ns.map(function(q){var o=q.options.filter(function(o){return o.not_sure})[0];return h("p",{class:"confirm",text:"You answered Not sure to “"+q.text+"” "+o.confirm})})).concat([tabBar(stepsNow(act,base,ptrs).length)]).concat(tab==="applies"?[viewBar()]:[])));
   placeInd();
   var pn=h("div",{role:"tabpanel",id:"tabpanel","aria-labelledby":"tab-"+tab});main.appendChild(pn);main=pn;
   if(tab==="steps"){stepsView(stepsNow(act,base,ptrs),decsNow(act,base,ptrs)).forEach(function(n){main.appendChild(n)});main.appendChild(h("p",{class:"closing",text:META.closing}));return;}
@@ -608,7 +609,7 @@ var opened=[];window.addEventListener("beforeprint",function(){opened=[];documen
 window.addEventListener("afterprint",function(){opened.forEach(function(d){d.open=false});opened=[]});
 $("restart").addEventListener("click",function(){facts={};editing=null;showResults=false;render()});
 fetch("data.json").then(function(r){if(!r.ok)throw new Error(r.status);return r.json()}).then(function(recs){
-  recs.forEach(function(r){if(r.k==="q")Q.push(r);else if(r.k==="el")EL.push(r);else if(r.k==="ptr")PT.push(r);else if(r.k==="meta"){META=r;if(r.updated){var u=$("updated");u.textContent="";var pl=h("span",{class:"updpill"},["Last updated: ",h("time",{datetime:r.updated.iso,text:r.updated.text}),(r.updated.basis?". "+r.updated.basis+".":"")]);u.appendChild(pl)}}else if(r.k==="step")STEPS.push(r);else if(r.k==="dec")DEC.push(r);else if(r.k==="stepgap")STEPGAP=r});
+  recs.forEach(function(r){if(r.k==="q")Q.push(r);else if(r.k==="el")EL.push(r);else if(r.k==="ptr")PT.push(r);else if(r.k==="meta"){META=r;if(r.updated){var u=$("updated");u.textContent="";var pl=h("span",{class:"updpill"},["Last updated: ",h("time",{datetime:r.updated.iso,text:r.updated.text}),(r.updated.basis?". "+r.updated.basis+".":"")]);u.appendChild(pl)}}else if(r.k==="step")STEPS.push(r);else if(r.k==="dec")DEC.push(r);else if(r.k==="stepgap")STEPGAP=r;else if(r.k==="factor")FACTORS.push(r);else if(r.k==="sign")SIGNS.push(r)});
   render();
 }).catch(function(e){$("main").textContent="";$("main").appendChild(h("div",{class:"err",role:"alert",text:"The policy map did not load ("+e.message+"). Reload the page to try again."}))});
 })();
