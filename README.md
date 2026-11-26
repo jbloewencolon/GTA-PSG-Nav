@@ -4,10 +4,10 @@
  | |  _  | | / _ \    / _ \  | |
  | |_| | | |/ ___ \  / ___ \ | |
   \____| |_/_/   \_\/_/   \_\___|
-     p o l i c y   n a v i g a t o r
+     p o l i c y   c h e c k
 ```
 
-# gta-ai-policy-navigator
+# GTA AI Policy Check
 
 Answer a few questions and see which Georgia Technology Authority (GTA) AI policies, standards and guidelines apply, with their exact source wording.
 
@@ -16,8 +16,8 @@ Answer a few questions and see which Georgia Technology Authority (GTA) AI polic
 **The navigator page** (`site/`) is a single static HTML page that reads `site/data.json` in the browser. It needs no server-side code.
 - **Questions:** up to seven plain-language questions, starting with what kind of AI is used. Every question has a "Not sure" answer. A "Your answers" panel lets you change any answer.
 - **Several tasks at once:** the second question (what the tool is used for) accepts several answers. The results are everything any chosen task triggers on its own, and follow-up questions appear if any chosen task needs them. Choosing "Not sure" clears the other choices.
-- **Results:** only the provisions that apply, shown by topic or grouped by modal verb (must, must not, should, may), by document type (policy, standard, guideline) or by document.
-- **Exact wording:** each line opens to the quoted source text with the document title, identifier, section, page and the modal verb as written. The page also flags where the documents disagree or leave something open. In the grouped views, the citation sits in a collapsed "Source" line under each quote.
+- **Results:** only the provisions that apply, shown by topic or grouped by modal verb (must, must not, should, should not, may), by document type (policy, standard, guideline) or by document.
+- **Exact wording:** each line opens to the quoted source text with the document title, identifier, section, page, the modal verb as written, the document's effective date and, where known, the date the copy used was captured. The page also flags where the documents disagree or leave something open. In the grouped views, the citation sits in a collapsed "Source" line under each quote.
 - **Next steps tab:**
   - steps the documents name, with any contact given in the source and a "Decides" line naming who makes the call;
   - decisions with no step card, as one-line rows;
@@ -40,9 +40,9 @@ Answer a few questions and see which Georgia Technology Authority (GTA) AI polic
 ## Requirements
 
 - **Pipeline:** Python 3.11 or later. It was run on 3.11, 3.12 and 3.13 and not tested on earlier versions. It has no third-party packages.
-- **Navigator page:** a modern web browser. To open it locally, use any static file server; the commands below use Python's built-in one. The page loads its fonts from `fonts.googleapis.com` and falls back to system fonts when that is unreachable.
+- **Navigator page:** a modern web browser. To open it locally, use any static file server; the commands below use Python's built-in one. The page uses system fonts and makes no third-party requests.
 - **Tests only:**
-  - Playwright for Python (`requirements-dev.txt`; run with Playwright 1.63.0).
+  - Playwright for Python (`requirements-dev.txt`; pinned to Playwright 1.65.2).
   - A Chrome or Chromium executable. The tests use `/usr/bin/google-chrome` unless `CHROME_PATH` is set.
   - The navigator page served at `http://localhost:8765`.
 
@@ -50,7 +50,7 @@ Answer a few questions and see which Georgia Technology Authority (GTA) AI polic
 
 ```bash
 git clone <repository-url>
-cd gta-ai-policy-navigator
+cd GTA-PSG-Nav
 ```
 
 The pipeline and the page need nothing else. To run the tests, install the development dependency in a virtual environment:
@@ -94,7 +94,7 @@ The last argument is the maximum number of questions allowed on the longest path
 ```bash
 python3 scripts/render_md.py data/stage3_triage.json data/stage3_triage.md
 ```
-Output: `1517 lines`
+Output: `1532 lines`
 
 ```bash
 python3 scripts/decision_rights.py data/stage1_inventory.json data/stage2_map.json data/decision_rights.json data/decision_rights.md
@@ -104,9 +104,9 @@ First line of output: `{"decisions": 19, "documents_disagree": 2, "named": 12, "
 ```bash
 NAV_UPDATED=2026-11-25 python3 scripts/gen_site.py data/stage1_inventory.json data/stage2_map.json data/stage3_triage.json site data/decision_rights.json
 ```
-Output: `104 records 309932 bytes`
+Output: `104 records 350741 bytes`
 
-`NAV_UPDATED` sets the "Last updated" date shown on the page. Without it, the script uses today's date, and the byte count changes with the length of the date.
+`NAV_UPDATED` sets the "Page built" date shown on the page. Without it, the script uses today's date, and the byte count changes with the length of the date.
 
 ### Run the tests
 
@@ -132,12 +132,26 @@ The other test scripts work the same way. Each exits with status 1 if any check 
 
 `tests/test_decisions.py` opens the page in Review mode (`#review`).
 
+### Check the quotes against the source documents
+
+```bash
+python3 scripts/verify_sources.py data/stage1_inventory.json data/source_text
+```
+
+Checks that every quoted excerpt and lead-in appears word for word in `data/source_text/<doc_id>.txt`. It ignores only browser print headers and footers, line breaks, and line breaks after a hyphen. It exits with status 1 if an excerpt is missing, and lists documents that have no source text yet. To add a document, extract its text with `pdftotext -layout <file>.pdf data/source_text/<doc_id>.txt` (poppler-utils).
+
+### Continuous integration
+
+`.github/workflows/ci.yml` runs on every push and pull request. It rebuilds the data with the committed "Page built" date and fails if any file changes, runs the source check and every browser test, and fails on accessibility findings for contrast, target size or reflow.
+
 `python3 tests/a11y_audit.py report.json` writes accessibility findings (contrast, target sizes, headings, live regions, reflow) to `report.json`, with no console output. Screenshots from the tests go to `tests/screenshots/`.
 
 ## Project structure
 
 ```
-gta-ai-policy-navigator/
+GTA-PSG-Nav/
+├── .github/workflows/ci.yml
+├── CLAUDE.md
 ├── CONTRIBUTING.md
 ├── LICENSE
 ├── README.md
@@ -150,13 +164,16 @@ gta-ai-policy-navigator/
 │   ├── decision_rights.json      who decides what
 │   ├── decision_rights.md
 │   └── source_text/
-│       └── SS-23-002.txt         source text used by gen_site.py checks
+│       └── <doc_id>.txt          source text, checked by verify_sources.py
+├── docs/
+│   └── questions_for_gta.md      readings that need GTA confirmation
 ├── scripts/
 │   ├── partA.py                  inventory -> map
 │   ├── partB.py                  map -> question tree
 │   ├── render_md.py              tree -> Markdown
 │   ├── decision_rights.py        inventory + map -> decision rights
-│   └── gen_site.py               all of the above -> site/data.json
+│   ├── gen_site.py               all of the above -> site/data.json
+│   └── verify_sources.py         excerpts vs source text
 ├── site/
 │   ├── index.html                the navigator page
 │   └── data.json
@@ -171,7 +188,7 @@ gta-ai-policy-navigator/
     └── a11y_audit.py
 ```
 
-This repository does not include the source PDFs, or the step that produced `data/stage1_inventory.json` from them.
+This repository does not include the step that produced `data/stage1_inventory.json` from the source PDFs. Each non-literal modal reading carries a `classification_basis` in the inventory.
 
 ## Contributing
 

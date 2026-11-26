@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-A static, single-page navigator (`site/index.html` + `site/data.json`) that asks up to 7 questions and shows which Georgia Technology Authority (GTA) AI policy provisions apply, quoting the source text verbatim. It is used for compliance, so policy wording and citations are the product.
+"GTA AI Policy Check": a static, single-page navigator (`site/index.html` + `site/data.json`) that asks up to 7 questions and shows which Georgia Technology Authority (GTA) AI policy provisions apply, quoting the source text verbatim. It is used for compliance, so policy wording and citations are the product.
 
 ## Commands
 
@@ -30,13 +30,14 @@ python3 tests/test_score.py          # each test file is standalone; run one at 
 - In this cloud container, Python Playwright is not preinstalled. Install `requirements-dev.txt` into a venv, do not run `playwright install`, and set `CHROME_PATH=/opt/pw-browsers/chromium-1243/chrome-linux64/chrome` (tests default to `/usr/bin/google-chrome`).
 - Each test prints one line per route ending in `PASS`/`FAIL` and exits 1 on any failure. `test_multi.py` also checks 125,280 multi-task combinations offline and ends `ALL PASS`.
 - `tests/a11y_audit.py report.json` writes accessibility findings to a file, with no console output.
-- There is no linter, no CI and no unit-test framework.
+- `python3 scripts/verify_sources.py data/stage1_inventory.json data/source_text` checks every excerpt word for word against `data/source_text/<doc_id>.txt` (made with `pdftotext -layout`); documents without a text file are listed, not failed.
+- CI (`.github/workflows/ci.yml`) runs the rebuild with `git diff --exit-code`, the source check, all browser tests and an accessibility gate. There is no linter.
 
 ## Architecture
 
 Data flows one way through numbered stages; each script reads the previous stage's JSON:
 
-1. `data/stage1_inventory.json`: the **input**: 537 provisions from 7 documents, each with `text_excerpt`, `modality` (must / must_not / should / may / informational) and `modal_as_written`. Also holds conflicts (C##), open questions (OQ##) and unresolved references (UR##). The PDF-to-inventory step is not in the repo.
+1. `data/stage1_inventory.json`: the **input**: 537 provisions from 7 documents, each with `text_excerpt`, `modality` (must / must_not / should / should_not / may / informational), `modal_as_written`, and a `classification_basis` wherever the modality is not the literal verb. Also holds conflicts (C##), open questions (OQ##) and unresolved references (UR##). The PDF-to-inventory step is not in the repo.
 2. `scripts/partA.py` → `stage2_map.json`: groups provisions into **elements**, hand-written in Python (`E(...)` calls). Each element has a tier (`umbrella` = always shown, `conditional` = shown when its `activated_by` matches the answers, `out_of_scope_for_employee` = agency-only, reached via **indirect pointers**). It also defines the **facts** (F_TYPE, F_TASK, F_ROLE, F_DATA, F_DECISION, F_PRODUCT, F_HOST) and `ai_type_rule`: when F_TYPE is "other", only provisions outside the generative-only documents (SS-25-001, GS-25-001) are shown.
 3. `scripts/partB.py` → `stage3_triage.json`: builds the question tree (text, help, `ask_if` skips, "Not sure" confirm text), then enumerates every path and checks the tree's outcome against the map. Any mismatch, redundant question or bad skip is a bug.
 4. `scripts/decision_rights.py` → `decision_rights.json`/`.md`: who decides what (DR-##), hand-written; every role is asserted to be a verbatim substring of its provision.

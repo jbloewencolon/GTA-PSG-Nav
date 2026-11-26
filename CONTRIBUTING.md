@@ -16,7 +16,7 @@
 
 ## Rebuild and test
 
-1. Rebuild the data with the five commands under "Rebuild the data" in the README, in order.
+1. Rebuild the data with the five commands under "Rebuild the data" in the README, in order, then run `python3 scripts/verify_sources.py data/stage1_inventory.json data/source_text`.
 2. Run `git diff --stat`. If you did not change `data/stage1_inventory.json` or a script, nothing under `data/` or `site/` should change.
 3. Serve the page and run the tests from the repository root:
 
@@ -38,7 +38,7 @@
 
 The page is meant to be used for compliance, so content changes follow these rules:
 - **Citations:** every provision cites its document title, identifier (if it has one), and section or page.
-- **Modal verbs:** keep them exactly as written (must, shall, should, may). Don't make a requirement stronger or weaker.
+- **Modal verbs:** keep them exactly as written (must, shall, should, should not, may). Don't make a requirement stronger or weaker. Where the grouping (must, must_not, should, should_not, may, informational) is not the literal verb, record why in the provision's `classification_basis`, and add the reading to `docs/questions_for_gta.md` if GTA should confirm it.
 - **Outside references:** if a document refers to something not in the source set, record it as an unresolved reference. Don't describe it.
 - **Insufficient evidence:** where the evidence doesn't settle a question, add an open question rather than choosing an answer.
 
