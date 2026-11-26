@@ -71,3 +71,4 @@ Decisions: details kept in the browser only; agency required, email optional; pr
 - [x] `docs/backend_plan.md`: Azure plan (Static Web Apps, Functions, Azure SQL, Power BI), event model, schema, API, metrics, security, retention, testing, roadmap
 - [x] Diagrams 10–15 (data pipeline, data at a glance, JSON anatomy, tech stack, current and planned architecture), generated from the data by docs/diagrams/; README Architecture and data section
 - [x] 16-tech-stack-simple.png: plain-language, logo version for non-expert audiences (Simple Icons, CC0; trademark notice in docs/diagrams/icons/NOTICE.md)
+- [x] Diagrams 10–16 reworked to show the proposed Georgia build (State's Microsoft Azure, GTA approval, Power BI insights), all marked PROPOSED; GitHub removed from the simplified stack; 14 renamed 14-architecture-georgia.png
