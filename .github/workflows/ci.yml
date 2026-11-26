@@ -37,7 +37,7 @@ jobs:
         run: |
           python3 -m http.server 8765 --directory site > /dev/null 2>&1 &
           sleep 1
-          for t in test_score test_decisions test_employee test_steps test_v2 test_views test_multi; do
+          for t in test_intro test_score test_decisions test_employee test_steps test_v2 test_views test_multi; do
             echo "== $t"; python3 tests/$t.py
           done
 

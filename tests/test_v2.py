@@ -53,7 +53,7 @@ async def main():
             errs = []
             pg.on("pageerror", lambda e: errs.append(str(e)))
             await pg.goto("http://localhost:8765/index.html")
-            await pg.wait_for_selector(".opt")
+            await pg.fill("#agency", "Test agency"); await pg.click("#start"); await pg.wait_for_selector(".opt")
             for c in clicks:
                 await pg.locator(".opt", has_text=c).first.click(); await adv(pg)
             await pg.wait_for_selector(".closing")

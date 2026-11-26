@@ -50,7 +50,7 @@ async def main():
         for name, clicks, facts in CASES:
             pg = await b.new_page(viewport={"width": 1180, "height": 900}); errs = []
             pg.on("pageerror", lambda e: errs.append(str(e)))
-            await pg.goto("http://localhost:8765/index.html#review"); await pg.wait_for_selector(".opt")
+            await pg.goto("http://localhost:8765/index.html#review"); await pg.fill("#agency", "Test agency"); await pg.click("#start"); await pg.wait_for_selector(".opt")
             for c in clicks:
                 if c == ".ns": await pg.locator(".opt.ns").first.click()
                 else: await pg.locator(".opt", has_text=c).first.click(); await adv(pg)

@@ -21,9 +21,18 @@ Answer a few questions and see which Georgia Technology Authority (GTA) AI polic
 
 More in [`docs/images/`](docs/images/): the question flow, exact source wording with citations, results grouped by obligation, dark mode, and a phone view. All are 3200×1800 (phone: 1170×2532).
 
+## Architecture and data
+
+![Today's architecture: repository, GitHub Actions, GitHub Pages, visitor's browser; nothing sent back](docs/images/14-architecture-current.png)
+
+![Data pipeline: from 7 GTA PDFs through the inventory, map, question tree and decision rights to site/data.json, with a check at each step](docs/images/10-data-pipeline.png)
+
+More diagrams: [what the data contains](docs/images/11-data-at-a-glance.png), [anatomy of the JSON](docs/images/12-data-records.png), [tech stack](docs/images/13-tech-stack.png), and the [planned Azure backend](docs/images/15-architecture-azure.png) ([plan](docs/backend_plan.md)). Images 10–15 are generated from the data files by `docs/diagrams/build.py` and `render.py`, so the counts stay current; the page screenshots come from `docs/diagrams/screenshots.py`.
+
 ## Features
 
 **The navigator page** (`site/`) is a single static HTML page that reads `site/data.json` in the browser. It needs no server-side code.
+- **Title screen:** a proof-of-concept notice, then your agency (required) and work email (optional). In this demo they stay in your browser only, to pre-fill the form next time; nothing is sent anywhere. "Forget my details" clears them. The page asks search engines not to index it.
 - **Questions:** up to seven plain-language questions, starting with what kind of AI is used. Every question has a "Not sure" answer. A "Your answers" panel lets you change any answer.
 - **Several tasks at once:** the second question (what the tool is used for) accepts several answers. The results are everything any chosen task triggers on its own, and follow-up questions appear if any chosen task needs them. Choosing "Not sure" clears the other choices.
 - **Results:** only the provisions that apply, shown by topic or grouped by modal verb (must, must not, should, should not, may), by document type (policy, standard, guideline) or by document.
@@ -135,6 +144,7 @@ build_legal: decisions 12 expected 12 | who-decides lines 6/6 | steps 9/9 | PASS
 The other test scripts work the same way. Each exits with status 1 if any check fails.
 - `tests/test_employee.py`: 7 routes. Checks the employee view of Next steps, and that review-only items stay hidden.
 - `tests/test_score.py`: checks the guardrail rules in the data against an independent calculation over 53,656 answer routes, and that every quoted provision is shown on that route. Then clicks 11 routes in the page, and ends with `ALL PASS`.
+- `tests/test_intro.py`: the title screen. Checks validation and focus, saving and "Forget my details", Start over, blocked browser storage, and that no request leaves the page's origin.
 - `tests/test_steps.py`: 3 routes.
 - `tests/test_v2.py`: 5 routes.
 - `tests/test_views.py`: 6 checks.
@@ -150,6 +160,10 @@ python3 scripts/verify_sources.py data/stage1_inventory.json data/source_text
 
 Checks that every quoted excerpt and lead-in appears word for word in `data/source_text/<doc_id>.txt`. It ignores only browser print headers and footers, line breaks, and line breaks after a hyphen. It exits with status 1 if an excerpt is missing, and lists documents that have no source text yet. The source PDFs are in `data/Instruments_GTA Policies/`. To add or refresh a document, extract its text with `pdftotext -layout <file>.pdf data/source_text/<doc_id>.txt` (poppler-utils). A document may also have other extractions of the same PDF, named `<doc_id>.<mode>.txt`: `SS-25-001.raw.txt` comes from `pdftotext -raw`, which keeps the use-case table's cells whole where `-layout` interleaves its columns. An excerpt passes if it appears in any extraction of its document. All 537 provisions in the 7 documents currently pass.
 
+### Publish the demo (GitHub Pages)
+
+`.github/workflows/pages.yml` publishes `site/` whenever `main` changes. One-time setup: in the repository, go to Settings → Pages → Source and choose **GitHub Actions**. The demo is then at `https://<owner>.github.io/<repository>/`.
+
 ### Continuous integration
 
 `.github/workflows/ci.yml` runs on every push and pull request. It rebuilds the data with the committed "Page built" date and fails if any file changes, runs the source check and every browser test, and fails on accessibility findings for contrast, target size or reflow.
@@ -160,7 +174,7 @@ Checks that every quoted excerpt and lead-in appears word for word in `data/sour
 
 ```
 GTA-PSG-Nav/
-├── .github/workflows/ci.yml
+├── .github/workflows/          ci.yml (tests), pages.yml (publish)
 ├── CLAUDE.md
 ├── CONTRIBUTING.md
 ├── LICENSE
@@ -177,6 +191,9 @@ GTA-PSG-Nav/
 │   └── source_text/
 │       └── <doc_id>[.raw].txt    text extracted from the PDFs, checked by verify_sources.py
 ├── docs/
+│   ├── backend_plan.md           Azure plan for usage data and trends
+│   ├── diagrams/                 scripts that generate the images
+│   ├── images/                   screenshots and diagrams
 │   └── questions_for_gta.md      readings that need GTA confirmation
 ├── scripts/
 │   ├── partA.py                  inventory -> map
@@ -191,6 +208,7 @@ GTA-PSG-Nav/
 └── tests/
     ├── test_decisions.py
     ├── test_employee.py
+    ├── test_intro.py
     ├── test_multi.py
     ├── test_score.py
     ├── test_steps.py

@@ -60,3 +60,13 @@ Decisions: keep the 10 "Conditional" cells as Must and the 2 "Do not" commands a
 - [x] Removed `desktop.ini` (Google Drive folder settings) and ignored it
 - [x] CI confirmed on GitHub: runs 1–6 (branch and main) all succeeded
 - [x] Proof-of-concept screenshots: 9 images in docs/images/ (3200×1800, phone 1170×2532); README Screenshots section
+
+## 2026-11-26: Demo hosting, title screen, backend plan
+Decisions: details kept in the browser only; agency required, email optional; proof-of-concept notice and noindex; Azure for the backend.
+- [x] `.github/workflows/pages.yml`: publishes `site/` to GitHub Pages from `main`
+- [x] Title screen: proof-of-concept notice, agency (required) and work email (optional, format-checked), stored only in `localStorage` with guarded access; "Forget my details"; Start over returns to it; agency shown in Your answers; answers card hidden until the questions start
+- [x] Header pill "Proof of concept · not an official GTA tool"; `noindex, nofollow`
+- [x] `tests/test_intro.py` (15 checks, incl. no off-origin requests and blocked storage); all other tests updated to pass the title screen; title screen added to the accessibility audit, which caught and fixed a 320px reflow overflow
+- [x] Screenshots regenerated, plus `00-title-screen.png`
+- [x] `docs/backend_plan.md`: Azure plan (Static Web Apps, Functions, Azure SQL, Power BI), event model, schema, API, metrics, security, retention, testing, roadmap
+- [x] Diagrams 10–15 (data pipeline, data at a glance, JSON anatomy, tech stack, current and planned architecture), generated from the data by docs/diagrams/; README Architecture and data section

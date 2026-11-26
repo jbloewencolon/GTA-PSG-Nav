@@ -40,7 +40,7 @@ async def adv(pg):
         await pg.get_by_role("button", name="Continue", exact=True).click()
 
 async def walk(pg, clicks):
-    await pg.goto(URL); await pg.wait_for_selector(".opt")
+    await pg.goto(URL); await pg.fill("#agency", "Test agency"); await pg.click("#start"); await pg.wait_for_selector(".opt")
     for c in clicks:
         await pg.locator(".opt", has_text=c).first.click(); await adv(pg)
     await pg.wait_for_timeout(700)
@@ -53,6 +53,9 @@ async def main():
         for scheme in ["light","dark"]:
             for name,vp in [("desktop",(1280,900)),("reflow320",(320,700)),("zoom200",(640,450))]:
                 pg = await b.new_page(viewport={"width":vp[0],"height":vp[1]}, color_scheme=scheme, reduced_motion="reduce")
+                await pg.goto(URL); await pg.wait_for_selector("#agency")
+                await pg.click("#start"); await pg.wait_for_timeout(200)   # submit empty: shows the error state
+                res[f"{scheme}/{name}/intro"] = await pg.evaluate(JS)
                 await walk(pg, [])
                 res[f"{scheme}/{name}/question"] = await pg.evaluate(JS)
                 await walk(pg, route)
