@@ -11,6 +11,16 @@
 
 Answer a few questions and see which Georgia Technology Authority (GTA) AI policies, standards and guidelines apply, with their exact source wording.
 
+## Screenshots
+
+| Guardrails rise with what you describe | A red stop when GTA approval is required |
+|---|---|
+| ![Results page with Standard guardrails, three posts, each reason citing its provision](docs/images/02-results-guardrails.png) | ![Stop and check first banner quoting SS-25-001 1.3 on personal data](docs/images/03-stop-sign.png) |
+| **An amber Check first for other AI** | **Next steps, with who decides** |
+| ![Check first banner quoting PS-23-001 and SS-23-002 for a non-generative AI tool](docs/images/04-check-first.png) | ![Next steps tab: request routes with links and who decides](docs/images/07-next-steps.png) |
+
+More in [`docs/images/`](docs/images/): the question flow, exact source wording with citations, results grouped by obligation, dark mode, and a phone view. All are 3200×1800 (phone: 1170×2532).
+
 ## Features
 
 **The navigator page** (`site/`) is a single static HTML page that reads `site/data.json` in the browser. It needs no server-side code.

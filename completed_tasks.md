@@ -59,3 +59,4 @@ Decisions: keep the 10 "Conditional" cells as Must and the 2 "Do not" commands a
 - [x] All 537 provisions in all 7 documents match their source word for word; a mutation test (one changed modal verb, one dropped comma) fails as expected
 - [x] Removed `desktop.ini` (Google Drive folder settings) and ignored it
 - [x] CI confirmed on GitHub: runs 1–6 (branch and main) all succeeded
+- [x] Proof-of-concept screenshots: 9 images in docs/images/ (3200×1800, phone 1170×2532); README Screenshots section
