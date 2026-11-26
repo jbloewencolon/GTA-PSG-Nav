@@ -124,7 +124,7 @@ async def part2():
             pg = await b.new_page(viewport={"width": 1180, "height": 900})
             errs = []
             pg.on("pageerror", lambda e: errs.append(str(e)))
-            await pg.goto("http://localhost:8765/index.html"); await pg.wait_for_selector(".opt")
+            await pg.goto("http://localhost:8765/index.html"); await pg.fill("#agency", "Test agency"); await pg.click("#start"); await pg.wait_for_selector(".opt")
             await pg.locator(".opt", has_text=ty).first.click()
             hint = await pg.locator("#qhint").inner_text()
             help_ok = "Pick the closest" not in await pg.inner_text("#main")

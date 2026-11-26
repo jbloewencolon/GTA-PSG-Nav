@@ -142,7 +142,7 @@ async def part2():
             pg = await b.new_page(viewport={"width": 1180, "height": 900})
             errs = []
             pg.on("pageerror", lambda e: errs.append(str(e)))
-            await pg.goto("http://localhost:8765/index.html"); await pg.wait_for_selector(".opt")
+            await pg.goto("http://localhost:8765/index.html"); await pg.fill("#agency", "Test agency"); await pg.click("#start"); await pg.wait_for_selector(".opt")
             for c in clicks:
                 if isinstance(c, list):
                     for t in c: await pg.locator(".opts.multi .opt", has_text=t).first.click()

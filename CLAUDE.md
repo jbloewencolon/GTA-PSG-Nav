@@ -43,7 +43,7 @@ Data flows one way through numbered stages; each script reads the previous stage
 4. `scripts/decision_rights.py` → `decision_rights.json`/`.md`: who decides what (DR-##), hand-written; every role is asserted to be a verbatim substring of its provision.
 5. `scripts/gen_site.py` → `site/data.json`: flattens everything into records keyed by `k` (`meta`, `q`, `el`, `ptr`, `step`, `dec`, `stepgap`). Next-step cards (`STEPS`) and step→decision links (`STEPDEC`) are hard-coded here, and their quotes and links are asserted against the source text.
 
-`site/index.html` is one file of dense, inline vanilla JS and CSS. It loads `data.json`, re-implements `match()`/`ask_if` from the tree, and renders the question flow, results (four grouping views), the Next steps tab and the review mode (`#review`). Guardrail factors and the red stop / amber Check first signs are defined in `gen_site.py` (`FACTORS`, `SIGNS`) and rendered by `factorsNow()`/`signsNow()`/`renderRail()`; level cut-offs (`levelOf()`, `PMAX`) are in the page. `tests/test_score.py` holds an independent `expected()` calculation of the approved design, so change it together with them. CSS is in layered override blocks (`/* 1 header band */` … `/* 8 polish */`) that redefine earlier rules; check later blocks before editing an earlier one.
+`site/index.html` is one file of dense, inline vanilla JS and CSS. It opens on a title screen (`renderIntro()`: agency required, email optional, kept in `localStorage` only, every access in try/catch); browser tests must fill `#agency` and click `#start` first. It loads `data.json`, re-implements `match()`/`ask_if` from the tree, and renders the question flow, results (four grouping views), the Next steps tab and the review mode (`#review`). Guardrail factors and the red stop / amber Check first signs are defined in `gen_site.py` (`FACTORS`, `SIGNS`) and rendered by `factorsNow()`/`signsNow()`/`renderRail()`; level cut-offs (`levelOf()`, `PMAX`) are in the page. `tests/test_score.py` holds an independent `expected()` calculation of the approved design, so change it together with them. CSS is in layered override blocks (`/* 1 header band */` … `/* 8 polish */`) that redefine earlier rules; check later blocks before editing an earlier one.
 
 ## Content rules (from CONTRIBUTING.md)
 
@@ -52,6 +52,10 @@ Data flows one way through numbered stages; each script reads the previous stage
 - A reference to something outside the 7 documents is an unresolved reference; don't describe it.
 - Where the evidence doesn't settle a question, add an open question rather than choosing an answer.
 - Add a red stop only where a provision requires GTA approval or prohibits the use; add an amber Check first only where a provision requires a review or authorization first. Cite either by provision ID.
+
+## Deployment and backend
+
+`.github/workflows/pages.yml` publishes `site/` to GitHub Pages from `main`. There is no backend: `docs/backend_plan.md` is the Azure plan for usage data, and the page must send nothing off-origin until it is built (`tests/test_intro.py` checks this).
 
 ## Project tracking
 
