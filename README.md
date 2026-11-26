@@ -21,6 +21,14 @@ Answer a few questions and see which Georgia Technology Authority (GTA) AI polic
 
 More in [`docs/images/`](docs/images/): the question flow, exact source wording with citations, results grouped by obligation, dark mode, and a phone view. All are 3200×1800 (phone: 1170×2532).
 
+## Architecture and data
+
+![Today's architecture: repository, GitHub Actions, GitHub Pages, visitor's browser; nothing sent back](docs/images/14-architecture-current.png)
+
+![Data pipeline: from 7 GTA PDFs through the inventory, map, question tree and decision rights to site/data.json, with a check at each step](docs/images/10-data-pipeline.png)
+
+More diagrams: [what the data contains](docs/images/11-data-at-a-glance.png), [anatomy of the JSON](docs/images/12-data-records.png), [tech stack](docs/images/13-tech-stack.png), and the [planned Azure backend](docs/images/15-architecture-azure.png) ([plan](docs/backend_plan.md)). Images 10–15 are generated from the data files by `docs/diagrams/build.py` and `render.py`, so the counts stay current; the page screenshots come from `docs/diagrams/screenshots.py`.
+
 ## Features
 
 **The navigator page** (`site/`) is a single static HTML page that reads `site/data.json` in the browser. It needs no server-side code.
@@ -184,7 +192,8 @@ GTA-PSG-Nav/
 │       └── <doc_id>[.raw].txt    text extracted from the PDFs, checked by verify_sources.py
 ├── docs/
 │   ├── backend_plan.md           Azure plan for usage data and trends
-│   ├── images/                   screenshots
+│   ├── diagrams/                 scripts that generate the images
+│   ├── images/                   screenshots and diagrams
 │   └── questions_for_gta.md      readings that need GTA confirmation
 ├── scripts/
 │   ├── partA.py                  inventory -> map
