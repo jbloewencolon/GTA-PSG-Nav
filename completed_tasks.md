@@ -80,3 +80,4 @@ Diagnosis: the live site worked as built, but Phase 1 replaced the rule count wi
 - [x] Guardrail posts and stop / Check first signs unchanged
 - [x] `tests/test_obligations.py` (added to CI): count and breakdown match the data after every answer on 4 routes; all 9 suites and the accessibility audit pass
 - [x] Page screenshots 00–09 regenerated
+- [x] Title screen simplified: one centred card (heading, one-line intro, agency, optional email, full-width Start, one privacy line); side panel and header description hidden until the questions start; whole form fits on a phone screen
