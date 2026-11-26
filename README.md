@@ -23,11 +23,13 @@ More in [`docs/images/`](docs/images/): the question flow, exact source wording 
 
 ## Architecture and data
 
-![Today's architecture: repository, GitHub Actions, GitHub Pages, visitor's browser; nothing sent back](docs/images/14-architecture-current.png)
+The diagrams show the **proposed build for the State of Georgia**: hosted in the State's Microsoft Azure environment, with GTA approving content releases and anonymous usage data in Power BI. Today's proof of concept is the static page in `site/`, published with GitHub Pages.
 
-![Data pipeline: from 7 GTA PDFs through the inventory, map, question tree and decision rights to site/data.json, with a check at each step](docs/images/10-data-pipeline.png)
+![Proposed Georgia build, end to end: content, service and insights lanes on Microsoft Azure](docs/images/14-architecture-georgia.png)
 
-More diagrams: [what the data contains](docs/images/11-data-at-a-glance.png), [anatomy of the JSON](docs/images/12-data-records.png), [tech stack](docs/images/13-tech-stack.png) (and a [simplified version with logos](docs/images/16-tech-stack-simple.png) for non-expert audiences), and the [planned Azure backend](docs/images/15-architecture-azure.png) ([plan](docs/backend_plan.md)). Images 10–16 are generated from the data files by `docs/diagrams/build.py` and `render.py`, so the counts stay current; the page screenshots come from `docs/diagrams/screenshots.py`.
+![Content pipeline: from a GTA document to every state employee, with a check at each step](docs/images/10-data-pipeline.png)
+
+More diagrams: [what the data contains](docs/images/11-data-at-a-glance.png), [anatomy of the JSON](docs/images/12-data-records.png), [tech stack](docs/images/13-tech-stack.png) (and a [simplified version with logos](docs/images/16-tech-stack-simple.png) for non-expert audiences), and [how usage data flows](docs/images/15-architecture-azure.png) ([plan](docs/backend_plan.md)). Images 10–16 are generated from the data files by `docs/diagrams/build.py` and `render.py`, so the counts stay current; the page screenshots come from `docs/diagrams/screenshots.py`.
 
 ## Features
 
